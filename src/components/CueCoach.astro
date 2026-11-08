@@ -1,0 +1,187 @@
+---
+// Locked Cue Coach circle. One shared clock in the page script below.
+interface Props {
+  bpm?: number;
+  outer?: number;
+  inner?: number;
+}
+const { bpm = 120, outer = 220, inner = 118 } = Astro.props;
+const speeds = [
+  { id: 'half', label: 'Half' },
+  { id: 'single', label: 'Single' },
+  { id: 'double', label: 'Double' },
+];
+const pairs = ['Up–Down', 'In–Out', 'Left–Right'];
+---
+<div
+  class="coach"
+  data-cue
+  data-bpm={bpm}
+  data-speed="single"
+  data-option="0"
+  data-outer={outer}
+  data-inner={inner}
+  style={`--outer:${outer}px;--inner:${inner}px`}
+>
+  <p class="bpm" data-bpm-text>{bpm}</p>
+  <p class="status">BPM</p>
+  <div class="stage" aria-hidden="true">
+    <i class="ring" data-ring></i>
+    <div class="orb" data-orb><strong data-word>Up</strong></div>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Cue speed">
+      {speeds.map((s) => (
+        <button type="button" data-set-speed={s.id} aria-pressed={s.id === 'single' ? 'true' : 'false'}>{s.label}</button>
+      ))}
+    </div>
+    <div class="seg" role="group" aria-label="Cue words">
+      {pairs.map((label, i) => (
+        <button type="button" data-set-option={i} aria-pressed={i === 0 ? 'true' : 'false'}>{label}</button>
+      ))}
+    </div>
+  </div>
+  <div class="dots" data-dots aria-hidden="true">
+    {Array.from({ length: 8 }, () => <i></i>)}
+  </div>
+  <p class="demo">A steady {bpm} BPM demonstration. This page does not listen to audio.</p>
+</div>
+
+<script>
+  import { sampleAt } from '../lib/cueClock.js';
+
+  const root = document.documentElement;
+  if (root.dataset.cueClock !== 'on') {
+    root.dataset.cueClock = 'on';
+
+    let elapsed = 0;
+    let last = performance.now();
+    let frame = 0;
+    let visible = document.visibilityState === 'visible';
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const paint = (now: number) => {
+      if (visible) elapsed += now - last;
+      last = now;
+      const reduce = motion.matches;
+      for (const el of document.querySelectorAll<HTMLElement>('[data-cue]')) {
+        const state = sampleAt(elapsed / 1000, {
+          bpm: Number(el.dataset.bpm || 120),
+          speed: el.dataset.speed || 'single',
+          option: Number(el.dataset.option || 0),
+          reduceMotion: reduce,
+          outer: Number(el.dataset.outer || 220),
+          inner: Number(el.dataset.inner || 118),
+        });
+        el.dataset.beat = String(state.beat);
+        el.dataset.cueIndex = String(state.cueIndex);
+        el.dataset.word = state.word;
+        const word = el.querySelector<HTMLElement>('[data-word]');
+        if (word && word.textContent !== state.word) word.textContent = state.word;
+        const orb = el.querySelector<HTMLElement>('[data-orb]');
+        if (orb) {
+          orb.style.transform = `scale(${state.pulse})`;
+          orb.classList.toggle('open', !state.filled);
+        }
+        const ring = el.querySelector<HTMLElement>('[data-ring]');
+        if (ring) {
+          ring.style.width = `${state.ring}px`;
+          ring.style.height = `${state.ring}px`;
+        }
+        el.querySelectorAll<HTMLElement>('[data-dots] i').forEach((dot, i) => {
+          dot.classList.toggle('on', i === state.dot);
+        });
+      }
+      frame = visible ? requestAnimationFrame(paint) : 0;
+    };
+
+    const start = () => {
+      last = performance.now();
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      visible = document.visibilityState === 'visible';
+      if (visible) start();
+      else if (frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const cue = target.closest<HTMLElement>('[data-cue]');
+      if (!cue) return;
+      const speed = target.closest<HTMLElement>('[data-set-speed]');
+      const option = target.closest<HTMLElement>('[data-set-option]');
+      if (speed?.dataset.setSpeed) cue.dataset.speed = speed.dataset.setSpeed;
+      if (option?.dataset.setOption) cue.dataset.option = option.dataset.setOption;
+      if (!speed && !option) return;
+      cue.querySelectorAll<HTMLButtonElement>('[data-set-speed]').forEach((button) => {
+        button.setAttribute('aria-pressed', button.dataset.setSpeed === cue.dataset.speed ? 'true' : 'false');
+      });
+      cue.querySelectorAll<HTMLButtonElement>('[data-set-option]').forEach((button) => {
+        button.setAttribute('aria-pressed', button.dataset.setOption === cue.dataset.option ? 'true' : 'false');
+      });
+    });
+
+    if (visible) start();
+  }
+</script>
+
+<style>
+  .coach { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+  .bpm {
+    font-size: 48px; font-weight: 500; letter-spacing: -0.04em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .status {
+    margin-top: 4px; font-size: 12px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .stage {
+    width: var(--outer); height: var(--outer); margin: 8px 0 12px;
+    display: grid; place-items: center; position: relative;
+  }
+  .ring {
+    position: absolute; left: 50%; top: 50%;
+    width: var(--outer); height: var(--outer);
+    transform: translate(-50%, -50%);
+    border: 1.5px solid rgba(246, 241, 234, 0.85);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .orb {
+    width: var(--inner); height: var(--inner); border-radius: 50%;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 40% 30%, var(--peach), var(--ember) 55%, var(--rust));
+    box-shadow: 0 0 36px rgba(244, 70, 38, 0.28);
+  }
+  .orb.open { background: var(--cream); box-shadow: none; }
+  .orb strong {
+    font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: #fff;
+    font-family: var(--sans);
+  }
+  .orb.open strong { color: var(--ink); }
+  .controls { width: 100%; display: grid; gap: 8px; }
+  .seg {
+    display: flex; gap: 4px; padding: 4px; border-radius: 999px;
+    background: rgba(255, 247, 240, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .seg button {
+    flex: 1; min-height: 34px; border: 0; border-radius: 999px;
+    background: transparent; color: var(--muted);
+    font: 600 13px/1 var(--sans); cursor: pointer;
+  }
+  .seg button[aria-pressed='true'] { background: var(--ember-gradient); color: #fff; }
+  .dots { display: flex; gap: 12px; align-items: center; height: 16px; margin-top: 12px; }
+  .dots i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(246, 241, 234, 0.25); display: block;
+  }
+  .dots i.on { width: 12px; height: 12px; background: var(--ember); }
+  .demo { margin-top: 12px; max-width: 28em; font-size: 12px; color: var(--faint); }
+</style>

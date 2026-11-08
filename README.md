@@ -1,11 +1,16 @@
 # sculptcues.com
 
-Website for the Sculpt Cues iPhone app. Astro static site, deployed to GitHub Pages on every push to `main`.
+Website for the Sculpt Cues iPhone app. Astro static site. Canonical host is `https://www.sculptcues.com`.
+
+Cloudflare Pages project `sculptcues` deploys `main` automatically: `npm ci && npm run build`, output directory `dist`, environment variable `NODE_VERSION=24`.
+
+Pushing `main` also runs the GitHub Pages workflow (`.github/workflows/deploy.yml`), which publishes `https://zachlaudev.github.io/sculptcues/`. `public/CNAME` is `www.sculptcues.com`.
 
 ## Run locally
 ```
 npm install
 npm run dev      # http://localhost:4321
+npm run build    # static files in dist/
 ```
 
 ## Where things are

@@ -7,11 +7,11 @@ const faqs = [
   { q: 'How do I cancel my subscription?', a: 'iOS Settings → your name → Subscriptions → Sculpt Cues. Cancel at least 24 hours before it renews.' },
   { q: 'Where are my Flows saved?', a: 'On your phone. To move them to a new phone, share each Flow to yourself and open it on the new device.' },
   { q: 'How do I share a Flow with another teacher?', a: 'Swipe or open the Flow, tap Share, and send the link or file. They need Sculpt Cues installed to open it.' },
-  { q: 'A movement is missing from the library.', a: 'Add your own from the Library, or email us and we will consider adding it for everyone.' },
+  { q: 'A movement is missing from the library.', a: `Add your own from the Library with New, or email ${SITE.email} if you want it considered for the catalogue.` },
 ];
 ---
 <Page title="Support" kicker="Help" description="Help with Sculpt Cues: Cue Coach, purchases, Flows and sharing.">
-  <p>We're a small team and read every message. Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> and we'll get back to you within two working days.</p>
+  <p>Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. The newsletter form on the home page is for updates only.</p>
   <h2>Common questions</h2>
   {faqs.map((f) => (
     <details class="glass">
