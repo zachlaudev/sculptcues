@@ -1,16 +1,17 @@
 ---
 import Page from '../layouts/Page.astro';
+import { SITE } from '../site';
 const faqs = [
   { q: 'Cue Coach isn’t picking up the beat.', a: 'Check microphone access in iOS Settings → Sculpt Cues. Play the song out loud (not through headphones) and keep the phone within a few metres of the speaker. Songs with a clear kick drum work best; it usually locks on within a few seconds.' },
   { q: 'How do I restore my purchase on a new phone?', a: 'Open the paywall or Profile and tap Restore. Use the same Apple ID you bought with.' },
   { q: 'How do I cancel my subscription?', a: 'iOS Settings → your name → Subscriptions → Sculpt Cues. Cancel at least 24 hours before it renews.' },
   { q: 'Where are my Flows saved?', a: 'On your phone. To move them to a new phone, share each Flow to yourself and open it on the new device.' },
   { q: 'How do I share a Flow with another teacher?', a: 'Swipe or open the Flow, tap Share, and send the link or file. They need Sculpt Cues installed to open it.' },
-  { q: 'A movement is missing from the library.', a: 'Add your own from the Library with New.' },
+  { q: 'A movement is missing from the library.', a: `Add your own from the Library with New, or email ${SITE.email} if you want it considered for the catalogue.` },
 ];
 ---
 <Page title="Support" kicker="Help" description="Help with Sculpt Cues: Cue Coach, purchases, Flows and sharing.">
-  <p>There is no working support contact yet. No address is set up to receive messages, and this page does not send them. The questions below are the help that is available. The newsletter form on the home page only stores update sign-ups. It is not a support inbox.</p>
+  <p>Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. The newsletter form on the home page is for updates only.</p>
   <h2>Common questions</h2>
   {faqs.map((f) => (
     <details class="glass">

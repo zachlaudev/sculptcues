@@ -4,6 +4,7 @@ export const SITE = {
   tagline: 'Plan the class. Teach it your way.',
   description:
     'Sculpt Cues is the iPhone app for sculpt teachers: a growing library of 280+ movements, Flows with next-movement suggestions, and sharing between teachers.',
+  email: 'sculptcues@gmail.com',
   appStoreUrl: null as string | null, // e.g. 'https://apps.apple.com/app/id1234567890'
   instagram: null as string | null,
 };

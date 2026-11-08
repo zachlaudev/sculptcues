@@ -1,5 +1,6 @@
 ---
 import Page from '../layouts/Page.astro';
+import { SITE } from '../site';
 ---
 <Page title="Terms of Use" kicker="Legal" updated="8 November 2026" description="Terms for using the Sculpt Cues app and website.">
   <h2>Apple's standard licence agreement</h2>
@@ -30,5 +31,5 @@ import Page from '../layouts/Page.astro';
   <p>To the extent the law allows, Sculpt Cues is provided "as is" and we are not liable for indirect or consequential losses arising from its use.</p>
 
   <h2>Contact</h2>
-  <p>No support address is published yet. See <a href="/support/">Support</a>.</p>
+  <p>Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, or see <a href="/support/">Support</a>.</p>
 </Page>
