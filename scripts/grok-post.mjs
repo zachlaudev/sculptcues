@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, writeFileSync, existsSync, appendFileSync } 
 import { join } from 'node:path';
 
 const key = process.env.XAI_API_KEY;
-if (!key) { console.error('XAI_API_KEY is not set'); process.exit(1); }
+if (!key) { console.log('XAI_API_KEY is not set – skipping.'); process.exit(0); }
 const model = process.env.GROK_MODEL || 'grok-4';
 const autoPublish = (process.env.AUTO_PUBLISH ?? 'true') !== 'false';
 const topic = (process.env.TOPIC || '').trim();

@@ -21,6 +21,8 @@ concurrency:
 jobs:
   write:
     runs-on: ubuntu-latest
+    outputs:
+      file: ${{ steps.grok.outputs.file }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,8 +39,10 @@ jobs:
           TOPIC: ${{ github.event.inputs.topic }}
         run: node scripts/grok-post.mjs
       - name: Check the site still builds
+        if: steps.grok.outputs.file != ''
         run: npm run build
       - name: Commit
+        if: steps.grok.outputs.file != ''
         run: |
           git config user.name "Grok (Sculpt Cues)"
           git config user.email "grok-bot@users.noreply.github.com"
@@ -48,4 +52,5 @@ jobs:
 
   deploy:
     needs: write
+    if: needs.write.outputs.file != ''
     uses: ./.github/workflows/deploy.yml
