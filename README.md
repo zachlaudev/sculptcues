@@ -1,12 +1,16 @@
 # sculptcues.com
 
-Website for the Sculpt Cues iPhone app. Astro static site, deployed to GitHub Pages on every push to `main`.
+Website for the Sculpt Cues iPhone app. Astro static site. The canonical host is `https://www.sculptcues.com` on Cloudflare Workers Static Assets. Pushing `main` still publishes the existing GitHub Pages workflow to `https://zachlaudev.github.io/sculptcues/`.
 
 ## Run locally
 ```
 npm install
 npm run dev      # http://localhost:4321
+npm run build    # static files in dist/
 ```
+
+## Cloudflare (not yet deployed)
+Production is Workers Static Assets, configured in `wrangler.jsonc` for account `ccadd082d0f478a8f80feddbe1cac21a` and custom domain `www.sculptcues.com`. `npx wrangler deploy` attaches that hostname and is intentionally not wired into CI. The apex redirect (`sculptcues.com` → `www`, path and query preserved) is a Cloudflare Single Redirect, not part of the static build.
 
 ## Where things are
 | What | Where |

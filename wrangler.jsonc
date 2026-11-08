@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sculptcues-web",
+  // Existing Cloudflare account. Not a credential.
+  "account_id": "ccadd082d0f478a8f80feddbe1cac21a",
+  // Today's date. Assets-only site: no Worker script and no nodejs_compat flag.
+  "compatibility_date": "2026-11-08",
+  // Do not also publish a *.workers.dev hostname. www is the canonical host.
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  },
+  // Deploying creates the proxied www record. It does not redirect the apex.
+  "routes": [{ "pattern": "www.sculptcues.com", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    // Astro build.format directory emits folder index.html files.
+    "html_handling": "auto-trailing-slash",
+    // src/pages/404.astro → dist/404.html
+    "not_found_handling": "404-page"
+  }
+}
