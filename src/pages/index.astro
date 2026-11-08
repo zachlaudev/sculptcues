@@ -1,144 +1,206 @@
 ---
 import Base from '../layouts/Base.astro';
 import Phone from '../components/Phone.astro';
-import LibraryScreen from '../components/LibraryScreen.astro';
-import FlowsScreen from '../components/FlowsScreen.astro';
-import ProfileScreen from '../components/ProfileScreen.astro';
 import CueCoach from '../components/CueCoach.astro';
+import AppStoreButton from '../components/AppStoreButton.astro';
 import { getPosts } from '../lib/posts';
-import { PRICES } from '../site';
+import { PRICES, SITE } from '../site';
 
-const posts = (await getPosts()).slice(0, 3);
-const areas = [
-  { title: 'glutes', image: '/img/glutes.webp' },
-  { title: 'abs', image: '/img/core.webp' },
-  { title: 'legs', image: '/img/legs.webp' },
-  { title: 'arms', image: '/img/arms.webp' },
-  { title: 'back', image: '/img/back.webp' },
-  { title: 'chest', image: '/img/chest.webp' },
+const posts = (await getPosts())
+  .slice(0, 3);
+
+const folders = [
+  { key: 'glutes', title: 'glutes' },
+  { key: 'core', title: 'abs' },
+  { key: 'legs', title: 'legs' },
+  { key: 'arms', title: 'arms' },
+  { key: 'back', title: 'back' },
+  { key: 'chest', title: 'chest' },
+];
+
+const segments = [
+  { n: '01', title: 'Warm-up · standing', meta: '4 movements' },
+  { n: '02', title: 'Squats · band on', meta: '3 movements' },
+  { n: '03', title: 'Right side · band on', meta: '3 movements' },
+];
+
+const bars = [
+  { part: 'Core', v: 40 }, { part: 'Glutes', v: 80 }, { part: 'Legs', v: 55 },
+  { part: 'Arms', v: 20 }, { part: 'Shoulders', v: 15 }, { part: 'Back', v: 25 }, { part: 'Chest', v: 10 },
 ];
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
 <Base>
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-img" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="kicker">For sculpt teachers</p>
         <h1 class="wordmark big">sculpt cues</h1>
-        <p class="tag">Plan the class. Teach it your way.</p>
-        <p class="lede">Build the class from a large movement library that keeps growing. Sculpt Cues suggests what could come next, then keeps the Flow in folders you can edit and send to another teacher. Cue Coach is there when you want the beat.</p>
+        <p class="tag">Plan sculpt classes.</p>
+        <p class="lede">Sculpt Cues is the sculpt class planner for sculpt teachers. Build each segment from the library, then keep the Flow organised and shareable.</p>
         <div class="ctas">
-          <a class="btn btn-primary lg" href="#get-app">Get App</a>
+          <AppStoreButton size="lg" />
           <a class="btn btn-ghost glass" href="#notify">Subscribe</a>
         </div>
-        <p class="fine">iPhone app. Not on the App Store yet.</p>
+        <p class="fine">iPhone. Annual includes a 7-day free trial.</p>
       </div>
-      <div class="hero-phone">
-        <Phone width={300}>
-          <LibraryScreen />
-        </Phone>
-        <p class="caption">Library screen, recreated from the app. Not a screenshot.</p>
+      <div class="hero-phone reveal">
+        <Phone><CueCoach bpm={120} outer={168} inner={90} compact /></Phone>
       </div>
     </div>
   </section>
 
-  <section>
+  <!-- STATS -->
+  <div class="wrap stats reveal">
+    <div><b>6</b><span>body areas</span></div>
+    <div><b>7</b><span>parts scored</span></div>
+    <div><b>5</b><span>starter Flows</span></div>
+    <div><b>Beat</b><span>from the room</span></div>
+  </div>
+
+  <!-- FLOWS -->
+  <section id="features">
     <div class="wrap split">
-      <div>
-        <p class="kicker">Library</p>
-        <h2>A growing library of 280+ movements.</h2>
-        <p class="lede">The same line the app uses. Movements sit in six folders: glutes, abs, legs, arms, back and chest. Search by name, equipment or another name teachers use. Add your own, edit a catalogue movement, or duplicate one and restore the original later.</p>
+      <div class="reveal">
+        <p class="kicker">Flows</p>
+        <h2>Your class, segment by segment.</h2>
+        <p class="lede">A Flow is the class. Each segment is an ordered list of movements, with a note if you want one. Reorder within a segment, move segments, and duplicate a Flow.</p>
         <ul class="ticks">
-          <li>Search, body-area folders, and a New movement button</li>
-          <li>Your edits and photos stay on the iPhone</li>
-          <li>The catalogue is meant to keep growing</li>
+          <li>Up to three suggested next movements while you build</li>
+          <li>Notes can mark a right side and a matching left side</li>
+          <li>Teach shows every name, or one segment at a time</li>
         </ul>
       </div>
-      <div class="folders" aria-label="Library folders">
-        {areas.map((area) => (
-          <div class="folder" style={`background-image:url('${area.image}')`}>
-            <b class="wordmark">{area.title}</b>
+      <div class="reveal">
+        <Phone>
+          <p class="kicker">Flow</p>
+          <p class="ph-title">Legs and Glutes</p>
+          <div class="ph-meta"><span>11 segments · 37 movements</span><span class="pill sm">Collapse all</span></div>
+          {segments.map((s) => (
+            <div class="seg glass">
+              <span class="num">{s.n}</span>
+              <div><b>{s.title}</b><small>{s.meta}</small></div>
+            </div>
+          ))}
+          <p class="kicker sug">Suggested next</p>
+          <p class="positions">Up to three, under the segment you are building.</p>
+        </Phone>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTENSITY -->
+  <section class="tight">
+    <div class="wrap split flip">
+      <div class="reveal">
+        <p class="kicker">Intensity</p>
+        <h2>See which part is carrying the class.</h2>
+        <p class="lede">Movements can be scored from 0 to 5 on core, glutes, legs, arms, shoulders, back and chest. At 8 points and 40% of the total, that part is flagged and counter movements are offered.</p>
+      </div>
+      <div class="card glass chart reveal">
+        <div class="caution">Caution · possible glutes overwork</div>
+        {bars.map((b) => (
+          <div class="bar-row">
+            <span>{b.part}</span>
+            <div class="track"><i style={`width:${b.v}%`}></i></div>
+          </div>
+        ))}
+        <p class="positions">The chart adds those scores. The bars above are the shape of that chart, not one measured class.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUE COACH -->
+  <section id="cue-coach" class="cue-section">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker">Cue Coach</p>
+        <h2>Finds the beat. Keeps you on it.</h2>
+        <p class="lede">On the iPhone, Cue Coach listens to music playing in the room and locks a tempo. Here the circle runs at a steady 120 BPM: half holds a word for two beats, single changes every beat, double halfway through.</p>
+      </div>
+      <div class="cue-stage reveal">
+        <CueCoach bpm={120} />
+      </div>
+      <div class="three reveal">
+        <div class="card glass"><h3>In the room</h3><p class="muted">Music playing aloud. Nothing is imported from a playlist.</p></div>
+        <div class="card glass"><h3>On your phone</h3><p class="muted">The beat is found on the device. Audio is not recorded or uploaded.</p></div>
+        <div class="card glass"><h3>Half · Single · Double</h3><p class="muted">Up–Down, In–Out, or Left–Right. The eight dots still count every beat.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Library</p>
+        <h2>A library sorted by body.</h2>
+        <p class="lede">Six folders: glutes, abs, legs, arms, back and chest. Search by name or equipment. Add your own, or edit a catalogue movement and restore it later.</p>
+      </div>
+      <div class="folders">
+        {folders.map((f) => (
+          <div class="folder reveal" style={`background-image:url(/img/${f.key}.webp)`}>
+            <div><b class="wordmark">{f.title}</b></div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- SHARE -->
   <section class="tight">
-    <div class="wrap narrow">
-      <p class="kicker">While you build</p>
-      <h2>A suggestion for what to teach next.</h2>
-      <p class="lede">Each movement can be scored from 0 to 5 on core, glutes, legs, arms, shoulders, back and chest. Sculpt Cues adds the scores for the class so far. When one part has at least 8 points and 40% of the total, the segment says so and offers up to three next movements.</p>
-      <ul class="ticks">
-        <li>The caution names the part, such as “Caution: possible glutes overwork”</li>
-        <li>A reason can be the same position, a pair, a progression, or a counter</li>
-        <li>Hold and drag to reorder a segment. Move a segment up or down</li>
+    <div class="wrap">
+      <div class="card glass share reveal">
+        <div>
+          <p class="kicker">Share</p>
+          <h2>Send a Flow to another teacher.</h2>
+          <p class="lede">Share a Flow as a file or a link. Movements you created travel with it. Catalogue movements they already have are not sent again.</p>
+        </div>
+        <img src="/img/icon.webp" alt="Sculpt Cues app icon" width="160" height="160" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker">Pricing</p>
+        <h2>Level up your Sculpt game.</h2>
+        <p class="lede">Everything included on every plan.</p>
+      </div>
+      <div class="prices">
+        {PRICES.map((p) => (
+          <div class="price card glass reveal">
+            <p class="kicker">{p.name}</p>
+            <p class="amount">{p.price} <small>{p.per}</small></p>
+            <p class="muted">{p.note}</p>
+          </div>
+        ))}
+      </div>
+      <ul class="ticks center-list reveal">
+        <li>Movement library, folders, and your own movements</li>
+        <li>Cue Coach for music playing in the room</li>
+        <li>Share Flows with other teachers</li>
       </ul>
+      <div class="center reveal" style="margin-top:28px"><AppStoreButton size="lg" /></div>
+      <p class="fine center">Prices in USD; local prices are set by the App Store. Subscriptions renew until cancelled in your Apple ID settings.</p>
     </div>
   </section>
 
-  <section class="tight">
-    <div class="wrap split">
-      <div>
-        <p class="kicker">Flows</p>
-        <h2>One class, song by song.</h2>
-        <p class="lede">A Flow is the class. Each segment is one song, with the movements in order and a note if you want one. Five starter classes ship with the app. Folders, sort, and duplicate are there when the list grows.</p>
-        <ul class="ticks">
-          <li>Sort by recently edited, name, length or date created</li>
-          <li>Teach opens an overview of the names, or one segment at a time</li>
-          <li>Starter classes include a right-side segment and a matching left-side segment. You write that note yourself</li>
-        </ul>
-      </div>
-      <div>
-        <Phone width={300}>
-          <FlowsScreen />
-        </Phone>
-        <p class="caption">Flows list, from the five starter classes. Recreated, not a screenshot.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="tight">
-    <div class="wrap split flip">
-      <div>
-        <p class="kicker">Yours, and theirs</p>
-        <h2>Personalise a movement. Send the class on.</h2>
-        <p class="lede">Rename a movement, add notes and recovery, moderate and peak counts, or use your own photo. Share a Flow as a file or a link. Movements you created travel with it and are added on the other teacher’s iPhone. Catalogue movements they already have are not sent again.</p>
-      </div>
-      <div>
-        <Phone width={300}>
-          <ProfileScreen />
-        </Phone>
-        <p class="caption">Profile screen, recreated from the app. No sample teacher is shown.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="tight" id="cue-coach">
-    <div class="wrap cue-layout">
-      <div>
-        <p class="kicker">Cue Coach</p>
-        <h2>The beat, when you want it.</h2>
-        <p class="lede">On the iPhone, Cue Coach listens to music playing in the room and locks a tempo. Half time holds a word for two beats, single time changes every beat, and double time changes halfway through the beat. The count dots still mark every beat. This page only plays that locked circle on a steady clock.</p>
-      </div>
-      <CueCoach bpm={120} outer={220} inner={118} />
-    </div>
-  </section>
-
+  <!-- JOURNAL -->
   {posts.length > 0 && (
     <section class="tight">
       <div class="wrap">
-        <div class="section-head row">
-          <div>
-            <p class="kicker">Blogs</p>
-            <h2>For the teacher's notebook.</h2>
-          </div>
+        <div class="section-head row reveal">
+          <div><p class="kicker">Journal</p><h2>For the teacher's notebook.</h2></div>
           <a class="btn btn-ghost glass" href="/blog/">All posts</a>
         </div>
         <div class="three">
           {posts.map((p) => (
-            <a class="post card glass" href={`/blog/${p.id}/`}>
+            <a class="post card glass reveal" href={`/blog/${p.id}/`}>
               <p class="kicker">{fmt(p.data.pubDate)}</p>
               <h3>{p.data.title}</h3>
               <p class="muted">{p.data.description}</p>
@@ -149,35 +211,13 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
     </section>
   )}
 
-  <section id="get-app">
-    <div class="wrap">
-      <div class="section-head center">
-        <p class="kicker">Get App</p>
-        <h2>Not on the App Store yet.</h2>
-        <p class="lede">There is no download link until the iPhone app is released. Join the list and we will write when it is ready to install. The paywall in the app offers Monthly, Annual with a free trial, and Lifetime.</p>
-      </div>
-      <div class="prices">
-        {PRICES.map((p) => (
-          <div class="price card glass">
-            <p class="kicker">{p.name}</p>
-            <p class="amount">{p.price} <small>{p.per}</small></p>
-            <p class="muted">{p.note}</p>
-          </div>
-        ))}
-      </div>
-      <p class="fine center">These are the prices already published for the app. The App Store will set the amount you pay, in your local currency, once the app is listed. Nothing on this page takes payment.</p>
-      <div class="center" style="margin-top:22px">
-        <a class="btn btn-primary" href="#notify">Join the list</a>
-      </div>
-    </div>
-  </section>
-
+  <!-- NOTIFY -->
   <section id="notify" class="tight">
     <div class="wrap">
-      <div class="card glass notify">
-        <p class="kicker">Subscribe</p>
+      <div class="card glass notify reveal">
+        <p class="kicker">Updates</p>
         <h2>Subscribe to our updates.</h2>
-        <p class="lede">New movements, sample Flows and launch news. No spam, unsubscribe any time.</p>
+        <p class="lede">New movements and sample Flows. No spam, unsubscribe any time.</p>
         <form id="signup" novalidate>
           <input type="email" name="email" placeholder="Email" required autocomplete="email" class="glass" aria-label="Email" />
           <button class="btn btn-primary" type="submit">Subscribe</button>
@@ -189,6 +229,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 </Base>
 
 <script>
+  // Writes to the Supabase `email_signups` table (insert-only for the public key).
   const SUPABASE_URL = 'https://npabobxcbcqnpncwergk.supabase.co';
   const KEY = 'sb_publishable_dE9JKyxLO3ce0YQDWpsVXg_XHIGTRCb';
   const form = document.getElementById('signup') as HTMLFormElement;
@@ -214,57 +255,103 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 </script>
 
 <style>
-  .hero { position: relative; padding: 70px 0 80px; display: flex; align-items: center; margin-top: -74px; padding-top: 140px; }
+  /* Hero */
+  .hero { position: relative; padding: 70px 0 90px; min-height: min(92vh, 900px); display: flex; align-items: center; margin-top: -74px; padding-top: 140px; }
   .hero-img {
     position: absolute; inset: 0; z-index: -1;
     background:
-      linear-gradient(90deg, var(--ink) 0%, rgba(20, 10, 10, 0.92) 34%, rgba(20, 10, 10, 0.55) 70%, rgba(20, 10, 10, 0.72) 100%),
-      linear-gradient(180deg, rgba(20, 10, 10, 0.15) 50%, var(--ink) 100%),
+      linear-gradient(90deg, var(--ink) 0%, rgba(20, 10, 10, 0.92) 30%, rgba(20, 10, 10, 0.35) 62%, rgba(20, 10, 10, 0.6) 100%),
+      linear-gradient(180deg, rgba(20, 10, 10, 0.2) 60%, var(--ink) 100%),
       url('/img/hero.webp') 78% 38% / cover no-repeat;
   }
   .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
-  .wordmark.big { font-size: clamp(64px, 11vw, 120px); color: #fff; margin: 10px 0 8px; letter-spacing: -0.035em; }
-  .tag { font-size: clamp(20px, 2.4vw, 26px); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 16px; }
-  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
-  .lg { padding: 17px 30px; font-size: 17px; }
+  .wordmark.big { font-size: clamp(64px, 11vw, 132px); color: #fff; margin: 10px 0 6px; letter-spacing: -0.035em; }
+  .tag { font-size: clamp(20px, 2.4vw, 26px); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
   .fine { margin-top: 14px; font-size: 13px; color: var(--faint); }
-  .hero-phone, .split > div:last-child { display: flex; flex-direction: column; align-items: center; }
-  .caption { margin-top: 10px; font-size: 12px; color: var(--faint); text-align: center; max-width: 280px; }
+  .hero-phone { display: flex; justify-content: center; }
+  .hero-phone :global(.screen) { display: flex; flex-direction: column; justify-content: center; }
 
-  .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
-  .split.flip { grid-template-columns: 0.9fr 1.1fr; }
-  .split.flip > div:first-child { order: 2; }
-  section.tight { padding-top: clamp(28px, 5vw, 56px); }
-  .narrow { max-width: 760px; }
-  .ticks { list-style: none; margin-top: 22px; display: grid; gap: 10px; }
-  .ticks li { padding-left: 22px; position: relative; }
-  .ticks li::before { content: ''; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--ember); }
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats div { padding: 26px 8px; text-align: center; }
+  .stats div + div { border-left: 1px solid var(--line); }
+  .stats b { display: block; font-size: clamp(28px, 4vw, 42px); font-weight: 500; letter-spacing: -0.04em; }
+  .stats span { color: var(--muted); font-size: 14px; }
 
-  .folders { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .folder {
-    aspect-ratio: 3 / 2; border-radius: 18px; background-size: cover; background-position: center;
-    display: flex; align-items: flex-end; padding: 12px; position: relative; overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-  }
-  .folder::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.45)); }
-  .folder b { position: relative; z-index: 1; font-size: 22px; color: #fff; }
+  /* Split layouts */
+  .split { display: grid; grid-template-columns: 1fr auto; gap: clamp(40px, 7vw, 100px); align-items: center; }
+  .split.flip { grid-template-columns: 1fr 1fr; }
+  .split h2 { margin: 10px 0 16px; }
+  section.tight { padding-top: clamp(40px, 6vw, 70px); }
+  .ticks { list-style: none; margin-top: 24px; display: grid; gap: 10px; }
+  .ticks li { padding-left: 28px; position: relative; }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--ember-gradient); }
 
-  .cue-layout { display: grid; grid-template-columns: 1fr minmax(280px, 420px); gap: 40px; align-items: center; }
+  /* Phone: flow screen */
+  .ph-title { font-size: 28px; font-weight: 500; letter-spacing: -0.045em; margin: 4px 0 8px; }
+  .ph-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .pill.sm { padding: 5px 10px; font-size: 11px; }
+  .seg { display: flex; gap: 10px; border-radius: 18px; padding: 12px; margin-bottom: 8px; }
+  .seg .num { color: var(--peach); font-size: 13px; font-weight: 600; }
+  .seg b { display: block; font-size: 13px; font-weight: 500; line-height: 1.3; }
+  .seg small { display: block; margin-top: 4px; font-size: 10.5px; color: var(--muted); }
+  .sug { margin: 14px 0 8px; font-size: 10px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chips .pill { font-size: 11.5px; padding: 6px 10px; }
+
+  /* Cards */
   .card { border-radius: 22px; padding: 26px; }
-  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .section-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
-  .post { text-decoration: none; display: block; }
-  .post:hover { border-color: rgba(255, 114, 90, 0.5); }
-  .post h3 { margin: 10px 0 8px; }
+  .card h3 { margin-bottom: 8px; }
 
+  /* Intensity chart */
+  .chart { padding: 28px; }
+  .caution { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a2; background: rgba(244, 70, 38, 0.14); border: 1px solid rgba(244, 70, 38, 0.35); padding: 10px 14px; border-radius: 14px; margin-bottom: 20px; }
+  .bar-row { display: grid; grid-template-columns: 88px 1fr; align-items: center; gap: 12px; margin: 11px 0; font-size: 14px; color: var(--muted); }
+  .track { height: 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+  .track i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--rust), var(--ember), var(--peach)); }
+  .positions { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* Cue section */
   .center { text-align: center; }
   .center .lede { margin-inline: auto; }
-  .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
-  .price { text-align: center; padding: 28px 18px; }
-  .amount { font-size: 36px; font-weight: 500; letter-spacing: -0.04em; margin: 8px 0 4px; }
-  .amount small { font-size: 15px; color: var(--muted); letter-spacing: 0; }
-  p.fine.center { margin: 18px auto 0; max-width: 40em; }
+  .cue-stage { display: flex; justify-content: center; margin: 10px 0 50px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
+  /* Library folders (Library folder cards) */
+  .folders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .folder {
+    aspect-ratio: 3 / 2; border-radius: 22px; background-size: cover; background-position: center;
+    display: flex; align-items: flex-end; padding: 18px; position: relative; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .folder::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(20, 10, 10, 0.6)); }
+  .folder div { position: relative; z-index: 1; }
+  .folder b { display: block; font-size: clamp(22px, 2.6vw, 30px); color: #fff; }
+  .folder span { font-size: 13px; color: var(--cream); opacity: 0.85; }
+
+  /* Share */
+  .share { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: clamp(28px, 5vw, 56px); }
+  .share h2 { margin: 10px 0 14px; }
+  .share img { border-radius: 36px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4); }
+
+  /* Pricing */
+  .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .price { position: relative; text-align: center; padding: 34px 22px; }
+  .price.best { border-color: rgba(255, 114, 90, 0.7); box-shadow: 0 0 0 1px rgba(255, 114, 90, 0.4), 0 20px 50px rgba(196, 44, 26, 0.3); }
+  .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--ember-gradient); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+  .amount { font-size: 40px; font-weight: 500; letter-spacing: -0.04em; margin: 10px 0 4px; }
+  .amount small { font-size: 15px; color: var(--muted); letter-spacing: 0; }
+  .center-list { max-width: 420px; margin: 34px auto 0; }
+  p.fine.center { margin-top: 18px; }
+
+  /* Journal */
+  .section-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .post { text-decoration: none; display: block; transition: transform 0.2s ease, border-color 0.2s; }
+  .post:hover { transform: translateY(-3px); border-color: rgba(255, 114, 90, 0.5); }
+  .post h3 { margin: 10px 0 8px; }
+
+  /* Notify */
   .notify { text-align: center; padding: clamp(32px, 6vw, 64px); }
   .notify h2 { margin: 10px 0 12px; }
   .notify .lede { margin: 0 auto 26px; }
@@ -274,10 +361,17 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   .form-msg { margin-top: 14px; min-height: 1.5em; font-size: 14px; color: var(--peach); }
 
   @media (max-width: 900px) {
-    .hero-grid, .split, .split.flip, .cue-layout, .three, .prices { grid-template-columns: 1fr; }
-    .split.flip > div:first-child { order: 0; }
+    .hero-grid, .split, .split.flip { grid-template-columns: 1fr; }
     .hero { min-height: auto; }
-    .folders { grid-template-columns: 1fr 1fr; }
+    .hero-img { background-position: 70% 30%, 0 0, 70% 30%; }
+    .hero-phone { margin-top: 20px; }
+    .split > div:last-child { justify-self: center; }
+    .three, .prices { grid-template-columns: 1fr; }
+    .folders { grid-template-columns: repeat(2, 1fr); }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stats div:nth-child(3) { border-left: 0; }
+    .stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .share img { display: none; }
   }
   @media (max-width: 520px) {
     form { flex-direction: column; }

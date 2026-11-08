@@ -4,8 +4,9 @@ interface Props {
   bpm?: number;
   outer?: number;
   inner?: number;
+  compact?: boolean;
 }
-const { bpm = 120, outer = 220, inner = 118 } = Astro.props;
+const { bpm = 120, outer = 220, inner = 118, compact = false } = Astro.props;
 const speeds = [
   { id: 'half', label: 'Half' },
   { id: 'single', label: 'Single' },
@@ -14,7 +15,7 @@ const speeds = [
 const pairs = ['Up–Down', 'In–Out', 'Left–Right'];
 ---
 <div
-  class="coach"
+  class:list={['coach', { compact }]}
   data-cue
   data-bpm={bpm}
   data-speed="single"
@@ -29,7 +30,7 @@ const pairs = ['Up–Down', 'In–Out', 'Left–Right'];
     <i class="ring" data-ring></i>
     <div class="orb" data-orb><strong data-word>Up</strong></div>
   </div>
-  <div class="controls">
+  {!compact && <div class="controls">
     <div class="seg" role="group" aria-label="Cue speed">
       {speeds.map((s) => (
         <button type="button" data-set-speed={s.id} aria-pressed={s.id === 'single' ? 'true' : 'false'}>{s.label}</button>
@@ -40,11 +41,11 @@ const pairs = ['Up–Down', 'In–Out', 'Left–Right'];
         <button type="button" data-set-option={i} aria-pressed={i === 0 ? 'true' : 'false'}>{label}</button>
       ))}
     </div>
-  </div>
+  </div>}
   <div class="dots" data-dots aria-hidden="true">
     {Array.from({ length: 8 }, () => <i></i>)}
   </div>
-  <p class="demo">A steady {bpm} BPM demonstration. This page does not listen to audio.</p>
+  {!compact && <p class="demo">Steady {bpm} BPM. The iPhone listens in the room. This page does not.</p>}
 </div>
 
 <script>
@@ -184,4 +185,7 @@ const pairs = ['Up–Down', 'In–Out', 'Left–Right'];
   }
   .dots i.on { width: 12px; height: 12px; background: var(--ember); }
   .demo { margin-top: 12px; max-width: 28em; font-size: 12px; color: var(--faint); }
+  .compact .bpm { font-size: 36px; }
+  .compact .stage { margin: 4px 0 8px; }
+  .compact .orb strong { font-size: 26px; }
 </style>

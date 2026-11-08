@@ -1,9 +1,9 @@
 // One place for links and prices. Update appStoreUrl once the app is live.
 export const SITE = {
   name: 'Sculpt Cues',
-  tagline: 'Plan the class. Teach it your way.',
+  tagline: 'Plan sculpt classes.',
   description:
-    'Sculpt Cues is the iPhone app for sculpt teachers: a growing library of 280+ movements, Flows with next-movement suggestions, and sharing between teachers.',
+    'Sculpt Cues is the sculpt class planner for sculpt teachers: a movement library, segment-by-segment Flows, and sharing between teachers.',
   email: 'sculptcues@gmail.com',
   appStoreUrl: null as string | null, // e.g. 'https://apps.apple.com/app/id1234567890'
   instagram: null as string | null,
