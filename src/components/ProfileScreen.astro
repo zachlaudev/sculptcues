@@ -1,0 +1,32 @@
+---
+// Recreated from ProfileView. No invented teacher name.
+const rows = [
+  'Subscription',
+  'Name',
+  'Sample flows by email',
+  'Notifications',
+  'App walkthrough',
+  'Contact support',
+  'Privacy policy',
+  'Terms of use',
+];
+---
+<div class="profile" data-screen="profile">
+  <p class="kicker">Signed in</p>
+  <h3>Profile</h3>
+  <ul>
+    {rows.map((row) => <li>{row}</li>)}
+  </ul>
+</div>
+
+<style>
+  .profile { display: flex; flex-direction: column; gap: 8px; }
+  .kicker { font-size: 10px; letter-spacing: 0.16em; }
+  h3 { font-size: 28px; letter-spacing: -0.045em; margin-bottom: 4px; }
+  ul { list-style: none; display: grid; gap: 6px; }
+  li {
+    border-radius: 14px; padding: 10px 12px; font-size: 13px;
+    background: rgba(255, 247, 240, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+</style>

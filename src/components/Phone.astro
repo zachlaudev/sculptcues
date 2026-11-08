@@ -1,8 +1,8 @@
 ---
-interface Props { class?: string }
-const { class: cls } = Astro.props;
+interface Props { class?: string; width?: number }
+const { class: cls, width = 300 } = Astro.props;
 ---
-<div class:list={['phone', cls]}>
+<div class:list={['phone', cls]} style={`width:${width}px`}>
   <div class="screen">
     <div class="island" aria-hidden="true"></div>
     <slot />
