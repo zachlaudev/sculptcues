@@ -1,0 +1,58 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../site';
+---
+<Page title="Privacy Policy" kicker="Legal" updated="8 November 2026" description="How Sculpt Cues handles your data.">
+  <p>Sculpt Cues ("we", "us") makes the Sculpt Cues iPhone app and this website. We collect as little as we can. This policy explains what we collect, why, and the choices you have.</p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li><strong>Microphone audio never leaves your phone.</strong> Cue Coach analyses sound live on the device to find the beat. Audio is not recorded, stored or uploaded.</li>
+    <li><strong>Your Flows stay on your phone.</strong> Classes, folders and your own movements are saved on your device. They leave it only when you choose to share them.</li>
+    <li><strong>We don't sell your data</strong> and we don't use it for advertising or cross-app tracking.</li>
+  </ul>
+
+  <h2>What we collect</h2>
+  <h3>Email updates (optional)</h3>
+  <p>If you subscribe to updates in the app or on this website, we store your email address, the name you gave (if any), where you signed up and when you agreed. We use it only to send Sculpt Cues news. Every email has an unsubscribe link, or you can email us.</p>
+
+  <h3>Account (if you create one)</h3>
+  <p>If you sign in with Apple or with email, we store your name, email address and a user ID so we can recognise you. With Sign in with Apple you can choose to hide your email; we then receive an Apple relay address.</p>
+
+  <h3>Purchases</h3>
+  <p>Payments are handled entirely by Apple. We never see your card details. We use RevenueCat to check which plan you have; it receives your App Store purchase history and an anonymous app user ID.</p>
+
+  <h3>App usage</h3>
+  <p>To find bugs and improve the app, the app sends simple usage events (for example "Flow created" or "Cue Coach started"), together with a random install ID, the app version and your iOS version. If you are signed in, these events may be linked to your user ID. They do not include your Flow contents or any audio.</p>
+
+  <h3>This website</h3>
+  <p>This website does not use cookies, advertising or analytics trackers. Our host, GitHub Pages, may log technical data such as IP addresses for security, under GitHub's own privacy statement.</p>
+
+  <h2>Who processes data for us</h2>
+  <ul>
+    <li><strong>Supabase</strong> – stores email sign-ups, accounts and usage events (servers in Seoul, South Korea).</li>
+    <li><strong>RevenueCat</strong> – manages subscription status.</li>
+    <li><strong>Apple</strong> – App Store payments, Sign in with Apple, and crash reports if you share them with developers.</li>
+    <li><strong>GitHub</strong> – hosts this website.</li>
+  </ul>
+  <p>These providers act on our instructions and may process data outside your country.</p>
+
+  <h2>How long we keep it</h2>
+  <p>We keep your email until you unsubscribe or ask us to delete it, account data until you delete your account, and usage events for up to 24 months.</p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Turn off microphone access any time in iOS Settings → Sculpt Cues. Cue Coach needs it to work; the rest of the app does not.</li>
+    <li>Ask us for a copy of your data, to correct it or to delete it by emailing <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. We reply within 30 days.</li>
+    <li>Deleting the app removes everything stored on your phone.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>Sculpt Cues is made for fitness teachers and is not directed at children under 13. We do not knowingly collect their data.</p>
+
+  <h2>Changes</h2>
+  <p>If we change this policy we will update the date above, and tell you in the app for important changes.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</Page>

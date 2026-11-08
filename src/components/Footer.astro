@@ -1,0 +1,31 @@
+---
+import { SITE } from '../site';
+const year = new Date().getFullYear();
+---
+<footer class="wrap">
+  <div class="top">
+    <div>
+      <span class="wordmark">sculpt cues</span>
+      <p class="muted">{SITE.tagline}</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/blog/">Journal</a>
+      <a href="/support/">Support</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </nav>
+  </div>
+  <p class="fine">© {year} Sculpt Cues. iPhone and App Store are trademarks of Apple Inc.</p>
+</footer>
+
+<style>
+  footer { border-top: 1px solid var(--line); padding: 44px 0 40px; margin-top: 40px; }
+  .top { display: flex; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  .wordmark { font-size: 26px; color: #fff; }
+  .top p { margin-top: 6px; font-size: 14px; }
+  nav { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  nav a:hover { color: var(--cream); }
+  .fine { margin-top: 30px; color: var(--faint); font-size: 12px; }
+</style>

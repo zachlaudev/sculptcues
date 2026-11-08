@@ -1,0 +1,380 @@
+---
+import Base from '../layouts/Base.astro';
+import Phone from '../components/Phone.astro';
+import CueOrb from '../components/CueOrb.astro';
+import AppStoreButton from '../components/AppStoreButton.astro';
+import { getPosts } from '../lib/posts';
+import { PRICES, SITE } from '../site';
+
+const posts = (await getPosts())
+  .slice(0, 3);
+
+const folders = [
+  { key: 'core', title: 'core', count: 79 },
+  { key: 'arms', title: 'arms', count: 60 },
+  { key: 'legs', title: 'legs', count: 58 },
+  { key: 'glutes', title: 'glutes', count: 44 },
+  { key: 'back', title: 'back', count: 35 },
+  { key: 'chest', title: 'chest', count: 8 },
+];
+
+const segments = [
+  { n: '01', title: 'Hip Circles, Standing Calf Raises, Side Lunge, Low Lunge', meta: '4 movements · Notes ✓' },
+  { n: '02', title: 'Band Squat, Band Monster Walk, Standing Calf Raises', meta: '3 movements · Notes ✓' },
+  { n: '03', title: 'Reverse Lunge, Lateral Leg Lift with Loop Band, Floating Arabesque', meta: '3 movements · Notes ✓' },
+];
+
+const bars = [
+  { part: 'Glutes', v: 92 }, { part: 'Legs', v: 78 }, { part: 'Core', v: 46 },
+  { part: 'Back', v: 30 }, { part: 'Arms', v: 18 }, { part: 'Shoulders', v: 12 }, { part: 'Chest', v: 6 },
+];
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+---
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img" aria-hidden="true"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">For sculpt teachers</p>
+        <h1 class="wordmark big">sculpt cues</h1>
+        <p class="tag">Plan the class. Cue the beat.</p>
+        <p class="lede">Build your sculpt classes from 280+ movements, see when a body part is overworked, then teach on the beat of any song playing in the room.</p>
+        <div class="ctas">
+          <AppStoreButton size="lg" />
+          <a class="btn btn-ghost glass" href="#cue-coach">See Cue Coach</a>
+        </div>
+        <p class="fine">iPhone · 7-day free trial on Annual</p>
+      </div>
+      <div class="hero-phone reveal">
+        <Phone><CueOrb bpm={128} compact /></Phone>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="wrap stats reveal">
+    <div><b>280+</b><span>movements</span></div>
+    <div><b>7</b><span>body parts scored</span></div>
+    <div><b>5</b><span>ready-made Flows</span></div>
+    <div><b>Live</b><span>BPM detection</span></div>
+  </div>
+
+  <!-- FLOWS -->
+  <section id="features">
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="kicker">Flows</p>
+        <h2>Your class, segment by segment.</h2>
+        <p class="lede">A Flow is your class. Each segment is one song's worth of movements. Drag to reorder, add notes, duplicate a Flow for next week and tweak it in seconds.</p>
+        <ul class="ticks">
+          <li>Suggested next movements as you build</li>
+          <li>Right and left side segments that mirror each other</li>
+          <li>Teach mode with big, readable text</li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <Phone>
+          <p class="kicker">Flow</p>
+          <p class="ph-title">Legs and Glutes</p>
+          <div class="ph-meta"><span>11 segments · 37 movements</span><span class="pill sm">Collapse all</span></div>
+          {segments.map((s) => (
+            <div class="seg glass">
+              <span class="num">{s.n}</span>
+              <div><b>{s.title}</b><small>{s.meta}</small></div>
+            </div>
+          ))}
+          <p class="kicker sug">Suggested next</p>
+          <div class="chips"><span class="pill">Glute Bridge</span><span class="pill">Inner Thigh Squeeze</span></div>
+        </Phone>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTENSITY -->
+  <section class="tight">
+    <div class="wrap split flip">
+      <div class="reveal">
+        <p class="kicker">Intensity</p>
+        <h2>Know when you're overworking a muscle.</h2>
+        <p class="lede">Every movement is scored across seven body parts. Sculpt Cues adds up your Flow and warns you when one area is carrying too much – then suggests a counter movement.</p>
+      </div>
+      <div class="card glass chart reveal">
+        <div class="caution">⚠ Caution · possible glutes overwork – try a counter movement next</div>
+        {bars.map((b) => (
+          <div class="bar-row">
+            <span>{b.part}</span>
+            <div class="track"><i style={`width:${b.v}%`}></i></div>
+          </div>
+        ))}
+        <p class="positions">Positions: standing → all fours → on your back · <span class="accent">2 up/down from the floor</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUE COACH -->
+  <section id="cue-coach" class="cue-section">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker">Cue Coach</p>
+        <h2>Finds the beat. Keeps you on it.</h2>
+        <p class="lede">Play any song out loud. Cue Coach listens through your iPhone's microphone, detects the BPM live, and pulses Up and Down cues on the beat – half time, single or double.</p>
+      </div>
+      <div class="cue-stage reveal">
+        <CueOrb bpm={124} />
+      </div>
+      <div class="three reveal">
+        <div class="card glass"><h3>Any song</h3><p class="muted">Spotify, Apple Music, the studio speaker – if you can hear it, it can cue it.</p></div>
+        <div class="card glass"><h3>On your phone</h3><p class="muted">Audio is analysed on the device and never recorded or uploaded.</p></div>
+        <div class="card glass"><h3>Half · Single · Double</h3><p class="muted">Slow pulses, on-the-beat reps or doubles – switch with one tap.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Library</p>
+        <h2>280+ movements, sorted by body.</h2>
+        <p class="lede">Every movement with its start position, equipment and what it works. Add your own, or edit ours to match how you teach.</p>
+      </div>
+      <div class="folders">
+        {folders.map((f) => (
+          <div class="folder reveal" style={`background-image:url(/img/${f.key}.webp)`}>
+            <div><b class="wordmark">{f.title}</b><span>{f.count} movements</span></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARE -->
+  <section class="tight">
+    <div class="wrap">
+      <div class="card glass share reveal">
+        <div>
+          <p class="kicker">Share</p>
+          <h2>Send a Flow to another teacher.</h2>
+          <p class="lede">Share any Flow as a link or file. They open it straight into their Sculpt Cues, ready to teach or remix.</p>
+        </div>
+        <img src="/img/icon.webp" alt="Sculpt Cues app icon" width="160" height="160" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="kicker">Pricing</p>
+        <h2>Level up your Sculpt game.</h2>
+        <p class="lede">Everything included on every plan.</p>
+      </div>
+      <div class="prices">
+        {PRICES.map((p) => (
+          <div class:list={['price card glass reveal', { best: p.badge }]}>
+            {p.badge && <span class="badge">{p.badge}</span>}
+            <p class="kicker">{p.name}</p>
+            <p class="amount">{p.price} <small>{p.per}</small></p>
+            <p class="muted">{p.note}</p>
+          </div>
+        ))}
+      </div>
+      <ul class="ticks center-list reveal">
+        <li>280+ movements, folders and your own library</li>
+        <li>Cue Coach that finds the beat in any song</li>
+        <li>Share Flows with other teachers</li>
+      </ul>
+      <div class="center reveal" style="margin-top:28px"><AppStoreButton size="lg" /></div>
+      <p class="fine center">Prices in USD; local prices are set by the App Store. Subscriptions renew until cancelled in your Apple ID settings.</p>
+    </div>
+  </section>
+
+  <!-- JOURNAL -->
+  {posts.length > 0 && (
+    <section class="tight">
+      <div class="wrap">
+        <div class="section-head row reveal">
+          <div><p class="kicker">Journal</p><h2>For the teacher's notebook.</h2></div>
+          <a class="btn btn-ghost glass" href="/blog/">All posts</a>
+        </div>
+        <div class="three">
+          {posts.map((p) => (
+            <a class="post card glass reveal" href={`/blog/${p.id}/`}>
+              <p class="kicker">{fmt(p.data.pubDate)}</p>
+              <h3>{p.data.title}</h3>
+              <p class="muted">{p.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- NOTIFY -->
+  <section id="notify" class="tight">
+    <div class="wrap">
+      <div class="card glass notify reveal">
+        <p class="kicker">Updates</p>
+        <h2>Subscribe to our updates.</h2>
+        <p class="lede">New movements, sample Flows and launch news. No spam, unsubscribe any time.</p>
+        <form id="signup" novalidate>
+          <input type="email" name="email" placeholder="Email" required autocomplete="email" class="glass" aria-label="Email" />
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Writes to the Supabase `email_signups` table (insert-only for the public key).
+  const SUPABASE_URL = 'https://npabobxcbcqnpncwergk.supabase.co';
+  const KEY = 'sb_publishable_dE9JKyxLO3ce0YQDWpsVXg_XHIGTRCb';
+  const form = document.getElementById('signup') as HTMLFormElement;
+  const msg = document.querySelector('.form-msg') as HTMLElement;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (form.email as HTMLInputElement).value.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email.'; return; }
+    const btn = form.querySelector('button') as HTMLButtonElement;
+    btn.disabled = true; msg.textContent = '';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/email_signups`, {
+        method: 'POST',
+        headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+        body: JSON.stringify({ email, source: 'website', consented_at: new Date().toISOString() }),
+      });
+      if (res.ok || res.status === 409) { form.reset(); msg.textContent = "You're on the list. Thank you!"; }
+      else throw new Error(String(res.status));
+    } catch {
+      msg.textContent = 'Something went wrong. Please try again.';
+    } finally { btn.disabled = false; }
+  });
+</script>
+
+<style>
+  /* Hero */
+  .hero { position: relative; padding: 70px 0 90px; min-height: min(92vh, 900px); display: flex; align-items: center; margin-top: -74px; padding-top: 140px; }
+  .hero-img {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, var(--ink) 0%, rgba(20, 10, 10, 0.92) 30%, rgba(20, 10, 10, 0.35) 62%, rgba(20, 10, 10, 0.6) 100%),
+      linear-gradient(180deg, rgba(20, 10, 10, 0.2) 60%, var(--ink) 100%),
+      url('/img/hero.webp') 78% 38% / cover no-repeat;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+  .wordmark.big { font-size: clamp(64px, 11vw, 132px); color: #fff; margin: 10px 0 6px; letter-spacing: -0.035em; }
+  .tag { font-size: clamp(20px, 2.4vw, 26px); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .fine { margin-top: 14px; font-size: 13px; color: var(--faint); }
+  .hero-phone { display: flex; justify-content: center; }
+  .hero-phone :global(.screen) { display: flex; flex-direction: column; justify-content: center; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats div { padding: 26px 8px; text-align: center; }
+  .stats div + div { border-left: 1px solid var(--line); }
+  .stats b { display: block; font-size: clamp(28px, 4vw, 42px); font-weight: 500; letter-spacing: -0.04em; }
+  .stats span { color: var(--muted); font-size: 14px; }
+
+  /* Split layouts */
+  .split { display: grid; grid-template-columns: 1fr auto; gap: clamp(40px, 7vw, 100px); align-items: center; }
+  .split.flip { grid-template-columns: 1fr 1fr; }
+  .split h2 { margin: 10px 0 16px; }
+  section.tight { padding-top: clamp(40px, 6vw, 70px); }
+  .ticks { list-style: none; margin-top: 24px; display: grid; gap: 10px; }
+  .ticks li { padding-left: 28px; position: relative; }
+  .ticks li::before { content: ''; position: absolute; left: 0; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--ember-gradient); }
+
+  /* Phone: flow screen */
+  .ph-title { font-size: 28px; font-weight: 500; letter-spacing: -0.045em; margin: 4px 0 8px; }
+  .ph-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--muted); margin-bottom: 12px; }
+  .pill.sm { padding: 5px 10px; font-size: 11px; }
+  .seg { display: flex; gap: 10px; border-radius: 18px; padding: 12px; margin-bottom: 8px; }
+  .seg .num { color: var(--peach); font-size: 13px; font-weight: 600; }
+  .seg b { display: block; font-size: 13px; font-weight: 500; line-height: 1.3; }
+  .seg small { display: block; margin-top: 4px; font-size: 10.5px; color: var(--muted); }
+  .sug { margin: 14px 0 8px; font-size: 10px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chips .pill { font-size: 11.5px; padding: 6px 10px; }
+
+  /* Cards */
+  .card { border-radius: 22px; padding: 26px; }
+  .card h3 { margin-bottom: 8px; }
+
+  /* Intensity chart */
+  .chart { padding: 28px; }
+  .caution { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a2; background: rgba(244, 70, 38, 0.14); border: 1px solid rgba(244, 70, 38, 0.35); padding: 10px 14px; border-radius: 14px; margin-bottom: 20px; }
+  .bar-row { display: grid; grid-template-columns: 88px 1fr; align-items: center; gap: 12px; margin: 11px 0; font-size: 14px; color: var(--muted); }
+  .track { height: 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+  .track i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--rust), var(--ember), var(--peach)); }
+  .positions { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* Cue section */
+  .center { text-align: center; }
+  .center .lede { margin-inline: auto; }
+  .cue-stage { display: flex; justify-content: center; margin: 10px 0 50px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  /* Library folders (Library folder cards) */
+  .folders { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .folder {
+    aspect-ratio: 3 / 2; border-radius: 22px; background-size: cover; background-position: center;
+    display: flex; align-items: flex-end; padding: 18px; position: relative; overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .folder::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(20, 10, 10, 0.6)); }
+  .folder div { position: relative; z-index: 1; }
+  .folder b { display: block; font-size: clamp(22px, 2.6vw, 30px); color: #fff; }
+  .folder span { font-size: 13px; color: var(--cream); opacity: 0.85; }
+
+  /* Share */
+  .share { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: clamp(28px, 5vw, 56px); }
+  .share h2 { margin: 10px 0 14px; }
+  .share img { border-radius: 36px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4); }
+
+  /* Pricing */
+  .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .price { position: relative; text-align: center; padding: 34px 22px; }
+  .price.best { border-color: rgba(255, 114, 90, 0.7); box-shadow: 0 0 0 1px rgba(255, 114, 90, 0.4), 0 20px 50px rgba(196, 44, 26, 0.3); }
+  .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--ember-gradient); color: #fff; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+  .amount { font-size: 40px; font-weight: 500; letter-spacing: -0.04em; margin: 10px 0 4px; }
+  .amount small { font-size: 15px; color: var(--muted); letter-spacing: 0; }
+  .center-list { max-width: 420px; margin: 34px auto 0; }
+  p.fine.center { margin-top: 18px; }
+
+  /* Journal */
+  .section-head.row { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
+  .post { text-decoration: none; display: block; transition: transform 0.2s ease, border-color 0.2s; }
+  .post:hover { transform: translateY(-3px); border-color: rgba(255, 114, 90, 0.5); }
+  .post h3 { margin: 10px 0 8px; }
+
+  /* Notify */
+  .notify { text-align: center; padding: clamp(32px, 6vw, 64px); }
+  .notify h2 { margin: 10px 0 12px; }
+  .notify .lede { margin: 0 auto 26px; }
+  form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; }
+  form input { flex: 1; border-radius: 999px; padding: 15px 20px; font-size: 15px; color: var(--cream); font-family: inherit; outline: none; }
+  form input::placeholder { color: var(--faint); }
+  .form-msg { margin-top: 14px; min-height: 1.5em; font-size: 14px; color: var(--peach); }
+
+  @media (max-width: 900px) {
+    .hero-grid, .split, .split.flip { grid-template-columns: 1fr; }
+    .hero { min-height: auto; }
+    .hero-img { background-position: 70% 30%, 0 0, 70% 30%; }
+    .hero-phone { margin-top: 20px; }
+    .split > div:last-child { justify-self: center; }
+    .three, .prices { grid-template-columns: 1fr; }
+    .folders { grid-template-columns: repeat(2, 1fr); }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stats div:nth-child(3) { border-left: 0; }
+    .stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .share img { display: none; }
+  }
+  @media (max-width: 520px) {
+    form { flex-direction: column; }
+  }
+</style>

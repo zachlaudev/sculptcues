@@ -1,0 +1,31 @@
+---
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+---
+<div class:list={['phone', cls]}>
+  <div class="screen">
+    <div class="island" aria-hidden="true"></div>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .phone {
+    width: 300px; aspect-ratio: 300 / 630; border-radius: 52px; padding: 10px;
+    background: linear-gradient(160deg, #3a2622, #120808 40%, #2a1614);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 40px 90px rgba(0, 0, 0, 0.55), 0 0 120px rgba(196, 44, 26, 0.25);
+    flex: none;
+  }
+  .screen {
+    position: relative; height: 100%; border-radius: 42px; overflow: hidden;
+    padding: 54px 18px 20px;
+    background:
+      radial-gradient(120% 50% at 85% -2%, rgba(255, 114, 90, 0.45), transparent 60%),
+      radial-gradient(110% 60% at -5% 92%, rgba(196, 44, 26, 0.62), transparent 62%),
+      linear-gradient(180deg, var(--wash-top), var(--ink) 48%, var(--wash-bottom));
+  }
+  .island {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    width: 92px; height: 26px; border-radius: 999px; background: #000;
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = (await getPosts());
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const [lead, ...rest] = posts;
+---
+<Base title="Journal" description="Sculpt class ideas, cueing tips and music for sculpt teachers.">
+  <section class="wrap head">
+    <p class="kicker">Journal</p>
+    <h1>For the teacher's notebook.</h1>
+    <p class="lede">Class ideas, cueing tips and music for sculpt teachers.</p>
+  </section>
+
+  <section class="wrap list">
+    {posts.length === 0 && <p class="muted">First posts coming soon.</p>}
+    {lead && (
+      <a class="lead card glass" href={`/blog/${lead.id}/`}>
+        {lead.data.image && <img src={lead.data.image} alt={lead.data.imageAlt ?? ''} loading="lazy" />}
+        <div>
+          <p class="kicker">{fmt(lead.data.pubDate)}{lead.data.tags[0] && ` · ${lead.data.tags[0]}`}</p>
+          <h2>{lead.data.title}</h2>
+          <p class="muted">{lead.data.description}</p>
+          <span class="accent read">Read →</span>
+        </div>
+      </a>
+    )}
+    <div class="grid">
+      {rest.map((p) => (
+        <a class="card glass" href={`/blog/${p.id}/`}>
+          <p class="kicker">{fmt(p.data.pubDate)}{p.data.tags[0] && ` · ${p.data.tags[0]}`}</p>
+          <h3>{p.data.title}</h3>
+          <p class="muted">{p.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head { padding: 70px 0 40px; }
+  .head h1 { margin: 10px 0 14px; }
+  .list { padding: 0 0 60px; }
+  .card { border-radius: 22px; padding: 26px; text-decoration: none; display: block; transition: transform 0.2s, border-color 0.2s; }
+  .card:hover { transform: translateY(-3px); border-color: rgba(255, 114, 90, 0.5); }
+  .card h3 { margin: 10px 0 8px; }
+  .lead { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; padding: 18px; margin-bottom: 16px; }
+  .lead:not(:has(img)) { grid-template-columns: 1fr; padding: 34px; }
+  .lead img { border-radius: 16px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .lead h2 { margin: 12px 0 12px; font-size: clamp(28px, 3.6vw, 40px); }
+  .read { display: inline-block; margin-top: 16px; font-weight: 500; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) {
+    .lead { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

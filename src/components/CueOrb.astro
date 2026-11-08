@@ -1,0 +1,61 @@
+---
+// The Cue Coach screen, drawn in CSS: BPM readout, closing ring, pulsing orb, tempo pills.
+interface Props { bpm?: number; compact?: boolean }
+const { bpm = 128, compact = false } = Astro.props;
+const period = (60 / bpm).toFixed(3);
+---
+<div class:list={['cue', { compact }]} style={`--beat:${period}s`}>
+  <p class="status">Listening</p>
+  <p class="bpm"><span>{bpm}</span> <small>BPM</small></p>
+  <div class="stage" aria-hidden="true">
+    <i class="ring"></i>
+    <i class="ring r2"></i>
+    <div class="orb"><strong>Up</strong></div>
+  </div>
+  <div class="pills" aria-hidden="true">
+    <span class="pill">Half</span>
+    <span class="pill on">Single</span>
+    <span class="pill">Double</span>
+  </div>
+</div>
+
+<style>
+  .cue { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .status { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .bpm { font-size: 46px; font-weight: 500; letter-spacing: -0.04em; line-height: 1.1; }
+  .bpm small { font-size: 14px; letter-spacing: 0.08em; color: var(--muted); }
+  .stage { width: 240px; height: 240px; display: grid; place-items: center; position: relative; margin: 10px 0 18px; }
+  .ring {
+    position: absolute; border: 1.5px solid rgba(246, 241, 234, 0.9); border-radius: 50%;
+    animation: close calc(var(--beat) * 2) linear infinite;
+  }
+  .r2 { animation-delay: var(--beat); }
+  @keyframes close {
+    from { width: 236px; height: 236px; opacity: 0; }
+    20% { opacity: 0.35; }
+    to { width: 136px; height: 136px; opacity: 1; }
+  }
+  .orb {
+    width: 136px; height: 136px; border-radius: 50%; display: grid; place-items: center;
+    background: radial-gradient(circle at 40% 30%, var(--peach), var(--ember) 45%, var(--rust));
+    box-shadow: 0 18px 50px rgba(196, 44, 26, 0.45);
+    animation: thump var(--beat) ease-out infinite;
+  }
+  .orb strong { font-size: 32px; font-weight: 500; letter-spacing: -0.04em; color: #fff; }
+  @keyframes thump {
+    0% { transform: scale(1.07); box-shadow: 0 0 0 0 rgba(255, 114, 90, 0.5), 0 18px 50px rgba(196, 44, 26, 0.5); }
+    35% { transform: scale(1); }
+    100% { transform: scale(1); box-shadow: 0 0 0 26px rgba(255, 114, 90, 0), 0 18px 50px rgba(196, 44, 26, 0.4); }
+  }
+  .pills { display: flex; gap: 8px; }
+  .compact .stage { width: 200px; height: 200px; margin: 6px 0 14px; }
+  .compact .bpm { font-size: 38px; }
+  .compact .orb { width: 112px; height: 112px; }
+  .compact .orb strong { font-size: 26px; }
+  .compact .ring { animation-name: close-sm; }
+  @keyframes close-sm {
+    from { width: 196px; height: 196px; opacity: 0; }
+    20% { opacity: 0.35; }
+    to { width: 112px; height: 112px; opacity: 1; }
+  }
+</style>

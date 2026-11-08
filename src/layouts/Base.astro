@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+const { title, description = SITE.description, image = '/img/og.jpg', type = 'website' } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#140a0a" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" href="/fonts/Outfit-Black.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="alternate" type="application/rss+xml" title="Sculpt Cues journal" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="wash" aria-hidden="true"></div>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+    <script>
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

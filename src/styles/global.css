@@ -1,0 +1,114 @@
+/* Mirrors App/SculptCues/Theme/Theme.swift (palette approved 6 Nov 2026). */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+}
+
+:root {
+  --ink: #140a0a;
+  --cream: #f6f1ea;
+  --muted: rgba(246, 241, 234, 0.64);
+  --faint: rgba(246, 241, 234, 0.38);
+  --line: rgba(246, 241, 234, 0.16);
+  --rust: #c42c1a;
+  --ember: #f44626;
+  --peach: #ff725a;
+  --wash-top: #2c0e0e;
+  --wash-bottom: #3e1212;
+  --ember-gradient: linear-gradient(180deg, var(--peach) 0%, var(--ember) 40%, var(--rust) 100%);
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --brand: 'Outfit', var(--sans);
+  --max: 1120px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  color: var(--cream);
+  background: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+::selection { background: var(--ember); color: #fff; }
+
+/* The warm wash behind every screen (EmberWash). Fixed so it stays put on scroll. */
+.wash {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(60vmax 60vmax at 85% -2%, rgba(255, 114, 90, 0.42), transparent 60%),
+    radial-gradient(70vmax 70vmax at -5% 92%, rgba(196, 44, 26, 0.6), transparent 62%),
+    linear-gradient(180deg, var(--wash-top) 0%, var(--ink) 48%, var(--wash-bottom) 100%);
+}
+
+.wrap { width: min(100% - 40px, var(--max)); margin-inline: auto; }
+
+/* Glass (GlassCard) */
+.glass {
+  background: rgba(255, 247, 240, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 12px 30px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+}
+
+/* Type */
+.kicker {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.wordmark { font-family: var(--brand); font-weight: 900; text-transform: lowercase; letter-spacing: -0.02em; line-height: 0.95; }
+h1, h2, h3 { font-weight: 500; letter-spacing: -0.045em; line-height: 1.02; }
+h1 { font-size: clamp(40px, 7vw, 76px); }
+h2 { font-size: clamp(30px, 4.4vw, 48px); }
+h3 { font-size: 21px; letter-spacing: -0.03em; }
+.lede { font-size: clamp(17px, 2vw, 20px); color: var(--muted); max-width: 34em; }
+.muted { color: var(--muted); }
+.accent { color: var(--peach); }
+
+/* Buttons (PrimaryButtonStyle / GhostButtonStyle / PillButtonStyle) */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border-radius: 999px; padding: 15px 26px; font-size: 16px; font-weight: 600;
+  text-decoration: none; border: 0; cursor: pointer; font-family: inherit;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn:active { transform: scale(0.985); opacity: 0.85; }
+.btn-primary { background: var(--ember-gradient); color: #fff; box-shadow: 0 14px 34px rgba(196, 44, 26, 0.35); }
+.btn-ghost { color: var(--cream); font-weight: 500; }
+.pill { display: inline-flex; border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: var(--muted); background: rgba(255, 255, 255, 0.08); text-decoration: none; }
+.pill.on { background: var(--ember); color: #fff; }
+
+section { padding: clamp(72px, 10vw, 128px) 0; }
+.section-head { margin-bottom: 44px; }
+.section-head h2 { margin-top: 10px; }
+.section-head .lede { margin-top: 14px; }
+
+/* Prose (blog + legal) */
+.prose { max-width: 680px; font-size: 18px; line-height: 1.7; }
+.prose > * + * { margin-top: 1.1em; }
+.prose h2 { font-size: 30px; margin-top: 1.8em; }
+.prose h3 { font-size: 22px; margin-top: 1.5em; }
+.prose a { color: var(--peach); text-underline-offset: 3px; }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li + li { margin-top: 0.4em; }
+.prose blockquote { border-left: 2px solid var(--ember); padding-left: 18px; color: var(--muted); font-style: italic; }
+.prose img { border-radius: 22px; }
+.prose hr { border: 0; border-top: 1px solid var(--line); }
+.prose code { background: rgba(255, 255, 255, 0.08); padding: 2px 6px; border-radius: 6px; font-size: 0.9em; }
+.prose table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.prose th, .prose td { text-align: left; padding: 10px 0; border-bottom: 1px solid var(--line); }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { animation: none !important; }
+}
+:focus-visible { outline: 2px solid var(--peach); outline-offset: 3px; border-radius: 6px; }

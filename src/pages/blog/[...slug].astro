@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import AppStoreButton from '../../components/AppStoreButton.astro';
+import { render } from 'astro:content';
+import { getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.pubDate.toISOString(),
+  dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+  author: { '@type': 'Organization', name: d.author },
+  publisher: { '@type': 'Organization', name: 'Sculpt Cues', logo: { '@type': 'ImageObject', url: new URL('/img/icon.webp', Astro.site).href } },
+  ...(d.image ? { image: new URL(d.image, Astro.site).href } : {}),
+};
+---
+<Base title={d.title} description={d.description} image={d.image} type="article">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <article class="wrap">
+    <header>
+      <a class="back" href="/blog/">← Journal</a>
+      <p class="kicker">{fmt(d.pubDate)}{d.tags.length > 0 && ` · ${d.tags.join(' · ')}`}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.description}</p>
+    </header>
+    {d.image && <img class="cover" src={d.image} alt={d.imageAlt ?? ''} />}
+    <div class="prose"><Content /></div>
+    <aside class="card glass cta">
+      <div>
+        <p class="kicker">Sculpt Cues</p>
+        <h3>Plan the class. Cue the beat.</h3>
+        <p class="muted">280+ movements, overwork warnings and a coach that finds the beat in any song.</p>
+      </div>
+      <AppStoreButton />
+    </aside>
+  </article>
+</Base>
+
+<style>
+  article { padding: 60px 0 40px; }
+  header { max-width: 780px; margin-bottom: 36px; }
+  .back { display: inline-block; color: var(--muted); text-decoration: none; font-size: 14px; margin-bottom: 26px; }
+  .back:hover { color: var(--cream); }
+  h1 { font-size: clamp(36px, 5.4vw, 60px); margin: 12px 0 18px; }
+  .cover { border-radius: 22px; width: 100%; max-height: 520px; object-fit: cover; margin-bottom: 40px; }
+  .cta { margin-top: 64px; max-width: 680px; border-radius: 22px; padding: 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .cta h3 { margin: 6px 0 6px; }
+</style>

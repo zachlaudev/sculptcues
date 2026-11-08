@@ -1,0 +1,29 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../site';
+const faqs = [
+  { q: 'Cue Coach isn’t picking up the beat.', a: 'Check microphone access in iOS Settings → Sculpt Cues. Play the song out loud (not through headphones) and keep the phone within a few metres of the speaker. Songs with a clear kick drum work best; it usually locks on within a few seconds.' },
+  { q: 'How do I restore my purchase on a new phone?', a: 'Open the paywall or Profile and tap Restore. Use the same Apple ID you bought with.' },
+  { q: 'How do I cancel my subscription?', a: 'iOS Settings → your name → Subscriptions → Sculpt Cues. Cancel at least 24 hours before it renews.' },
+  { q: 'Where are my Flows saved?', a: 'On your phone. To move them to a new phone, share each Flow to yourself and open it on the new device.' },
+  { q: 'How do I share a Flow with another teacher?', a: 'Swipe or open the Flow, tap Share, and send the link or file. They need Sculpt Cues installed to open it.' },
+  { q: 'A movement is missing from the library.', a: 'Add your own from the Library, or email us and we will consider adding it for everyone.' },
+];
+---
+<Page title="Support" kicker="Help" description="Help with Sculpt Cues: Cue Coach, purchases, Flows and sharing.">
+  <p>We're a small team and read every message. Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a> and we'll get back to you within two working days.</p>
+  <h2>Common questions</h2>
+  {faqs.map((f) => (
+    <details class="glass">
+      <summary>{f.q}</summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</Page>
+<style>
+  details { border-radius: 18px; padding: 16px 20px; margin-top: 10px; }
+  summary { cursor: pointer; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::after { content: '+'; color: var(--peach); font-size: 20px; line-height: 1; }
+  details[open] summary::after { content: '–'; }
+  details p { margin-top: 10px; color: var(--muted); font-size: 16px; }
+</style>
