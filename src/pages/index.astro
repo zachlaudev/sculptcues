@@ -18,12 +18,6 @@ const folders = [
   { key: 'chest', title: 'chest' },
 ];
 
-const segments = [
-  { n: '01', title: 'Warm-up · standing', meta: '4 movements' },
-  { n: '02', title: 'Squats · band on', meta: '3 movements' },
-  { n: '03', title: 'Right side · band on', meta: '3 movements' },
-];
-
 const bars = [
   { part: 'Core', v: 40 }, { part: 'Glutes', v: 80 }, { part: 'Legs', v: 55 },
   { part: 'Arms', v: 20 }, { part: 'Shoulders', v: 15 }, { part: 'Back', v: 25 }, { part: 'Chest', v: 10 },
@@ -46,9 +40,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
         </div>
       </div>
       <div class="hero-fan reveal" aria-label="Sculpt Cues on iPhone">
-        <Phone shot class="fan a"><img src="/img/hero-library.webp" alt="Library: 284 movements in body-area folders" width="414" height="900" /></Phone>
+        <Phone shot class="fan a"><img src="/img/hero-teach.webp" alt="Arms and Core class, movement names by segment" width="414" height="900" /></Phone>
         <Phone shot class="fan b"><img src="/img/hero-intensity.webp" alt="Intensity chart for the Arms and Core flow" width="414" height="900" /></Phone>
-        <Phone shot class="fan c"><img src="/img/hero-teach.webp" alt="Arms and Core class, movement names by segment" width="414" height="900" /></Phone>
+        <Phone shot class="fan c"><img src="/img/hero-library.webp" alt="Library: 284 movements in body-area folders" width="414" height="900" /></Phone>
       </div>
     </div>
   </section>
@@ -75,18 +69,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
         </ul>
       </div>
       <div class="reveal">
-        <Phone>
-          <p class="kicker">Flow</p>
-          <p class="ph-title">Legs and Glutes</p>
-          <div class="ph-meta"><span>11 segments · 37 movements</span><span class="pill sm">Collapse all</span></div>
-          {segments.map((s) => (
-            <div class="seg glass">
-              <span class="num">{s.n}</span>
-              <div><b>{s.title}</b><small>{s.meta}</small></div>
-            </div>
-          ))}
-          <p class="kicker sug">Suggested next</p>
-          <p class="positions">Up to three, under the segment you are building.</p>
+        <Phone shot>
+          <img src="/img/hero-teach.webp" alt="Arms and Core flow, one segment at a time" width="414" height="900" />
         </Phone>
       </div>
     </div>

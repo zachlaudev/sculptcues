@@ -1,37 +1,122 @@
 ---
-// Soft ember blob in the same colours as the site wash, with the wordmark under it.
+// Onboarding intro blob: LavaBlob in CueView.swift, placed by OnboardingView.blobLayer.
+// Calm speed (not the listening "lively" mode). Wordmark matches IntroPage, 12px under the 232pt blob.
 ---
-<div class="mark" aria-hidden="true">
-  <div class="blob">
-    <i></i><i></i><i></i><i></i>
+<div class="mark">
+  <div class="stage" aria-hidden="true">
+    <canvas class="glow" width="232" height="232"></canvas>
+    <canvas class="body" width="232" height="232"></canvas>
+    <canvas class="hi" width="232" height="232"></canvas>
   </div>
-  <span class="wordmark">sculpt cues</span>
+  <p class="name">sculpt cues</p>
 </div>
 
+<script>
+  const drops = [
+    { radius: 58, ax: 10, ay: 12, fx: 0.31, fy: 0.27, phase: 0 },
+    { radius: 36, ax: 46, ay: 30, fx: 0.43, fy: 0.37, phase: 1.3 },
+    { radius: 32, ax: 38, ay: 48, fx: 0.29, fy: 0.47, phase: 2.6 },
+    { radius: 28, ax: 52, ay: 40, fx: 0.37, fy: 0.33, phase: 4.1 },
+    { radius: 22, ax: 30, ay: 56, fx: 0.53, fy: 0.29, phase: 5.2 },
+  ];
+  const size = 232;
+  const root = document.querySelector('.mark .stage') as HTMLElement | null;
+  const glow = document.querySelector('.mark .glow') as HTMLCanvasElement | null;
+  const body = document.querySelector('.mark .body') as HTMLCanvasElement | null;
+  const hi = document.querySelector('.mark .hi') as HTMLCanvasElement | null;
+  if (root && glow && body && hi) {
+    const ink = document.createElement('canvas');
+    ink.width = ink.height = size;
+    const inkCtx = ink.getContext('2d', { willReadFrequently: true })!;
+    const gctx = glow.getContext('2d')!;
+    const bctx = body.getContext('2d')!;
+    const hctx = hi.getContext('2d')!;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0;
+    let visible = document.visibilityState === 'visible';
+
+    const paint = (now: number) => {
+      const speed = motion.matches ? 0.15 : 1;
+      const t = (now / 1000) * speed;
+      const breathe = 1 + 0.035 * Math.sin(t * 0.9);
+      root.style.transform = `scale(${breathe})`;
+
+      inkCtx.clearRect(0, 0, size, size);
+      inkCtx.filter = 'blur(16px)';
+      inkCtx.fillStyle = '#fff';
+      const c = size / 2;
+      drops.forEach((d, i) => {
+        const x = c + d.ax * Math.sin(t * d.fx + d.phase);
+        const y = c + d.ay * Math.cos(t * d.fy + d.phase * 1.3);
+        const r = d.radius * (1 + 0.08 * Math.sin(t * 0.7 + i));
+        inkCtx.beginPath();
+        inkCtx.arc(x, y, r, 0, Math.PI * 2);
+        inkCtx.fill();
+      });
+      inkCtx.filter = 'none';
+      const pixels = inkCtx.getImageData(0, 0, size, size);
+      const data = pixels.data;
+      for (let p = 3; p < data.length; p += 4) data[p] = data[p] >= 128 ? 255 : 0;
+      inkCtx.putImageData(pixels, 0, 0);
+
+      gctx.clearRect(0, 0, size, size);
+      gctx.filter = 'blur(44px)';
+      gctx.fillStyle = 'rgba(244, 70, 38, 0.3)';
+      gctx.beginPath();
+      gctx.arc(c, c, 95, 0, Math.PI * 2);
+      gctx.fill();
+      gctx.filter = 'none';
+
+      bctx.clearRect(0, 0, size, size);
+      const gradient = bctx.createRadialGradient(size * 0.42, size * 0.32, 0, size * 0.42, size * 0.32, 150);
+      gradient.addColorStop(0, '#ff725a');
+      gradient.addColorStop(0.55, '#f44626');
+      gradient.addColorStop(1, '#c42c1a');
+      bctx.fillStyle = gradient;
+      bctx.fillRect(0, 0, size, size);
+      bctx.globalCompositeOperation = 'destination-in';
+      bctx.drawImage(ink, 0, 0);
+      bctx.globalCompositeOperation = 'source-over';
+
+      hctx.clearRect(0, 0, size, size);
+      hctx.filter = 'blur(12px)';
+      hctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+      hctx.beginPath();
+      hctx.ellipse(c - 18, c - 34, 30, 15, 0, 0, Math.PI * 2);
+      hctx.fill();
+      hctx.filter = 'none';
+
+      frame = visible ? requestAnimationFrame(paint) : 0;
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      visible = document.visibilityState === 'visible';
+      if (visible && !frame) frame = requestAnimationFrame(paint);
+      else if (!visible && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    if (visible) frame = requestAnimationFrame(paint);
+  }
+</script>
+
 <style>
-  .mark { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .blob {
+  .mark { display: flex; flex-direction: column; align-items: center; }
+  .stage {
     position: relative;
-    width: 180px;
-    height: 180px;
-    filter: blur(0px);
+    width: 232px;
+    height: 232px;
+    transform-origin: center center;
   }
-  .blob i {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle at 40% 30%, var(--peach), var(--ember) 55%, var(--rust));
-    animation: drift 9s ease-in-out infinite;
-  }
-  .blob i:nth-child(1) { width: 110px; height: 110px; left: 35px; top: 30px; }
-  .blob i:nth-child(2) { width: 72px; height: 72px; left: 18px; top: 70px; animation-delay: -3s; }
-  .blob i:nth-child(3) { width: 64px; height: 64px; right: 16px; top: 48px; animation-delay: -6s; }
-  .blob i:nth-child(4) { width: 48px; height: 48px; left: 70px; bottom: 16px; animation-delay: -1.5s; opacity: 0.9; }
-  .wordmark { font-size: 42px; color: #fff; }
-  @keyframes drift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(8px, -10px) scale(1.06); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .blob i { animation: none; }
+  .stage canvas { position: absolute; inset: 0; width: 232px; height: 232px; }
+  .name {
+    margin-top: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1.4px;
+    color: #fff;
+    line-height: 1;
   }
 </style>
