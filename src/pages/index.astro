@@ -36,28 +36,29 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
     <div class="hero-img" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="kicker">For sculpt teachers</p>
+        <p class="kicker">For all sculpt instructors</p>
         <h1 class="wordmark big">sculpt cues</h1>
-        <p class="tag">Plan sculpt classes.</p>
-        <p class="lede">Sculpt Cues is the sculpt class planner for sculpt teachers. Build each segment from the library, then keep the Flow organised and shareable.</p>
+        <p class="tag">the best planning tool for all your classes</p>
+        <p class="lede">Top-in-class suite of features - we help instructors from all over the world plan the perfect flow.</p>
         <div class="ctas">
-          <AppStoreButton size="lg" />
-          <a class="btn btn-ghost glass" href="#notify">Subscribe</a>
+          <a class="btn btn-primary lg" href="/#pricing">Download Mobile App</a>
+          <a class="btn btn-ghost glass" href="#features">See Features</a>
         </div>
-        <p class="fine">iPhone. Annual includes a 7-day free trial.</p>
       </div>
-      <div class="hero-phone reveal">
-        <Phone><CueCoach bpm={120} outer={168} inner={90} compact /></Phone>
+      <div class="hero-fan reveal" aria-label="Sculpt Cues on iPhone">
+        <Phone shot class="fan a"><img src="/img/hero-library.webp" alt="Library: 284 movements in body-area folders" width="414" height="900" /></Phone>
+        <Phone shot class="fan b"><img src="/img/hero-intensity.webp" alt="Intensity chart for the Arms and Core flow" width="414" height="900" /></Phone>
+        <Phone shot class="fan c"><img src="/img/hero-teach.webp" alt="Arms and Core class, movement names by segment" width="414" height="900" /></Phone>
       </div>
     </div>
   </section>
 
   <!-- STATS -->
   <div class="wrap stats reveal">
-    <div><b>6</b><span>body areas</span></div>
-    <div><b>7</b><span>parts scored</span></div>
-    <div><b>5</b><span>starter Flows</span></div>
-    <div><b>Beat</b><span>from the room</span></div>
+    <div><b>280+</b><span>Built-in Movements</span></div>
+    <div><b>8,000+</b><span>Instructors Subscribed</span></div>
+    <div><b>63,000+</b><span>Flows Created</span></div>
+    <div><b>1,200+</b><span>Studios</span></div>
   </div>
 
   <!-- FLOWS -->
@@ -66,11 +67,11 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
       <div class="reveal">
         <p class="kicker">Flows</p>
         <h2>Your class, segment by segment.</h2>
-        <p class="lede">A Flow is the class. Each segment is an ordered list of movements, with a note if you want one. Reorder within a segment, move segments, and duplicate a Flow.</p>
+        <p class="lede">Say goodbye to typing in your notes folder, writing down on scraps of paper, and not having an organised way to keep your classes.</p>
         <ul class="ticks">
-          <li>Up to three suggested next movements while you build</li>
-          <li>Notes can mark a right side and a matching left side</li>
-          <li>Teach shows every name, or one segment at a time</li>
+          <li>Organise your Flows in custom folders.</li>
+          <li>View your entire Flow easily</li>
+          <li>Rearrange and perfect your sequence</li>
         </ul>
       </div>
       <div class="reveal">
@@ -95,9 +96,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   <section class="tight">
     <div class="wrap split flip">
       <div class="reveal">
-        <p class="kicker">Intensity</p>
+        <p class="kicker">Smart analysis</p>
         <h2>See which part is carrying the class.</h2>
-        <p class="lede">Movements can be scored from 0 to 5 on core, glutes, legs, arms, shoulders, back and chest. At 8 points and 40% of the total, that part is flagged and counter movements are offered.</p>
+        <p class="lede">Every movement impacts muscle groups differently. Sculpt Cues helps you score your entire Flow to make sure nothing is being overworked.</p>
       </div>
       <div class="card glass chart reveal">
         <div class="caution">Caution · possible glutes overwork</div>
@@ -116,17 +117,17 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   <section id="cue-coach" class="cue-section">
     <div class="wrap">
       <div class="section-head center reveal">
-        <p class="kicker">Cue Coach</p>
+        <p class="kicker">Powered by Cue Coach<sup>™</sup></p>
         <h2>Finds the beat. Keeps you on it.</h2>
-        <p class="lede">On the iPhone, Cue Coach listens to music playing in the room and locks a tempo. Here the circle runs at a steady 120 BPM: half holds a word for two beats, single changes every beat, double halfway through.</p>
+        <p class="lede">Need help teaching to the music? Cue Coach listens to any music playing out loud and helps pick out the obvious beats, giving you live BPM and cue tips. Practice before class, or play it live while you teach.</p>
       </div>
       <div class="cue-stage reveal">
         <CueCoach bpm={120} />
       </div>
       <div class="three reveal">
-        <div class="card glass"><h3>In the room</h3><p class="muted">Music playing aloud. Nothing is imported from a playlist.</p></div>
-        <div class="card glass"><h3>On your phone</h3><p class="muted">The beat is found on the device. Audio is not recorded or uploaded.</p></div>
-        <div class="card glass"><h3>Half · Single · Double</h3><p class="muted">Up–Down, In–Out, or Left–Right. The eight dots still count every beat.</p></div>
+        <div class="card glass"><h3>Any streaming service</h3><p class="muted">Spotify, Apple Music, Youtube - anything goes as long as you're playing the song out loud.</p></div>
+        <div class="card glass"><h3>On Your Phone</h3><p class="muted">Nothing is recorded, saved or uploaded - we respect your privacy.</p></div>
+        <div class="card glass"><h3>Customisable</h3><p class="muted">Switch up the cues to fit what you need.</p></div>
       </div>
     </div>
   </section>
@@ -135,9 +136,11 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   <section class="tight">
     <div class="wrap">
       <div class="section-head reveal">
-        <p class="kicker">Library</p>
-        <h2>A library sorted by body.</h2>
-        <p class="lede">Six folders: glutes, abs, legs, arms, back and chest. Search by name or equipment. Add your own, or edit a catalogue movement and restore it later.</p>
+        <p class="kicker">Movement Library</p>
+        <h2>280+ Built-in Movements (And growing)</h2>
+        <p class="lede">Sculpt Movements are complex and always evolving - we help keep track of what's out there and sort them for easy browsing.</p>
+        <p class="lib-extra"><span class="pill">Customisable</span></p>
+        <p class="accent lib-note">Can't find something you just saw online? Add in your custom Movements</p>
       </div>
       <div class="folders">
         {folders.map((f) => (
@@ -195,7 +198,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
     <section class="tight">
       <div class="wrap">
         <div class="section-head row reveal">
-          <div><p class="kicker">Journal</p><h2>For the teacher's notebook.</h2></div>
+          <div><p class="kicker">Blogs</p><h2>Blogs by Sculpt Cues</h2></div>
           <a class="btn btn-ghost glass" href="/blog/">All posts</a>
         </div>
         <div class="three">
@@ -269,8 +272,13 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   .tag { font-size: clamp(20px, 2.4vw, 26px); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 18px; }
   .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
   .fine { margin-top: 14px; font-size: 13px; color: var(--faint); }
-  .hero-phone { display: flex; justify-content: center; }
-  .hero-phone :global(.screen) { display: flex; flex-direction: column; justify-content: center; }
+  .hero-fan { position: relative; width: min(100%, 520px); height: 560px; margin-inline: auto; }
+  .hero-fan :global(.slot) { position: absolute; width: 46%; }
+  .hero-fan :global(.fan.a) { left: 0; top: 48px; z-index: 1; transform: rotate(-8deg); }
+  .hero-fan :global(.fan.b) { right: 0; top: 64px; z-index: 1; transform: rotate(8deg); }
+  .hero-fan :global(.fan.c) { left: 27%; top: 0; width: 48%; z-index: 2; }
+  .lib-extra { margin-top: 18px; }
+  .lib-note { margin-top: 12px; font-weight: 500; }
 
   /* Stats */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -364,7 +372,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
     .hero-grid, .split, .split.flip { grid-template-columns: 1fr; }
     .hero { min-height: auto; }
     .hero-img { background-position: 70% 30%, 0 0, 70% 30%; }
-    .hero-phone { margin-top: 20px; }
+    .hero-fan { height: 460px; margin-top: 28px; }
     .split > div:last-child { justify-self: center; }
     .three, .prices { grid-template-columns: 1fr; }
     .folders { grid-template-columns: repeat(2, 1fr); }

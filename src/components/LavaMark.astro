@@ -1,0 +1,37 @@
+---
+// Soft ember blob in the same colours as the site wash, with the wordmark under it.
+---
+<div class="mark" aria-hidden="true">
+  <div class="blob">
+    <i></i><i></i><i></i><i></i>
+  </div>
+  <span class="wordmark">sculpt cues</span>
+</div>
+
+<style>
+  .mark { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .blob {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    filter: blur(0px);
+  }
+  .blob i {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 30%, var(--peach), var(--ember) 55%, var(--rust));
+    animation: drift 9s ease-in-out infinite;
+  }
+  .blob i:nth-child(1) { width: 110px; height: 110px; left: 35px; top: 30px; }
+  .blob i:nth-child(2) { width: 72px; height: 72px; left: 18px; top: 70px; animation-delay: -3s; }
+  .blob i:nth-child(3) { width: 64px; height: 64px; right: 16px; top: 48px; animation-delay: -6s; }
+  .blob i:nth-child(4) { width: 48px; height: 48px; left: 70px; bottom: 16px; animation-delay: -1.5s; opacity: 0.9; }
+  .wordmark { font-size: 42px; color: #fff; }
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(8px, -10px) scale(1.06); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob i { animation: none; }
+  }
+</style>

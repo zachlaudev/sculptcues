@@ -1,7 +1,7 @@
 ---
 const path = Astro.url.pathname;
 const links = [
-  { href: '/#notify', label: 'Subscribe' },
+  { href: '/subscribe/', label: 'Subscribe', on: path.startsWith('/subscribe') },
   { href: '/blog/', label: 'Blogs', on: path.startsWith('/blog') },
   { href: '/support/', label: 'Support', on: path.startsWith('/support') },
 ];
