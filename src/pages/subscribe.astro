@@ -1,0 +1,79 @@
+---
+import Base from '../layouts/Base.astro';
+import LavaMark from '../components/LavaMark.astro';
+
+const cards = [
+  'Movement Library Updates',
+  'Free Flows by Qualified Instructors',
+  'Discounts and Collaborations',
+  'New Features',
+];
+---
+<Base title="Subscribe" description="Join the Sculpt Cues mailing list for updates, teacher features and more.">
+  <section class="sub">
+    <div class="wrap">
+      <LavaMark />
+      <div class="copy">
+        <h1>Looking for future updates, teacher features and more?</h1>
+        <p class="lede">Join our mailing list to stay in the loop.</p>
+      </div>
+      <div class="cards">
+        {cards.map((title) => <div class="card glass">{title}</div>)}
+      </div>
+      <form id="list" novalidate>
+        <input type="email" name="email" placeholder="Email" required autocomplete="email" class="glass" aria-label="Email" />
+        <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.getElementById('list') as HTMLFormElement;
+  const msg = document.querySelector('.form-msg') as HTMLElement;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (form.email as HTMLInputElement).value.trim();
+    const company = (form.company as HTMLInputElement).value;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Please enter a valid email.'; return; }
+    const btn = form.querySelector('button') as HTMLButtonElement;
+    btn.disabled = true;
+    msg.textContent = '';
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email, company }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        form.reset();
+        msg.textContent = "You're on the list. Thank you!";
+      } else {
+        msg.textContent = data.error || 'Something went wrong. Please try again.';
+      }
+    } catch {
+      msg.textContent = 'Something went wrong. Please try again.';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .sub { padding: 48px 0 80px; text-align: center; }
+  .copy { margin: 28px auto 0; max-width: 640px; }
+  .copy h1 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 14px; }
+  .copy .lede { margin-inline: auto; }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 36px 0 28px; }
+  .card { border-radius: 18px; padding: 18px 14px; font-size: 15px; font-weight: 500; }
+  form { display: flex; gap: 10px; max-width: 480px; margin: 0 auto; position: relative; }
+  form input[type='email'] { flex: 1; border-radius: 999px; padding: 15px 20px; font-size: 15px; color: var(--cream); font-family: inherit; outline: none; }
+  form input::placeholder { color: var(--faint); }
+  .hp { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
+  .form-msg { margin-top: 14px; min-height: 1.5em; font-size: 14px; color: var(--peach); }
+  @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { form { flex-direction: column; } }
+</style>
