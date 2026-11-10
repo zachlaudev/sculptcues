@@ -5,7 +5,7 @@ export const SITE = {
   description:
     'Sculpt Cues is the sculpt class planner for sculpt teachers: a movement library, segment-by-segment Flows, and sharing between teachers.',
   email: 'sculptcues@gmail.com',
-  appStoreUrl: null as string | null, // e.g. 'https://apps.apple.com/app/id1234567890'
+  appStoreUrl: 'https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468',
   instagram: null as string | null,
 };
 
