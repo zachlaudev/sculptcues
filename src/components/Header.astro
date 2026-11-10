@@ -1,4 +1,5 @@
 ---
+import { SITE } from '../site';
 const path = Astro.url.pathname;
 const links = [
   { href: '/subscribe/', label: 'Subscribe', on: path.startsWith('/subscribe') },
@@ -17,7 +18,7 @@ const links = [
         <li><a href={l.href} class:list={{ on: l.on }}>{l.label}</a></li>
       ))}
     </ul>
-    <a class="get btn btn-primary" href="/#pricing">Get App</a>
+    <a class="get btn btn-primary" href={SITE.appStoreUrl}>Get App</a>
   </nav>
 </header>
 
