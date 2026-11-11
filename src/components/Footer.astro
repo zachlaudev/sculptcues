@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../site';
+import { FEATURES_ENABLED } from '../lib/featuresFlag.js';
 const year = new Date().getFullYear();
 ---
 <footer class="wrap">
@@ -10,7 +11,7 @@ const year = new Date().getFullYear();
     </div>
     <nav aria-label="Footer">
       <a href="/about/">About</a>
-      <a href="/features/">Featured</a>
+      {FEATURES_ENABLED && <a href="/features/">Featured</a>}
       <a href="/blog/">Journal</a>
       <a href="/support/">Support</a>
       <a href="/privacy/">Privacy</a>

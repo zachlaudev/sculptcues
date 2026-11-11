@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import ImpactChart from '../components/ImpactChart.astro';
 import FlowLinks from '../components/FlowLinks.astro';
 import QRCode from 'qrcode';
+import { FEATURES_ENABLED } from '../lib/featuresFlag.js';
 import { cardSubtitle, flowStoreUrl, flows } from '../data/featuredFlows';
 const published = flows.filter((flow) => !flow.demo);
 const storeQr = Object.fromEntries(await Promise.all(published.map(async (flow) => {
@@ -33,7 +34,7 @@ const jsonLd = {
   },
 };
 ---
-<Base title="Featured Flows" description={description}>
+<Base title="Featured Flows" description={description} noindex={!FEATURES_ENABLED}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
   <section class="wrap page">
     <header class="intro">
