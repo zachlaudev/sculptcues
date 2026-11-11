@@ -2,7 +2,7 @@
 title: "Matching sculpt movements to BPM"
 description: "A simple guide to choosing half time, single time or double time for each movement, based on the song's tempo."
 pubDate: 2026-11-07
-author: "Sculpt Cues"
+author: "The Sculpt Cues Team"
 tags: ["Cueing", "Music"]
 ---
 

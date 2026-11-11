@@ -23,15 +23,36 @@ const bars = [
   { part: 'Arms', v: 20 }, { part: 'Shoulders', v: 15 }, { part: 'Back', v: 25 }, { part: 'Chest', v: 10 },
 ];
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+const ld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': 'https://www.sculptcues.com/#organization', name: 'Sculpt Cues',
+      alternateName: 'The Sculpt Cues Team', url: 'https://www.sculptcues.com/',
+      logo: 'https://www.sculptcues.com/img/icon.webp', email: SITE.email,
+      sameAs: [SITE.appStoreUrl] },
+    { '@type': 'WebSite', '@id': 'https://www.sculptcues.com/#website', url: 'https://www.sculptcues.com/',
+      name: 'Sculpt Cues', inLanguage: 'en', publisher: { '@id': 'https://www.sculptcues.com/#organization' } },
+    { '@type': 'SoftwareApplication', '@id': 'https://www.sculptcues.com/#app', name: 'Sculpt Cues',
+      operatingSystem: 'iOS', applicationCategory: 'HealthAndFitnessApplication',
+      description: SITE.description, url: 'https://www.sculptcues.com/', installUrl: SITE.appStoreUrl,
+      publisher: { '@id': 'https://www.sculptcues.com/#organization' },
+      offers: [
+        { '@type': 'Offer', name: 'Monthly', price: '7.99', priceCurrency: 'USD' },
+        { '@type': 'Offer', name: 'Annual', price: '39.99', priceCurrency: 'USD' },
+        { '@type': 'Offer', name: 'Lifetime', price: '79.99', priceCurrency: 'USD' },
+      ] },
+  ],
+};
 ---
 <Base>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
   <!-- HERO -->
   <section class="hero">
     <div class="hero-img" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="kicker">For all sculpt instructors</p>
-        <h1 class="wordmark big">sculpt cues</h1>
+        <h1 class="wordmark big">sculpt cues<span class="sr-only"> – the sculpt class planner app for instructors</span></h1>
         <p class="tag">the best planning tool for all your classes</p>
         <p class="lede">Top-in-class suite of features - we help instructors from all over the world plan the perfect flow.</p>
         <div class="ctas">

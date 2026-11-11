@@ -1,8 +1,9 @@
 ---
 title: "Introducing Sculpt Cues"
-description: "Why we built an app for sculpt teachers: plan the class, check the load, and cue on the beat of any song."
+description: "Why we built an app for sculpt teachers: plan the class, check the load, and cue on the beat of any song. Now on the App Store."
 pubDate: 2026-11-08
-author: "Sculpt Cues"
+updatedDate: 2026-11-12
+author: "The Sculpt Cues Team"
 tags: ["News"]
 ---
 
@@ -22,6 +23,6 @@ Every movement is scored across seven body parts. Open the Intensity chart and y
 
 Play any song out loud and Cue Coach finds the BPM live, then pulses Up and Down cues on the beat. Half time for slow presses, double time for pulses. The audio never leaves your phone.
 
-## What's next
+## Get it now
 
-We're launching on iPhone soon. [Subscribe to updates](/#notify) to hear first, and to get new sample Flows as we add them.
+Sculpt Cues is available now on iPhone. [Download it on the App Store](https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468) and start with a 7-day free trial on the annual plan.

@@ -4,6 +4,7 @@ interface Props { title: string; kicker?: string; description?: string; updated?
 const { title, kicker, description, updated } = Astro.props;
 ---
 <Base title={title} description={description}>
+  <slot name="head" slot="head" />
   <div class="wrap page">
     {kicker && <p class="kicker">{kicker}</p>}
     <h1>{title}</h1>

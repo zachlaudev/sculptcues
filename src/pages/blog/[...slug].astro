@@ -12,16 +12,38 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
 const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: d.title,
-  description: d.description,
-  datePublished: d.pubDate.toISOString(),
-  dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
-  author: { '@type': 'Organization', name: d.author },
-  publisher: { '@type': 'Organization', name: 'Sculpt Cues', logo: { '@type': 'ImageObject', url: new URL('/img/icon.webp', Astro.site).href } },
-  ...(d.image ? { image: new URL(d.image, Astro.site).href } : {}),
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      headline: d.title,
+      description: d.description,
+      datePublished: d.pubDate.toISOString(),
+      dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
+      mainEntityOfPage: canonical,
+      url: canonical,
+      inLanguage: 'en',
+      author: { '@type': 'Organization', name: 'The Sculpt Cues Team', url: 'https://www.sculptcues.com/about/' },
+      publisher: {
+        '@type': 'Organization',
+        '@id': 'https://www.sculptcues.com/#organization',
+        name: 'Sculpt Cues',
+        logo: { '@type': 'ImageObject', url: new URL('/img/icon.webp', Astro.site).href },
+      },
+      image: new URL(d.image ?? '/img/og.jpg', Astro.site).href,
+      keywords: d.tags,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.sculptcues.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://www.sculptcues.com/blog/' },
+        { '@type': 'ListItem', position: 3, name: d.title, item: canonical },
+      ],
+    },
+  ],
 };
 ---
 <Base title={d.title} description={d.description} image={d.image} type="article">

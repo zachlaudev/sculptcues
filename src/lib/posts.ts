@@ -1,8 +1,7 @@
 import { getCollection } from 'astro:content';
 
-/** Published posts, newest first. Drafts and future-dated posts are hidden until their pubDate. */
+/** Published posts, newest first. Drafts are hidden; everything else is live as soon as it is merged. */
 export async function getPosts() {
-  const now = new Date();
-  return (await getCollection('blog', ({ data }) => !data.draft && data.pubDate <= now))
+  return (await getCollection('blog', ({ data }) => !data.draft))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
