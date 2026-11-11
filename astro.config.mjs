@@ -2,6 +2,8 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { FEATURES_ENABLED } from './src/lib/featuresFlag.js';
 
 // lastmod for blog posts from front matter (updatedDate ?? pubDate); other pages get build time.
 function postDates() {
@@ -18,14 +20,35 @@ function postDates() {
 const dates = postDates();
 export default defineConfig({
   site: 'https://www.sculptcues.com',
-  integrations: [sitemap({
-    filter: (page) => !page.includes('/404'),
-    serialize(item) {
-      const p = new URL(item.url).pathname;
-      const key = p.endsWith('/') ? p : `${p}/`;
-      item.lastmod = dates[key] ?? dates[p] ?? new Date().toISOString();
-      return item;
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/404') && (FEATURES_ENABLED || !page.includes('/features')),
+      serialize(item) {
+        const p = new URL(item.url).pathname;
+        const key = p.endsWith('/') ? p : `${p}/`;
+        item.lastmod = dates[key] ?? dates[p] ?? new Date().toISOString();
+        return item;
+      },
+    }),
+    {
+      name: 'features-visibility',
+      hooks: {
+        'astro:build:done': ({ dir }) => {
+          if (FEATURES_ENABLED) return;
+          const root = fileURLToPath(dir);
+          fs.rmSync(path.join(root, 'features'), { recursive: true, force: true });
+          const llmsPath = path.join(root, 'llms.txt');
+          if (fs.existsSync(llmsPath)) {
+            const lines = fs.readFileSync(llmsPath, 'utf8').split('\n').filter((line) => !line.includes('/features/'));
+            fs.writeFileSync(llmsPath, lines.join('\n'));
+          }
+          const redirectsPath = path.join(root, '_redirects');
+          const rules = ['/features / 302', '/features/ / 302', '/features/index.html / 302', ''].join('\n');
+          const existing = fs.existsSync(redirectsPath) ? fs.readFileSync(redirectsPath, 'utf8') : '';
+          if (!existing.includes('/features ')) fs.appendFileSync(redirectsPath, `${existing.endsWith('\n') || existing === '' ? '' : '\n'}${rules}`);
+        },
+      },
     },
-  })],
+  ],
   build: { format: 'directory' },
 });

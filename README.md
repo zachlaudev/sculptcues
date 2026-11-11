@@ -28,4 +28,4 @@ Add a Markdown file to `src/content/blog/` (format in `GROK.md`) and merge the p
 The Subscribe form writes to the Supabase `email_signups` table with `source = 'website'`.
 
 ## Featured Flows mockup
-`/features` lists curated Flows. `POST /api/feature-request` stores submissions in the KV binding `FEATURE_REQUESTS` (namespace separate from the mailing list `SUBSCRIBERS`). A `send_email` binding named `EMAIL` is optional; without it the function only stores the request.
+`/features` is hidden while `FEATURES_ENABLED` is `false` in `src/lib/featuresFlag.js`: the build omits the page, redirects `/features` to `/` with a 302, and leaves it out of the nav, footer, sitemap, and `llms.txt`. Set the flag to `true` to publish it again. `POST /api/feature-request` stays available and stores submissions in the KV binding `FEATURE_REQUESTS` (separate from the mailing list `SUBSCRIBERS`). A `send_email` binding named `EMAIL` is optional; without it the function only stores the request.
