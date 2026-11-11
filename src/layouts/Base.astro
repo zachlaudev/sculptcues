@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import MetaPixel from '../components/MetaPixel.astro';
 import { SITE } from '../site';
 
 interface Props {
@@ -10,8 +11,10 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
+  /** Logo and a short legal footer. Used by the ads landing page. */
+  landing?: boolean;
 }
-const { title, description = SITE.description, image = '/img/og.jpg', type = 'website', noindex = false } = Astro.props;
+const { title, description = SITE.description, image = '/img/og.jpg', type = 'website', noindex = false, landing = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -33,6 +36,7 @@ const ogImage = new URL(image, Astro.site);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/Outfit-Black.woff2" as="font" type="font/woff2" crossorigin />
+    <MetaPixel />
     <link rel="alternate" type="application/rss+xml" title="Sculpt Cues journal" href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content={type} />
@@ -46,9 +50,25 @@ const ogImage = new URL(image, Astro.site);
   </head>
   <body>
     <div class="wash" aria-hidden="true"></div>
-    <Header />
+    {landing ? (
+      <header class="land-bar">
+        <a href="/" class="brand" aria-label="Sculpt Cues">
+          <img src="/img/icon.webp" alt="" width="32" height="32" />
+          <span class="wordmark">sculpt cues</span>
+        </a>
+      </header>
+    ) : <Header />}
     <main><slot /></main>
-    <Footer />
+    {landing ? (
+      <footer class="land-foot wrap">
+        <nav aria-label="Footer">
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+          <a href="/support/">Support</a>
+        </nav>
+        <p>© {new Date().getFullYear()} Sculpt Cues. iPhone and App Store are trademarks of Apple Inc.</p>
+      </footer>
+    ) : <Footer />}
     <script>
       const io = new IntersectionObserver((entries) => {
         for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
@@ -57,3 +77,14 @@ const ogImage = new URL(image, Astro.site);
     </script>
   </body>
 </html>
+<style>
+  .land-bar { padding: 22px 0 0; display: flex; justify-content: center; }
+  .land-bar .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .land-bar img { border-radius: 8px; }
+  .land-bar .wordmark { font-size: 22px; color: #fff; }
+  .land-foot { border-top: 1px solid var(--line); margin-top: 24px; padding: 28px 0 36px; text-align: center; }
+  .land-foot nav { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .land-foot a { color: var(--muted); text-decoration: none; font-size: 14px; }
+  .land-foot a:hover { color: var(--cream); }
+  .land-foot p { margin-top: 16px; color: var(--faint); font-size: 12px; }
+</style>

@@ -60,7 +60,7 @@ const jsonLd = {
             )}
             <ImpactChart scores={flow.scores} caption={flow.author === 'Sculpt Cues Community' ? 'Community' : undefined} />
           </button>
-          <a class="card-store" href={flowStoreUrl(flow.id)} data-store>
+          <a class="card-store" href={flowStoreUrl(flow.id)} data-store data-app-store>
             <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="110" height="37" />
           </a>
           <FlowLinks links={flow.links} />
@@ -96,7 +96,7 @@ const jsonLd = {
           <section class="get">
             <h3>Get the Flow</h3>
             <div class="get-row">
-              <a class="badge" href={flowStoreUrl(flow.id)}>
+              <a class="badge" href={flowStoreUrl(flow.id)} data-app-store>
                 <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="160" height="54" />
               </a>
               <div class="get-qr">

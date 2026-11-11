@@ -24,6 +24,9 @@ npm run build    # static files in dist/
 ## Journal posts
 Add a Markdown file to `src/content/blog/` (format in `GROK.md`) and merge the pull request. The post is live as soon as it is merged, including when `pubDate` is in the future. `draft: true` keeps it hidden. Cloudflare Pages builds `main` after the merge. There is no scheduled auto-publishing.
 
+## Meta ads
+`/app` is the paid landing page. It stays out of the nav, the sitemap and `llms.txt`, and it is `noindex`. App Store links on that page use `ct` from the `utm_campaign` query (letters, numbers and hyphens, 40 characters), or `site-app` when the query is missing. The Meta Pixel (`1082513481499577`) loads from the shared layout. App Store buttons and badges send a Lead event named `app_store_click`.
+
 ## Email sign-ups
 The Subscribe form writes to the Supabase `email_signups` table with `source = 'website'`.
 
