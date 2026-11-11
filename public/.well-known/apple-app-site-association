@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["LV7BV65NLR.com.zachlaudev.sculptcues"],
+        "components": [
+          { "/": "/f", "comment": "Shared flow" },
+          { "/": "/f/*", "comment": "Shared flow" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["LV7BV65NLR.com.zachlaudev.sculptcues"]
+  }
+}

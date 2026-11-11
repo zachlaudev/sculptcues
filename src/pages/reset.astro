@@ -1,0 +1,74 @@
+---
+// Where the "Reset password" email lands. Supabase puts a one-time recovery
+// session in the #fragment; this page uses it to set the new password.
+// Set Supabase → Authentication → URL Configuration → Redirect URLs to
+// include https://www.sculptcues.com/reset/.
+import Page from '../layouts/Page.astro';
+---
+<Page title="Choose a new password" kicker="Sculpt Cues account">
+  <meta slot="head" name="robots" content="noindex" />
+  <form id="reset" class="form" novalidate hidden>
+    <input class="glass" type="password" name="password" placeholder="New password (8+ characters)" autocomplete="new-password" required minlength="8" aria-label="New password" />
+    <input class="glass" type="password" name="confirm" placeholder="Confirm new password" autocomplete="new-password" required aria-label="Confirm new password" />
+    <button class="btn btn-primary" type="submit">Save password</button>
+  </form>
+  <p id="msg" class="msg" role="status" aria-live="polite"></p>
+</Page>
+
+<script>
+  const SUPABASE_URL = 'https://npabobxcbcqnpncwergk.supabase.co';
+  const KEY = 'sb_publishable_dE9JKyxLO3ce0YQDWpsVXg_XHIGTRCb';
+
+  const form = document.getElementById('reset') as HTMLFormElement;
+  const msg = document.getElementById('msg') as HTMLElement;
+  const params = new URLSearchParams(location.hash.slice(1));
+  const token = params.get('access_token');
+  const problem = params.get('error_description');
+
+  // Keep the token out of the address bar and history.
+  if (location.hash) history.replaceState(null, '', location.pathname);
+
+  if (problem) {
+    msg.textContent = `${problem.replace(/\+/g, ' ')}. Request a new link from the app: Sign in → Forgot password.`;
+  } else if (!token) {
+    msg.textContent = 'This link has expired or was already used. Request a new one from the app: Sign in → Forgot password.';
+  } else {
+    form.hidden = false;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const password = (form.password as HTMLInputElement).value;
+    const confirm = (form.confirm as HTMLInputElement).value;
+    if (password.length < 8) { msg.textContent = 'Use at least 8 characters.'; return; }
+    if (password !== confirm) { msg.textContent = "The passwords don't match."; return; }
+    const button = form.querySelector('button') as HTMLButtonElement;
+    button.disabled = true;
+    msg.textContent = 'Saving…';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+        method: 'PUT',
+        headers: { apikey: KEY, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        form.hidden = true;
+        msg.textContent = 'Password saved. Open Sculpt Cues and sign in with your new password.';
+      } else {
+        const data = await res.json().catch(() => ({}));
+        msg.textContent = data.msg || data.message || 'This link has expired. Request a new one from the app.';
+        button.disabled = false;
+      }
+    } catch {
+      msg.textContent = "Couldn't reach Sculpt Cues. Check your connection and try again.";
+      button.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .form { display: grid; gap: 12px; max-width: 420px; margin-top: 8px; }
+  .form input { border-radius: 999px; padding: 15px 20px; font-size: 16px; color: var(--cream); background: transparent; border: none; }
+  .form input::placeholder { color: var(--muted); }
+  .msg { margin-top: 16px; color: var(--muted); max-width: 32em; }
+</style>
