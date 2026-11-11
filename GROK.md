@@ -22,7 +22,7 @@ Working sculpt and mat Pilates teachers, studio owners and instructors in traini
 - Short paragraphs, plain words, British spelling (customise, colour, programme).
 - Specific over generic: name movements, counts, BPM ranges, cue wording.
 - No hype, no emojis, no "In today's fast-paced world", no "Let's dive in".
-- We have no social media accounts: never ask readers to follow, tag or share with us.
+- Instagram is @sculptcues (https://www.instagram.com/sculptcues/). Don't invent other social accounts. Mention Instagram only when it belongs in the post; don't ask readers to follow, tag or share as a default ending.
 
 ## Keywords (maximise, never stuff)
 Each post has one primary keyword and 3–6 secondary keywords (from `seo_plan.md`).

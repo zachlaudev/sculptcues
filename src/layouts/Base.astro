@@ -65,6 +65,13 @@ const ogImage = new URL(image, Astro.site);
           <a href="/privacy/">Privacy</a>
           <a href="/terms/">Terms</a>
           <a href="/support/">Support</a>
+          <a class="ig" href={SITE.instagram} target="_blank" rel="noopener" aria-label="Sculpt Cues on Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.4" cy="6.6" r="0.9" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
         </nav>
         <p>© {new Date().getFullYear()} Sculpt Cues. iPhone and App Store are trademarks of Apple Inc.</p>
       </footer>
@@ -83,8 +90,9 @@ const ogImage = new URL(image, Astro.site);
   .land-bar img { border-radius: 8px; }
   .land-bar .wordmark { font-size: 22px; color: #fff; }
   .land-foot { border-top: 1px solid var(--line); margin-top: 24px; padding: 28px 0 36px; text-align: center; }
-  .land-foot nav { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .land-foot nav { display: flex; justify-content: center; align-items: center; gap: 22px; flex-wrap: wrap; }
   .land-foot a { color: var(--muted); text-decoration: none; font-size: 14px; }
   .land-foot a:hover { color: var(--cream); }
+  .land-foot .ig { display: inline-flex; align-items: center; }
   .land-foot p { margin-top: 16px; color: var(--faint); font-size: 12px; }
 </style>

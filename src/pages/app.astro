@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import CueCoach from '../components/CueCoach.astro';
+import { SITE } from '../site';
 
 const store = 'https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-app&mt=8';
 const description = 'Plan better sculpt classes.';
@@ -23,6 +24,7 @@ const rewrite = `(function () {
     <a class="store" data-app-store data-store-campaign href={store}>
       <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="260" height="87" />
     </a>
+    <a class="follow" href={SITE.instagram} target="_blank" rel="noopener">Follow @sculptcues</a>
   </section>
 
   <section class="wrap features" aria-label="What you can do in Sculpt Cues">
@@ -68,6 +70,7 @@ const rewrite = `(function () {
     <a class="store" data-app-store data-store-campaign href={store}>
       <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="260" height="87" />
     </a>
+    <a class="follow" href={SITE.instagram} target="_blank" rel="noopener">Follow @sculptcues</a>
   </section>
 
   <script is:inline set:html={rewrite}></script>
@@ -122,7 +125,15 @@ const rewrite = `(function () {
     letter-spacing: -0.03em;
     line-height: 1.25;
   }
-  .close { display: flex; justify-content: center; padding-top: 36px; padding-bottom: 20px; }
+  .follow {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--faint);
+    text-decoration: none;
+  }
+  .follow:hover { color: var(--cream); }
+  .close { display: flex; flex-direction: column; align-items: center; padding-top: 36px; padding-bottom: 20px; }
   @media (max-width: 900px) {
     .hero { min-height: auto; padding-top: 48px; }
     .features { grid-template-columns: 1fr; }
