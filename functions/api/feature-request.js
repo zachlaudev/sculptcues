@@ -18,15 +18,30 @@ function clean(value, max) {
 }
 
 function optionalUrl(value) {
-  const v = clean(value, 300);
+  let v = clean(value, 300);
   if (!v) return '';
+  if (!/^https?:\/\//i.test(v)) v = `https://${v}`;
   try {
     const url = new URL(v);
-    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+    if (url.protocol !== 'http:' && url.protocol !== 'https:' || !url.hostname.includes('.')) return null;
     return url.toString();
   } catch {
     return null;
   }
+}
+
+function photoPayload(value) {
+  const raw = String(value ?? '').trim();
+  if (!raw) return '';
+  const match = /^data:image\/(png|jpeg|jpg|webp|gif);base64,([A-Za-z0-9+/=\s]+)$/i.exec(raw);
+  if (!match) return null;
+  const b64 = match[2].replace(/\s/g, '');
+  let bytes;
+  try { bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)); }
+  catch { return null; }
+  if (!bytes.length || bytes.length > 2 * 1024 * 1024) return null;
+  const type = match[1].toLowerCase() === 'jpg' ? 'jpeg' : match[1].toLowerCase();
+  return { contentType: `image/${type}`, base64: b64 };
 }
 
 function optionalHandle(value) {
@@ -90,19 +105,32 @@ export async function onRequestPost({ request, env }) {
   const website = optionalUrl(body.website);
   const message = clean(body.message, 1000);
   const consent = body.consent === true || body.consent === 'on' || body.consent === 'true';
+  const photo = photoPayload(body.photo);
+  const photoConsent = body.photoConsent === true || body.photoConsent === 'on' || body.photoConsent === 'true';
 
   if (!name) return json({ ok: false, error: 'Please enter your name.' }, 400);
   if (!EMAIL.test(email)) return json({ ok: false, error: 'Please enter a valid email.' }, 400);
   if (instagram === null || tiktok === null) return json({ ok: false, error: 'Please check the handles.' }, 400);
   if (video === null || playlist === null || website === null) {
-    return json({ ok: false, error: 'Links need to start with https://.' }, 400);
+    return json({ ok: false, error: 'Please check that link.' }, 400);
   }
   if (!consent) return json({ ok: false, error: 'Please agree that we may contact you.' }, 400);
+  if (body.photo && photo === null) return json({ ok: false, error: 'Use a JPG, PNG, or WebP under 2 MB.' }, 400);
+  if (photo && !photoConsent) return json({ ok: false, error: 'Please confirm you own this photo.' }, 400);
 
   const createdAt = new Date().toISOString();
   const id = `req:${createdAt}:${crypto.randomUUID()}`;
-  const record = { name, email, instagram, tiktok, video, playlist, website, message, consent: true, createdAt, source: 'features' };
+  const photoKey = photo ? `photo:${id}` : '';
+  const record = {
+    name, email, instagram, tiktok, video, playlist, website, message,
+    consent: true,
+    photoKey,
+    photo_consent: { accepted: Boolean(photo) && photoConsent, at: photo && photoConsent ? createdAt : null },
+    createdAt,
+    source: 'features',
+  };
+  if (photo) await env.FEATURE_REQUESTS.put(photoKey, JSON.stringify(photo));
   await env.FEATURE_REQUESTS.put(id, JSON.stringify(record));
   const notified = await notify(env, record);
-  return json({ ok: true, notified });
+  return json({ ok: true, id, notified });
 }

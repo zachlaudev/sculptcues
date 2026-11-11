@@ -2,11 +2,19 @@ import type { Scores } from '../lib/impact';
 
 /**
  * Featured Flows mockup.
- * Entries with `demo: true` are placeholders (fake names, example.com links,
- * a generated initials avatar). Remove them before launch.
+ * A creator card uses the same shape: author, optional handle, optional avatar
+ * (omit avatar and the photo block is hidden), and optional links
+ * (tiktokVideo, tiktok, instagram, spotify, appleMusic, website).
+ * Entries with `demo: true` stay in this file as that shape, and are not rendered.
  * The five community Flows use the estimated chart numbers from the 11 Nov 2026 write-up.
  * Editorial marks († ‡ ★) are omitted; they were notes for entering movements in the app.
  */
+
+export function cardSubtitle(flow: { subtitle: string; segments: Segment[] }) {
+  const minutes = flow.subtitle.match(/^(\d+)/)?.[1] ?? '';
+  const movements = flow.segments.reduce((sum, segment) => sum + segment.movements.length, 0);
+  return `${minutes} min · ${flow.segments.length} segments · ${movements} movements`;
+}
 
 export type FlowLinks = {
   tiktokVideo?: string;

@@ -3,7 +3,7 @@ import type { FlowLinks } from '../data/featuredFlows';
 interface Props { links?: FlowLinks }
 const { links } = Astro.props;
 const items = [
-  ['tiktokVideo', 'TikTok video', 'tiktok'],
+  ['tiktokVideo', 'TikTok video', 'play'],
   ['tiktok', 'TikTok profile', 'tiktok'],
   ['instagram', 'Instagram profile', 'instagram'],
   ['spotify', 'Spotify playlist', 'spotify'],
@@ -25,7 +25,12 @@ const shown = items.flatMap(([key, label, icon]) => {
   <div class="links">
     {shown.map((item) => (
       <a href={item.href} target="_blank" rel="noopener" aria-label={item.label} title={item.label}>
-        {item.icon === 'globe' ? (
+        {item.icon === 'play' ? (
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="play">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M10.2 8.4v7.2l5.8-3.6-5.8-3.6z"/>
+          </svg>
+        ) : item.icon === 'globe' ? (
           <svg viewBox="0 0 24 24" aria-hidden="true" class="stroke">
             <circle cx="12" cy="12" r="10"/>
             <path d="M2 12h20"/>
@@ -48,5 +53,6 @@ const shown = items.flatMap(([key, label, icon]) => {
   }
   .links a:hover { color: #fff; border-color: rgba(255, 114, 90, 0.7); }
   svg { width: 16px; height: 16px; fill: currentColor; display: block; }
-  svg.stroke { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  svg.stroke, svg.play { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  svg.play path { fill: currentColor; stroke: none; }
 </style>

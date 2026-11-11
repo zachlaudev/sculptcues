@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import ImpactChart from '../components/ImpactChart.astro';
 import FlowLinks from '../components/FlowLinks.astro';
-import { flows } from '../data/featuredFlows';
+import { cardSubtitle, flows } from '../data/featuredFlows';
+const published = flows.filter((flow) => !flow.demo);
 ---
 <Base title="Featured Flows" description="Curated sculpt Flows from Sculpt Cues and the community." noindex>
   <section class="wrap page">
@@ -13,15 +14,14 @@ import { flows } from '../data/featuredFlows';
     </header>
 
     <div class="grid">
-      {flows.map((flow) => (
+      {published.map((flow) => (
         <article class="card glass flow">
           <button type="button" class="open" data-open={flow.id}>
             <div class="tags">
-              {flow.demo && <p class="tag demo">Demo</p>}
               <p class="tag">{flow.author}</p>
             </div>
             <h2>{flow.title}</h2>
-            <p class="sub">{flow.subtitle}</p>
+            <p class="sub">{cardSubtitle(flow)}</p>
             {flow.avatar && (
               <div class="who">
                 <img src={flow.avatar} alt="" width="72" height="72" />
@@ -43,11 +43,11 @@ import { flows } from '../data/featuredFlows';
 
   <dialog id="detail" class="sheet">
     <div class="card glass panel">
-      {flows.map((flow) => (
+      {published.map((flow) => (
         <article id={`detail-${flow.id}`} hidden>
-          <p class="kicker">{flow.demo ? 'Demo only' : flow.author}</p>
+          <p class="kicker">{flow.author}</p>
           <h2>{flow.title}</h2>
-          <p class="lede">{flow.subtitle} · {flow.equipment}</p>
+          <p class="lede">{cardSubtitle(flow)} · {flow.equipment}</p>
           {flow.handle && <p class="handle">{flow.handle}</p>}
           <ImpactChart scores={flow.scores} />
           <ol class="segments">
@@ -69,18 +69,79 @@ import { flows } from '../data/featuredFlows';
   <dialog id="feature" class="sheet">
     <div class="card glass panel form-panel">
       <form id="feature-form" novalidate>
-        <h2>Get Featured</h2>
-        <p class="lede note">Someone from our marketing team will reach out! Check your inbox</p>
-        <label>Instructor name<input name="name" required autocomplete="name" maxlength="80" /></label>
-        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="120" /></label>
-        <label>Instagram handle<input name="instagram" autocomplete="off" maxlength="40" placeholder="@handle" /></label>
-        <label>TikTok handle<input name="tiktok" autocomplete="off" maxlength="40" placeholder="@handle" /></label>
-        <label>Link to your Flow video<input name="video" type="url" inputmode="url" placeholder="https://" /></label>
-        <label>Music playlist link<input name="playlist" type="url" inputmode="url" placeholder="Spotify or Apple Music" /></label>
-        <label>Personal website<input name="website" type="url" inputmode="url" placeholder="https://" /></label>
-        <label>Message<textarea name="message" rows="4" maxlength="1000"></textarea></label>
-        <label class="check"><input name="consent" type="checkbox" required /> You agree we may contact you about featuring your Flow</label>
+        <header class="form-head">
+          <h2>Get Featured</h2>
+          <p class="intro-line">Share a class and we’ll feature it, free.</p>
+          <p class="note">Someone from our marketing team will reach out! Check your inbox</p>
+        </header>
+        <fieldset>
+          <legend>About you</legend>
+          <div class="pair">
+            <label>Name<input name="name" required autocomplete="name" maxlength="80" /><span class="err" data-for="name"></span></label>
+            <label>Email<input name="email" type="email" required autocomplete="email" maxlength="120" /><span class="err" data-for="email"></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Socials <span class="opt">Optional</span></legend>
+          <div class="pair">
+            <label class="with-icon">Instagram
+              <span class="field">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zm5 4.2A4.8 4.8 0 1 0 16.8 12 4.8 4.8 0 0 0 12 7.2zm6.2-.9a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1zM12 9.2A2.8 2.8 0 1 1 9.2 12 2.8 2.8 0 0 1 12 9.2z"/></svg>
+                <span class="at">@</span>
+                <input name="instagram" autocomplete="off" maxlength="40" placeholder="handle" />
+              </span>
+              <span class="err" data-for="instagram"></span>
+            </label>
+            <label class="with-icon">TikTok
+              <span class="field">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3c.4 2.2 1.6 3.6 3.6 4v2.4c-1.2-.1-2.3-.5-3.2-1.2v6.4a5.2 5.2 0 1 1-5.2-5.2c.2 0 .5 0 .7.1v2.5a2.7 2.7 0 1 0 1.9 2.6V3z"/></svg>
+                <span class="at">@</span>
+                <input name="tiktok" autocomplete="off" maxlength="40" placeholder="handle" />
+              </span>
+              <span class="err" data-for="tiktok"></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Your Flow</legend>
+          <label><span class="lab">Have a video you'd like to share? <span class="opt">Optional</span></span>
+            <input name="video" type="url" inputmode="url" placeholder="Share your latest TikTok or Instagram Reel" />
+            <span class="err" data-for="video"></span>
+          </label>
+          <div class="pair">
+            <label class="with-icon"><span class="lab">Class playlist <span class="opt">Optional</span></span>
+              <span class="field icons">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 .01 20.01A10 10 0 0 0 12 2zm4.6 14.4a.7.7 0 0 1-1 .2c-2.4-1.5-5.4-1.8-9-.9a.7.7 0 0 1-.4-1.3c4-.9 7.2-.6 9.8 1.1a.7.7 0 0 1 .6.9zm1.2-2.8a.8.8 0 0 1-1.1.3c-2.7-1.7-6.9-2.2-10.1-1.2a.8.8 0 1 1-.5-1.5c3.7-1.1 8.3-.6 11.4 1.4a.8.8 0 0 1 .3 1zm.1-2.9C15.2 7.2 9.4 7 6.2 8a.9.9 0 1 1-.5-1.7c3.6-1.1 9.8-.8 13.6 1.5a.9.9 0 0 1-1 1.6z"/></svg>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10.2a3 3 0 1 1-1.4-2.6V5.2l7-1.4V8l-5.6 1.1V3z"/></svg>
+                <input name="playlist" type="url" inputmode="url" placeholder="Spotify or Apple Music link" />
+              </span>
+              <span class="err" data-for="playlist"></span>
+            </label>
+            <label><span class="lab">Website <span class="opt">Optional</span></span>
+              <input name="website" inputmode="url" placeholder="yourstudio.com" maxlength="300" />
+              <span class="err" data-for="website"></span>
+            </label>
+          </div>
+          <label><span class="lab">Anything else? <span class="opt">Optional</span></span>
+            <textarea name="message" rows="2" maxlength="1000"></textarea>
+          </label>
+          <div class="photo-row">
+            <label class="photo"><span class="lab">Profile photo <span class="opt">Optional</span></span>
+              <span class="photo-pick">
+                <img id="photo-preview" alt="" hidden width="56" height="56" />
+                <input name="photo" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+              </span>
+              <span class="err" data-for="photo"></span>
+            </label>
+            <label class="check photo-consent">
+              <input name="photoConsent" type="checkbox" />
+              I own this photo and agree Sculpt Cues may show it on my Featured card.
+            </label>
+          </div>
+        </fieldset>
+        <label class="check"><input name="consent" type="checkbox" required /> We may contact you about featuring your Flow</label>
         <input name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="promise">We'll send you a preview of your card to approve before anything goes live.</p>
         <p class="form-msg" role="status" aria-live="polite"></p>
         <div class="actions">
           <button class="btn btn-primary" type="submit">Submit</button>
@@ -88,8 +149,11 @@ import { flows } from '../data/featuredFlows';
         </div>
       </form>
       <div id="feature-done" hidden>
-        <h2>Get Featured</h2>
-        <p class="lede note">Someone from our marketing team will reach out! Check your inbox</p>
+        <header class="form-head">
+          <h2>Get Featured</h2>
+          <p class="note">Someone from our marketing team will reach out! Check your inbox</p>
+          <p class="promise">We'll send you a preview of your card to approve before anything goes live.</p>
+        </header>
         <button class="btn btn-primary" type="button" data-close>Done</button>
       </div>
     </div>
@@ -102,6 +166,22 @@ import { flows } from '../data/featuredFlows';
   const form = document.getElementById('feature-form') as HTMLFormElement;
   const done = document.getElementById('feature-done') as HTMLElement;
   const msg = form.querySelector('.form-msg') as HTMLElement;
+  const photoInput = form.querySelector('input[name="photo"]') as HTMLInputElement;
+  const photoConsent = form.querySelector('input[name="photoConsent"]') as HTMLInputElement;
+  const photoPreview = document.getElementById('photo-preview') as HTMLImageElement;
+  const MAX_PHOTO = 2 * 1024 * 1024;
+
+  function clearErrors() {
+    form.querySelectorAll('.err').forEach((el) => { el.textContent = ''; });
+    form.querySelectorAll('input, textarea').forEach((el) => el.classList.remove('bad'));
+    msg.textContent = '';
+  }
+  function setError(name: string, text: string) {
+    const field = form.querySelector(`[data-for="${name}"]`);
+    if (field) field.textContent = text;
+    form.querySelector<HTMLElement>(`[name="${name}"]`)?.classList.add('bad');
+    msg.textContent = text;
+  }
 
   function showDetail(id: string) {
     detail.querySelectorAll('article').forEach((article) => {
@@ -131,9 +211,53 @@ import { flows } from '../data/featuredFlows';
     });
   }
 
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    clearErrors();
+    if (!file) {
+      photoPreview.hidden = true;
+      photoPreview.removeAttribute('src');
+      photoConsent.required = false;
+      return;
+    }
+    if (!file.type.startsWith('image/')) {
+      photoInput.value = '';
+      setError('photo', 'Use a JPG, PNG, or WebP.');
+      return;
+    }
+    if (file.size > MAX_PHOTO) {
+      photoInput.value = '';
+      setError('photo', 'That photo is over 2 MB.');
+      return;
+    }
+    photoPreview.src = URL.createObjectURL(file);
+    photoPreview.hidden = false;
+    photoConsent.required = true;
+  });
+
+  function readPhoto(file: File) {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error('Could not read that photo.'));
+      reader.readAsDataURL(file);
+    });
+  }
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    clearErrors();
     const data = new FormData(form);
+    const file = photoInput.files?.[0];
+    if (!String(data.get('name') || '').trim()) { setError('name', 'Please enter your name.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.get('email') || '').trim())) { setError('email', 'Please enter a valid email.'); return; }
+    if (file && !photoConsent.checked) { setError('photo', 'Please confirm you own this photo.'); return; }
+    if (data.get('consent') !== 'on') { msg.textContent = 'Please agree that we may contact you.'; return; }
+    let photo = '';
+    if (file) {
+      if (!file.type.startsWith('image/') || file.size > MAX_PHOTO) { setError('photo', 'Use an image under 2 MB.'); return; }
+      photo = await readPhoto(file);
+    }
     const body = {
       name: String(data.get('name') || ''),
       email: String(data.get('email') || ''),
@@ -143,15 +267,13 @@ import { flows } from '../data/featuredFlows';
       playlist: String(data.get('playlist') || ''),
       website: String(data.get('website') || ''),
       message: String(data.get('message') || ''),
-      consent: data.get('consent') === 'on',
+      consent: true,
+      photoConsent: file ? photoConsent.checked : false,
+      photo,
       company: String(data.get('company') || ''),
     };
-    if (!body.name.trim()) { msg.textContent = 'Please enter your name.'; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) { msg.textContent = 'Please enter a valid email.'; return; }
-    if (!body.consent) { msg.textContent = 'Please agree that we may contact you.'; return; }
     const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     button.disabled = true;
-    msg.textContent = '';
     try {
       const res = await fetch('/api/feature-request', {
         method: 'POST',
@@ -163,6 +285,8 @@ import { flows } from '../data/featuredFlows';
       form.hidden = true;
       done.hidden = false;
       form.reset();
+      photoPreview.hidden = true;
+      photoConsent.required = false;
     } catch (error) {
       msg.textContent = error instanceof Error ? error.message : 'Please try again.';
     } finally {
@@ -176,8 +300,8 @@ import { flows } from '../data/featuredFlows';
   .intro { max-width: 740px; margin-bottom: 36px; }
   h1 { margin: 10px 0 14px; }
   .lede { max-width: 40em; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-  .flow { position: relative; padding: 22px 20px 18px; border-radius: 22px; display: grid; gap: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; align-items: start; }
+  .flow { position: relative; padding: 16px 16px 14px; border-radius: 22px; display: grid; gap: 10px; align-content: start; }
   .open {
     display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit;
     font: inherit; text-align: inherit; cursor: pointer;
@@ -189,20 +313,20 @@ import { flows } from '../data/featuredFlows';
     background: rgba(255, 255, 255, 0.08); border-radius: 999px; padding: 6px 10px;
   }
   .tag.demo { color: #ffb4a2; background: rgba(244, 70, 38, 0.16); }
-  .flow h2, .panel h2 { font-size: clamp(26px, 3vw, 34px); text-align: center; margin: 12px 0 8px; }
+  .flow h2, .panel h2 { font-size: clamp(22px, 2.4vw, 30px); text-align: center; margin: 8px 0 4px; }
   .sub, .handle { text-align: center; color: var(--muted); }
-  .sub { margin-bottom: 16px; }
-  .who { display: grid; justify-items: center; gap: 8px; margin: 4px 0 16px; }
+  .sub { margin-bottom: 8px; font-size: 14px; }
+  .who { display: grid; justify-items: center; gap: 6px; margin: 2px 0 8px; }
   .who img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.2); }
   .cta { margin-top: 28px; border-radius: 22px; padding: clamp(28px, 5vw, 48px); text-align: center; }
   .cta h2 { margin: 0 auto 22px; max-width: 16em; }
   dialog.sheet {
     border: 0; padding: 0; background: transparent; color: inherit;
-    max-width: min(680px, calc(100% - 24px)); width: 100%; margin: auto;
+    max-width: min(620px, calc(100% - 24px)); width: 100%; margin: auto;
   }
   dialog.sheet::backdrop { background: rgba(8, 4, 4, 0.78); }
   .sheet .panel {
-    border-radius: 22px; padding: 28px 22px; max-height: min(84vh, 900px); overflow: auto;
+    border-radius: 22px; padding: 18px 20px 16px; max-height: min(92vh, 860px); overflow: auto;
     background: rgba(36, 14, 14, 0.97);
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   }
@@ -213,17 +337,41 @@ import { flows } from '../data/featuredFlows';
   .moves { margin-top: 4px; }
   .notes, .positions { color: var(--muted); font-size: 14px; margin-top: 4px; }
   .close { margin-top: 8px; }
-  .form-panel label { display: grid; gap: 6px; font-size: 14px; margin-top: 12px; }
+  .form-head { text-align: center; margin-bottom: 8px; }
+  .form-head h2 { margin-bottom: 4px; }
+  .intro-line { color: var(--cream); margin: 0; }
+  .note, .promise { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+  fieldset { border: 0; margin: 8px 0 0; padding: 0; }
+  legend { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--peach); margin-bottom: 4px; }
+  .opt { letter-spacing: 0; text-transform: none; color: var(--faint); font-size: 12px; margin-left: 6px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-panel label { display: grid; gap: 3px; font-size: 13px; margin-top: 6px; }
   .form-panel input, .form-panel textarea {
-    width: 100%; border-radius: 16px; padding: 14px 16px; color: var(--cream);
+    width: 100%; border-radius: 14px; padding: 9px 12px; color: var(--cream);
     font: inherit; font-size: 15px; background: rgba(255, 247, 240, 0.07);
     border: 1px solid rgba(255, 255, 255, 0.2); outline: none;
   }
-  .form-panel textarea { resize: vertical; }
-  .check { grid-template-columns: auto 1fr; align-items: start; gap: 10px; }
+  .form-panel input.bad, .form-panel textarea.bad { border-color: var(--peach); }
+  .form-panel textarea { resize: none; }
+  .field { display: flex; align-items: center; gap: 8px; border-radius: 14px; padding: 0 12px; background: rgba(255, 247, 240, 0.07); border: 1px solid rgba(255, 255, 255, 0.2); }
+  .field svg { width: 16px; height: 16px; fill: currentColor; flex: none; color: var(--muted); }
+  .at { color: var(--muted); }
+  .field input { border: 0; background: transparent; padding: 9px 0; }
+  .field.icons { padding-left: 10px; }
+  .err { min-height: 0; color: var(--peach); font-size: 12px; }
+  .err:empty { display: none; }
+  .photo-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin-top: 6px; }
+  .photo-pick { display: flex; align-items: center; gap: 10px; }
+  #photo-preview { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.24); }
+  .photo input[type="file"] { width: auto; max-width: 190px; font-size: 12px; padding: 0; border: 0; background: transparent; }
+  .check { grid-template-columns: auto 1fr; align-items: start; gap: 10px; margin-top: 12px; }
   .check input { width: auto; margin-top: 3px; }
+  .photo-consent { margin: 0; }
   .hp { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
-  .form-msg { min-height: 1.4em; margin-top: 12px; color: var(--peach); font-size: 14px; }
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  .note { margin-bottom: 8px; }
+  .form-msg { min-height: 1.2em; margin-top: 8px; color: var(--peach); font-size: 14px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .promise { margin: 10px 0 0; }
+  @media (max-width: 640px) {
+    .pair, .photo-row { grid-template-columns: 1fr; }
+  }
 </style>
