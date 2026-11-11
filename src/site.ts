@@ -1,10 +1,10 @@
-// One place for links and prices. Update appStoreUrl once the app is live.
+// One place for links and prices.
 export const SITE = {
   name: 'Sculpt Cues',
   tagline: 'Plan sculpt classes.',
   description:
     'Sculpt Cues is the sculpt class planner for sculpt teachers: a movement library, segment-by-segment Flows, and sharing between teachers.',
-  email: 'sculptcues@gmail.com',
+  email: 'hello@sculptcues.com',
   appStoreUrl: 'https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468',
   instagram: null as string | null,
 };

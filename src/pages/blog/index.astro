@@ -14,7 +14,7 @@ const [lead, ...rest] = posts;
   </section>
 
   <section class="wrap list">
-    {posts.length === 0 && <p class="muted">First posts coming soon.</p>}
+    {posts.length === 0 && <p class="muted">No posts yet.</p>}
     {lead && (
       <a class="lead card glass" href={`/blog/${lead.id}/`}>
         {lead.data.image && <img src={lead.data.image} alt={lead.data.imageAlt ?? ''} loading="lazy" />}
