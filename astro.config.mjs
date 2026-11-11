@@ -19,7 +19,7 @@ const dates = postDates();
 export default defineConfig({
   site: 'https://www.sculptcues.com',
   integrations: [sitemap({
-    filter: (page) => !page.includes('/404'),
+    filter: (page) => !page.includes('/404') && !page.includes('/features'),
     serialize(item) {
       const p = new URL(item.url).pathname;
       const key = p.endsWith('/') ? p : `${p}/`;

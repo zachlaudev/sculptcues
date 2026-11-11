@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Demo initials">
+  <!-- Demo only. Remove this file before launch. Not a photo of a person. -->
+  <circle cx="64" cy="64" r="64" fill="#5b1818"/>
+  <text x="64" y="78" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#f6f1ea">DI</text>
+</svg>

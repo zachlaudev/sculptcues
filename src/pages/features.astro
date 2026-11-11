@@ -1,0 +1,229 @@
+---
+import Base from '../layouts/Base.astro';
+import ImpactChart from '../components/ImpactChart.astro';
+import FlowLinks from '../components/FlowLinks.astro';
+import { flows } from '../data/featuredFlows';
+---
+<Base title="Featured Flows" description="Curated sculpt Flows from Sculpt Cues and the community." noindex>
+  <section class="wrap page">
+    <header class="intro">
+      <p class="kicker">Community</p>
+      <h1>Featured Flows</h1>
+      <p class="lede">Sculpt Cues works together with the community and fellow instructors to bring curated Flows to you</p>
+    </header>
+
+    <div class="grid">
+      {flows.map((flow) => (
+        <article class="card glass flow">
+          <button type="button" class="open" data-open={flow.id}>
+            <div class="tags">
+              {flow.demo && <p class="tag demo">Demo</p>}
+              <p class="tag">{flow.author}</p>
+            </div>
+            <h2>{flow.title}</h2>
+            <p class="sub">{flow.subtitle}</p>
+            {flow.avatar && (
+              <div class="who">
+                <img src={flow.avatar} alt="" width="72" height="72" />
+                {flow.handle && <p class="handle">{flow.handle}</p>}
+              </div>
+            )}
+            <ImpactChart scores={flow.scores} />
+          </button>
+          <FlowLinks links={flow.links} />
+        </article>
+      ))}
+    </div>
+
+    <div class="card glass cta">
+      <h2>Want to get Featured? It is 100% free! Submit your flow to us now</h2>
+      <button type="button" class="btn btn-primary" id="open-feature">Get Featured</button>
+    </div>
+  </section>
+
+  <dialog id="detail" class="sheet">
+    <div class="card glass panel">
+      {flows.map((flow) => (
+        <article id={`detail-${flow.id}`} hidden>
+          <p class="kicker">{flow.demo ? 'Demo only' : flow.author}</p>
+          <h2>{flow.title}</h2>
+          <p class="lede">{flow.subtitle} · {flow.equipment}</p>
+          {flow.handle && <p class="handle">{flow.handle}</p>}
+          <ImpactChart scores={flow.scores} />
+          <ol class="segments">
+            {flow.segments.map((segment, i) => (
+              <li>
+                <p class="num">Segment {i + 1}</p>
+                <p class="moves">{segment.movements.join(' · ')}</p>
+                <p class="notes">{segment.notes}</p>
+              </li>
+            ))}
+          </ol>
+          <p class="positions">{flow.positions}</p>
+        </article>
+      ))}
+      <button type="button" class="btn btn-ghost glass close" data-close>Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="feature" class="sheet">
+    <div class="card glass panel form-panel">
+      <form id="feature-form" novalidate>
+        <h2>Get Featured</h2>
+        <p class="lede note">Someone from our marketing team will reach out! Check your inbox</p>
+        <label>Instructor name<input name="name" required autocomplete="name" maxlength="80" /></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" maxlength="120" /></label>
+        <label>Instagram handle<input name="instagram" autocomplete="off" maxlength="40" placeholder="@handle" /></label>
+        <label>TikTok handle<input name="tiktok" autocomplete="off" maxlength="40" placeholder="@handle" /></label>
+        <label>Link to your Flow video<input name="video" type="url" inputmode="url" placeholder="https://" /></label>
+        <label>Music playlist link<input name="playlist" type="url" inputmode="url" placeholder="Spotify or Apple Music" /></label>
+        <label>Personal website<input name="website" type="url" inputmode="url" placeholder="https://" /></label>
+        <label>Message<textarea name="message" rows="4" maxlength="1000"></textarea></label>
+        <label class="check"><input name="consent" type="checkbox" required /> You agree we may contact you about featuring your Flow</label>
+        <input name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <p class="form-msg" role="status" aria-live="polite"></p>
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Submit</button>
+          <button class="btn btn-ghost glass" type="button" data-close>Cancel</button>
+        </div>
+      </form>
+      <div id="feature-done" hidden>
+        <h2>Get Featured</h2>
+        <p class="lede note">Someone from our marketing team will reach out! Check your inbox</p>
+        <button class="btn btn-primary" type="button" data-close>Done</button>
+      </div>
+    </div>
+  </dialog>
+</Base>
+
+<script>
+  const detail = document.getElementById('detail') as HTMLDialogElement;
+  const feature = document.getElementById('feature') as HTMLDialogElement;
+  const form = document.getElementById('feature-form') as HTMLFormElement;
+  const done = document.getElementById('feature-done') as HTMLElement;
+  const msg = form.querySelector('.form-msg') as HTMLElement;
+
+  function showDetail(id: string) {
+    detail.querySelectorAll('article').forEach((article) => {
+      article.hidden = article.id !== `detail-${id}`;
+    });
+    detail.showModal();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((button) => {
+    button.addEventListener('click', () => showDetail(button.dataset.open || ''));
+  });
+
+  document.getElementById('open-feature')?.addEventListener('click', () => {
+    form.hidden = false;
+    done.hidden = true;
+    msg.textContent = '';
+    feature.showModal();
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-close]').forEach((button) => {
+    button.addEventListener('click', () => button.closest('dialog')?.close());
+  });
+
+  for (const dialog of [detail, feature]) {
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const body = {
+      name: String(data.get('name') || ''),
+      email: String(data.get('email') || ''),
+      instagram: String(data.get('instagram') || ''),
+      tiktok: String(data.get('tiktok') || ''),
+      video: String(data.get('video') || ''),
+      playlist: String(data.get('playlist') || ''),
+      website: String(data.get('website') || ''),
+      message: String(data.get('message') || ''),
+      consent: data.get('consent') === 'on',
+      company: String(data.get('company') || ''),
+    };
+    if (!body.name.trim()) { msg.textContent = 'Please enter your name.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) { msg.textContent = 'Please enter a valid email.'; return; }
+    if (!body.consent) { msg.textContent = 'Please agree that we may contact you.'; return; }
+    const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    button.disabled = true;
+    msg.textContent = '';
+    try {
+      const res = await fetch('/api/feature-request', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok || payload.ok === false) throw new Error(payload.error || 'Please try again.');
+      form.hidden = true;
+      done.hidden = false;
+      form.reset();
+    } catch (error) {
+      msg.textContent = error instanceof Error ? error.message : 'Please try again.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .page { padding: 48px 0 80px; }
+  .intro { max-width: 740px; margin-bottom: 36px; }
+  h1 { margin: 10px 0 14px; }
+  .lede { max-width: 40em; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .flow { position: relative; padding: 22px 20px 18px; border-radius: 22px; display: grid; gap: 16px; }
+  .open {
+    display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit;
+    font: inherit; text-align: inherit; cursor: pointer;
+  }
+  .tags { display: flex; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    width: fit-content; max-width: 100%;
+    font-size: 11px; letter-spacing: 0.04em; color: var(--cream);
+    background: rgba(255, 255, 255, 0.08); border-radius: 999px; padding: 6px 10px;
+  }
+  .tag.demo { color: #ffb4a2; background: rgba(244, 70, 38, 0.16); }
+  .flow h2, .panel h2 { font-size: clamp(26px, 3vw, 34px); text-align: center; margin: 12px 0 8px; }
+  .sub, .handle { text-align: center; color: var(--muted); }
+  .sub { margin-bottom: 16px; }
+  .who { display: grid; justify-items: center; gap: 8px; margin: 4px 0 16px; }
+  .who img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.2); }
+  .cta { margin-top: 28px; border-radius: 22px; padding: clamp(28px, 5vw, 48px); text-align: center; }
+  .cta h2 { margin: 0 auto 22px; max-width: 16em; }
+  dialog.sheet {
+    border: 0; padding: 0; background: transparent; color: inherit;
+    max-width: min(680px, calc(100% - 24px)); width: 100%; margin: auto;
+  }
+  dialog.sheet::backdrop { background: rgba(8, 4, 4, 0.78); }
+  .sheet .panel {
+    border-radius: 22px; padding: 28px 22px; max-height: min(84vh, 900px); overflow: auto;
+    background: rgba(36, 14, 14, 0.97);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  }
+  .panel .lede { margin: 0 auto 18px; text-align: center; }
+  .segments { list-style: none; display: grid; gap: 14px; margin: 22px 0; }
+  .segments li { border-top: 1px solid var(--line); padding-top: 12px; }
+  .num { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--peach); }
+  .moves { margin-top: 4px; }
+  .notes, .positions { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .close { margin-top: 8px; }
+  .form-panel label { display: grid; gap: 6px; font-size: 14px; margin-top: 12px; }
+  .form-panel input, .form-panel textarea {
+    width: 100%; border-radius: 16px; padding: 14px 16px; color: var(--cream);
+    font: inherit; font-size: 15px; background: rgba(255, 247, 240, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2); outline: none;
+  }
+  .form-panel textarea { resize: vertical; }
+  .check { grid-template-columns: auto 1fr; align-items: start; gap: 10px; }
+  .check input { width: auto; margin-top: 3px; }
+  .hp { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
+  .form-msg { min-height: 1.4em; margin-top: 12px; color: var(--peach); font-size: 14px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .note { margin-bottom: 8px; }
+</style>

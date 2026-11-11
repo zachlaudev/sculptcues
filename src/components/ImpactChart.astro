@@ -1,0 +1,27 @@
+---
+import { impact, type Scores } from '../lib/impact';
+interface Props { scores: Scores }
+const { scores } = Astro.props;
+const { bars, caution } = impact(scores);
+---
+<div class="chart">
+  {caution && <p class="caution">{caution}</p>}
+  {bars.map((bar) => (
+    <div class:list={['bar-row', { hot: bar.overwork }]}>
+      <span>{bar.label}</span>
+      <div class="track" role="img" aria-label={`${bar.label} ${bar.value}`}><i style={`width:${bar.width}%`}></i></div>
+    </div>
+  ))}
+</div>
+<style>
+  .caution {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a2;
+    background: rgba(244, 70, 38, 0.14); border: 1px solid rgba(244, 70, 38, 0.35);
+    padding: 8px 12px; border-radius: 12px; margin-bottom: 12px;
+  }
+  .bar-row { display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 10px; margin: 7px 0; font-size: 13px; color: var(--muted); }
+  .track { height: 8px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+  .track i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--rust), var(--ember), var(--peach)); }
+  .hot span { color: #ffb4a2; }
+  .hot .track i { background: linear-gradient(90deg, var(--ember), #ffb4a2); }
+</style>
