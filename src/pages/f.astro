@@ -1,0 +1,77 @@
+---
+// A shared Flow. With Sculpt Cues installed, iOS opens these links straight
+// in the app (universal link, see public/.well-known). Without it, this page
+// shows what was shared and sends the teacher to the App Store.
+// The Flow travels in the #fragment, so it never reaches the server.
+import Page from '../layouts/Page.astro';
+import AppStoreButton from '../components/AppStoreButton.astro';
+---
+<Page title="A Flow for you" kicker="Shared Flow" description="A sculpt class shared with Sculpt Cues.">
+  <meta slot="head" name="robots" content="noindex" />
+  <div id="flow" class="glass card" hidden>
+    <p class="by muted"></p>
+    <h2 class="name"></h2>
+    <p class="meta muted"></p>
+    <ol class="segments"></ol>
+  </div>
+  <p id="intro" class="lede">Someone shared a sculpt class with you. Get Sculpt Cues, then tap the link again to open it in the app.</p>
+  <div class="actions">
+    <AppStoreButton size="lg" />
+    <a id="open" class="btn btn-ghost glass" href="#" hidden>I have the app: open it</a>
+  </div>
+  <p class="muted small">Opened this inside Instagram or another app? Use “Open in browser” first, or tap “I have the app”.</p>
+</Page>
+
+<script>
+  type Envelope = {
+    flow: { name?: string; blocks?: { movementIDs?: string[] }[] };
+    movements?: { id: string; name: string }[];
+    sharedBy?: string;
+  };
+
+  const raw = new URLSearchParams(location.hash.slice(1)).get('d') ?? new URLSearchParams(location.search).get('d');
+  if (raw) {
+    const open = document.getElementById('open') as HTMLAnchorElement;
+    open.href = `sculptcues://flow?d=${raw}`;
+    open.hidden = false;
+    try {
+      let b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+      while (b64.length % 4) b64 += '=';
+      const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+      const env = JSON.parse(new TextDecoder().decode(bytes)) as Envelope;
+      const blocks = env.flow.blocks ?? [];
+      const count = blocks.reduce((n, b) => n + (b.movementIDs?.length ?? 0), 0);
+      const names = new Map((env.movements ?? []).map((m) => [m.id, m.name]));
+      const box = document.getElementById('flow')!;
+      box.querySelector('.by')!.textContent = env.sharedBy ? `Shared by ${env.sharedBy}` : 'Shared Flow';
+      box.querySelector('.name')!.textContent = env.flow.name || 'Untitled class';
+      box.querySelector('.meta')!.textContent =
+        `${blocks.length} segment${blocks.length === 1 ? '' : 's'} · ${count} movement${count === 1 ? '' : 's'}`;
+      const list = box.querySelector('.segments')!;
+      blocks.slice(0, 12).forEach((b, i) => {
+        const li = document.createElement('li');
+        const ids = b.movementIDs ?? [];
+        const shown = ids
+          .map((id) => names.get(id) ?? (id.startsWith('placeholder:') ? id.slice(12) : null))
+          .filter(Boolean) as string[];
+        li.textContent = shown.length
+          ? `Segment ${i + 1}: ${shown.join(', ')}${shown.length < ids.length ? ' …' : ''}`
+          : `Segment ${i + 1}: ${ids.length} movement${ids.length === 1 ? '' : 's'}`;
+        list.appendChild(li);
+      });
+      box.hidden = false;
+    } catch {
+      // Damaged link: still offer the App Store.
+    }
+  }
+</script>
+
+<style>
+  .card { border-radius: 22px; padding: 22px 24px; margin-bottom: 24px; }
+  .card h2 { margin: 6px 0 4px; font-size: 30px; }
+  .by, .meta { font-size: 14px; margin: 0; }
+  .segments { margin: 16px 0 0; padding-left: 0; list-style: none; display: grid; gap: 8px; font-size: 15px; }
+  .segments li { border-top: 1px solid rgba(246, 241, 234, 0.12); padding-top: 8px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 16px; }
+  .small { font-size: 13px; }
+</style>
