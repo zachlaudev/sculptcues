@@ -22,7 +22,7 @@ export default defineConfig({
   site: 'https://www.sculptcues.com',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404') && !/\/(f|reset)\/?$/.test(new URL(page).pathname) && (FEATURES_ENABLED || !page.includes('/features')),
+      filter: (page) => !page.includes('/404') && !/\/(f|reset|app)\/?$/.test(new URL(page).pathname) && (FEATURES_ENABLED || !page.includes('/features')),
       serialize(item) {
         const p = new URL(item.url).pathname;
         const key = p.endsWith('/') ? p : `${p}/`;
