@@ -3,6 +3,7 @@ import { SITE } from '../site';
 const path = Astro.url.pathname;
 const links = [
   { href: '/subscribe/', label: 'Subscribe', on: path.startsWith('/subscribe') },
+  { href: '/features/', label: 'Featured', on: path.startsWith('/features') },
   { href: '/blog/', label: 'Blogs', on: path.startsWith('/blog') },
   { href: '/support/', label: 'Support', on: path.startsWith('/support') },
 ];

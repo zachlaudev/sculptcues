@@ -9,8 +9,9 @@ interface Props {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  noindex?: boolean;
 }
-const { title, description = SITE.description, image = '/img/og.jpg', type = 'website' } = Astro.props;
+const { title, description = SITE.description, image = '/img/og.jpg', type = 'website', noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -22,6 +23,7 @@ const ogImage = new URL(image, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#140a0a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
