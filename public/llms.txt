@@ -10,6 +10,7 @@ Key facts:
 - Cue Coach: detects the BPM of any song playing aloud and pulses Up/Down cues at half, single or double time. Audio is not recorded.
 - Pricing (USD): $7.99/month, $39.99/year with a 7-day free trial, $79.99 lifetime.
 - Contact: hello@sculptcues.com
+- Instagram: https://www.instagram.com/sculptcues/
 
 ## Guides
 - [Featured Flows](https://www.sculptcues.com/features/): curated sculpt class plans with segment lists and intensity charts.
