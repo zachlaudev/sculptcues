@@ -2,8 +2,18 @@
 import Base from '../layouts/Base.astro';
 import ImpactChart from '../components/ImpactChart.astro';
 import FlowLinks from '../components/FlowLinks.astro';
-import { cardSubtitle, flows } from '../data/featuredFlows';
+import QRCode from 'qrcode';
+import { cardSubtitle, flowStoreUrl, flows } from '../data/featuredFlows';
 const published = flows.filter((flow) => !flow.demo);
+const storeQr = Object.fromEntries(await Promise.all(published.map(async (flow) => {
+  const svg = await QRCode.toString(flowStoreUrl(flow.id), {
+    type: 'svg',
+    margin: 1,
+    width: 128,
+    color: { dark: '#140a0a', light: '#ffffff' },
+  });
+  return [flow.id, svg];
+})));
 const description = 'Featured sculpt class Flows from the Sculpt Cues community, with segment lists and intensity charts.';
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -49,6 +59,9 @@ const jsonLd = {
             )}
             <ImpactChart scores={flow.scores} caption={flow.author === 'Sculpt Cues Community' ? 'Community' : undefined} />
           </button>
+          <a class="card-store" href={flowStoreUrl(flow.id)} data-store>
+            <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="110" height="37" />
+          </a>
           <FlowLinks links={flow.links} />
         </article>
       ))}
@@ -79,6 +92,18 @@ const jsonLd = {
             ))}
           </ol>
           <p class="positions">{flow.positions}</p>
+          <section class="get">
+            <h3>Get the Flow</h3>
+            <div class="get-row">
+              <a class="badge" href={flowStoreUrl(flow.id)}>
+                <img src="/img/app-store-badge-white.svg" alt="Download on the App Store" width="160" height="54" />
+              </a>
+              <div class="get-qr">
+                <div class="qr" set:html={storeQr[flow.id]} />
+                <p>Scan with your iPhone camera to get Sculpt Cues</p>
+              </div>
+            </div>
+          </section>
         </article>
       ))}
       <button type="button" class="btn btn-ghost glass close" data-close>Close</button>
@@ -217,6 +242,9 @@ const jsonLd = {
   document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((button) => {
     button.addEventListener('click', () => showDetail(button.dataset.open || ''));
   });
+  document.querySelectorAll<HTMLAnchorElement>('[data-store]').forEach((link) => {
+    link.addEventListener('click', (event) => event.stopPropagation());
+  });
 
   document.getElementById('open-feature')?.addEventListener('click', () => {
     form.hidden = false;
@@ -346,6 +374,18 @@ const jsonLd = {
   .sub { margin-bottom: 8px; font-size: 14px; }
   .who { display: grid; justify-items: center; gap: 6px; margin: 2px 0 8px; }
   .who img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.2); }
+  .card-store { display: flex; justify-content: center; }
+  .card-store img { width: 110px; height: auto; }
+  .get { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .get h3 { text-align: left; margin: 0 0 12px; font-size: 18px; }
+  .get-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .badge img { width: 160px; height: auto; display: block; }
+  .get-qr { display: none; justify-items: center; gap: 8px; text-align: center; }
+  .get-qr p { color: var(--muted); font-size: 13px; max-width: 16em; margin: 0; }
+  .qr :global(svg) { width: 128px; height: 128px; border-radius: 12px; display: block; background: #fff; }
+  @media (min-width: 760px) {
+    .get-qr { display: grid; }
+  }
   .cta { margin-top: 28px; border-radius: 22px; padding: clamp(28px, 5vw, 48px); text-align: center; }
   .cta h2 { margin: 0 auto 22px; max-width: 16em; }
   dialog.sheet {
