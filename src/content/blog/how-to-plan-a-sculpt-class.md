@@ -1,7 +1,7 @@
 ---
 title: "How to plan a sculpt class: a 45-minute template, segment by segment"
 description: "How to plan a sculpt class that flows: a 45-minute sculpt class template with timings, BPM ranges, movement ideas and a free printable class plan."
-pubDate: 2026-11-16
+pubDate: 2026-11-11
 author: "The Sculpt Cues Team"
 tags: ["Class planning", "Music"]
 draft: false
