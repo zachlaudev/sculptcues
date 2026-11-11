@@ -1,4 +1,12 @@
 import type { Scores } from '../lib/impact';
+import { SITE } from '../site';
+
+/** App Store link for a Flow card. ct is the campaign token; no provider token. */
+export function flowStoreUrl(id: string) {
+  const url = new URL(SITE.appStoreUrl);
+  url.searchParams.set('ct', `features-${id}`);
+  return url.toString();
+}
 
 /**
  * Featured Flows mockup.
@@ -42,6 +50,8 @@ export type FeaturedFlow = {
   positions: string;
   segments: Segment[];
   scores: Scores;
+  /** Future per-Flow import link. Not rendered until import is tested. */
+  importUrl?: string;
 };
 
 const community = 'Sculpt Cues Community';
