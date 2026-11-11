@@ -4,8 +4,27 @@ import ImpactChart from '../components/ImpactChart.astro';
 import FlowLinks from '../components/FlowLinks.astro';
 import { cardSubtitle, flows } from '../data/featuredFlows';
 const published = flows.filter((flow) => !flow.demo);
+const description = 'Featured sculpt class Flows from the Sculpt Cues community, with segment lists and intensity charts.';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Featured Flows',
+  description,
+  url: 'https://www.sculptcues.com/features/',
+  isPartOf: { '@id': 'https://www.sculptcues.com/#website' },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: published.map((flow, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: flow.title,
+      description: cardSubtitle(flow),
+    })),
+  },
+};
 ---
-<Base title="Featured Flows" description="Curated sculpt Flows from Sculpt Cues and the community." noindex>
+<Base title="Featured Flows" description={description}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
   <section class="wrap page">
     <header class="intro">
       <p class="kicker">Community</p>
@@ -28,7 +47,7 @@ const published = flows.filter((flow) => !flow.demo);
                 {flow.handle && <p class="handle">{flow.handle}</p>}
               </div>
             )}
-            <ImpactChart scores={flow.scores} />
+            <ImpactChart scores={flow.scores} caption={flow.author === 'Sculpt Cues Community' ? 'Community' : undefined} />
           </button>
           <FlowLinks links={flow.links} />
         </article>
@@ -49,7 +68,7 @@ const published = flows.filter((flow) => !flow.demo);
           <h2>{flow.title}</h2>
           <p class="lede">{cardSubtitle(flow)} · {flow.equipment}</p>
           {flow.handle && <p class="handle">{flow.handle}</p>}
-          <ImpactChart scores={flow.scores} />
+          <ImpactChart scores={flow.scores} caption={flow.author === 'Sculpt Cues Community' ? 'Community' : undefined} />
           <ol class="segments">
             {flow.segments.map((segment, i) => (
               <li>
@@ -126,27 +145,30 @@ const published = flows.filter((flow) => !flow.demo);
             <textarea name="message" rows="2" maxlength="1000"></textarea>
           </label>
           <div class="photo-row">
-            <label class="photo"><span class="lab">Profile photo <span class="opt">Optional</span></span>
-              <span class="photo-pick">
-                <img id="photo-preview" alt="" hidden width="56" height="56" />
-                <input name="photo" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
-              </span>
+            <div class="photo">
+              <span class="lab">Profile photo <span class="opt">Optional</span></span>
+              <div class="drop" id="photo-drop">
+                <input name="photo" class="file" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                <img id="photo-preview" alt="" hidden width="72" height="72" />
+                <span class="add">Add photo</span>
+              </div>
+              <button type="button" class="remove" id="photo-remove" hidden>Remove</button>
               <span class="err" data-for="photo"></span>
-            </label>
+            </div>
             <label class="check photo-consent">
               <input name="photoConsent" type="checkbox" />
-              I own this photo and agree Sculpt Cues may show it on my Featured card.
+              <span class="box" aria-hidden="true"></span>
+              <span>I own this photo and agree Sculpt Cues may show it on my Featured card.</span>
             </label>
           </div>
         </fieldset>
-        <label class="check"><input name="consent" type="checkbox" required /> We may contact you about featuring your Flow</label>
         <input name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <p class="promise">We'll send you a preview of your card to approve before anything goes live.</p>
         <p class="form-msg" role="status" aria-live="polite"></p>
         <div class="actions">
           <button class="btn btn-primary" type="submit">Submit</button>
           <button class="btn btn-ghost glass" type="button" data-close>Cancel</button>
         </div>
+        <p class="fine-print">By submitting, you agree we may contact you about featuring your Flow. We'll send you a preview of your card to approve before anything goes live.</p>
       </form>
       <div id="feature-done" hidden>
         <header class="form-head">
@@ -169,6 +191,8 @@ const published = flows.filter((flow) => !flow.demo);
   const photoInput = form.querySelector('input[name="photo"]') as HTMLInputElement;
   const photoConsent = form.querySelector('input[name="photoConsent"]') as HTMLInputElement;
   const photoPreview = document.getElementById('photo-preview') as HTMLImageElement;
+  const photoDrop = document.getElementById('photo-drop') as HTMLElement;
+  const photoRemove = document.getElementById('photo-remove') as HTMLButtonElement;
   const MAX_PHOTO = 2 * 1024 * 1024;
 
   function clearErrors() {
@@ -211,29 +235,36 @@ const published = flows.filter((flow) => !flow.demo);
     });
   }
 
+  function clearPhoto() {
+    photoInput.value = '';
+    photoPreview.hidden = true;
+    photoPreview.removeAttribute('src');
+    photoDrop.classList.remove('has-photo');
+    photoRemove.hidden = true;
+    photoConsent.checked = false;
+    photoConsent.required = false;
+  }
   photoInput.addEventListener('change', () => {
     const file = photoInput.files?.[0];
     clearErrors();
-    if (!file) {
-      photoPreview.hidden = true;
-      photoPreview.removeAttribute('src');
-      photoConsent.required = false;
-      return;
-    }
+    if (!file) { clearPhoto(); return; }
     if (!file.type.startsWith('image/')) {
-      photoInput.value = '';
+      clearPhoto();
       setError('photo', 'Use a JPG, PNG, or WebP.');
       return;
     }
     if (file.size > MAX_PHOTO) {
-      photoInput.value = '';
+      clearPhoto();
       setError('photo', 'That photo is over 2 MB.');
       return;
     }
     photoPreview.src = URL.createObjectURL(file);
     photoPreview.hidden = false;
+    photoDrop.classList.add('has-photo');
+    photoRemove.hidden = false;
     photoConsent.required = true;
   });
+  photoRemove.addEventListener('click', () => { clearErrors(); clearPhoto(); });
 
   function readPhoto(file: File) {
     return new Promise<string>((resolve, reject) => {
@@ -252,7 +283,6 @@ const published = flows.filter((flow) => !flow.demo);
     if (!String(data.get('name') || '').trim()) { setError('name', 'Please enter your name.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.get('email') || '').trim())) { setError('email', 'Please enter a valid email.'); return; }
     if (file && !photoConsent.checked) { setError('photo', 'Please confirm you own this photo.'); return; }
-    if (data.get('consent') !== 'on') { msg.textContent = 'Please agree that we may contact you.'; return; }
     let photo = '';
     if (file) {
       if (!file.type.startsWith('image/') || file.size > MAX_PHOTO) { setError('photo', 'Use an image under 2 MB.'); return; }
@@ -267,7 +297,6 @@ const published = flows.filter((flow) => !flow.demo);
       playlist: String(data.get('playlist') || ''),
       website: String(data.get('website') || ''),
       message: String(data.get('message') || ''),
-      consent: true,
       photoConsent: file ? photoConsent.checked : false,
       photo,
       company: String(data.get('company') || ''),
@@ -285,8 +314,7 @@ const published = flows.filter((flow) => !flow.demo);
       form.hidden = true;
       done.hidden = false;
       form.reset();
-      photoPreview.hidden = true;
-      photoConsent.required = false;
+      clearPhoto();
     } catch (error) {
       msg.textContent = error instanceof Error ? error.message : 'Please try again.';
     } finally {
@@ -360,13 +388,38 @@ const published = flows.filter((flow) => !flow.demo);
   .field.icons { padding-left: 10px; }
   .err { min-height: 0; color: var(--peach); font-size: 12px; }
   .err:empty { display: none; }
-  .photo-row { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; margin-top: 6px; }
-  .photo-pick { display: flex; align-items: center; gap: 10px; }
-  #photo-preview { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.24); }
-  .photo input[type="file"] { width: auto; max-width: 190px; font-size: 12px; padding: 0; border: 0; background: transparent; }
-  .check { grid-template-columns: auto 1fr; align-items: start; gap: 10px; margin-top: 12px; }
-  .check input { width: auto; margin-top: 3px; }
-  .photo-consent { margin: 0; }
+  .photo-row { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; margin-top: 8px; }
+  .photo { display: grid; justify-items: start; gap: 4px; }
+  .drop {
+    width: 72px; height: 72px; border-radius: 50%; position: relative; overflow: hidden;
+    display: grid; place-items: center; cursor: pointer;
+    background: rgba(255, 247, 240, 0.07);
+    border: 1px dashed rgba(255, 255, 255, 0.35);
+  }
+  .drop .file {
+    position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+    padding: 0; border: 0; background: transparent;
+  }
+  .drop .add { font-size: 11px; line-height: 1.2; text-align: center; padding: 8px; pointer-events: none; color: var(--cream); }
+  .drop img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .drop.has-photo { border-style: solid; }
+  .drop.has-photo .add { display: none; }
+  .remove { background: none; border: 0; color: var(--peach); font: inherit; font-size: 13px; cursor: pointer; padding: 0; }
+  .check { display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 10px; margin: 0; position: relative; }
+  .check input {
+    position: absolute; opacity: 0; width: 18px; height: 18px; margin: 0; padding: 0; border: 0; background: transparent;
+  }
+  .box {
+    width: 18px; height: 18px; border-radius: 6px; display: grid; place-items: center;
+    background: rgba(255, 247, 240, 0.07); border: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .check input:checked + .box { background: var(--ember-gradient); border-color: transparent; }
+  .check input:checked + .box::after {
+    content: ''; width: 4px; height: 8px; border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+  .check input:focus-visible + .box { outline: 2px solid var(--peach); outline-offset: 3px; }
+  .fine-print { color: var(--muted); font-size: 12px; line-height: 1.45; margin: 10px 0 0; }
   .hp { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
   .form-msg { min-height: 1.2em; margin-top: 8px; color: var(--peach); font-size: 14px; }
   .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }

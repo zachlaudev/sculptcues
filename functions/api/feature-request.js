@@ -104,7 +104,6 @@ export async function onRequestPost({ request, env }) {
   const playlist = optionalUrl(body.playlist);
   const website = optionalUrl(body.website);
   const message = clean(body.message, 1000);
-  const consent = body.consent === true || body.consent === 'on' || body.consent === 'true';
   const photo = photoPayload(body.photo);
   const photoConsent = body.photoConsent === true || body.photoConsent === 'on' || body.photoConsent === 'true';
 
@@ -114,7 +113,6 @@ export async function onRequestPost({ request, env }) {
   if (video === null || playlist === null || website === null) {
     return json({ ok: false, error: 'Please check that link.' }, 400);
   }
-  if (!consent) return json({ ok: false, error: 'Please agree that we may contact you.' }, 400);
   if (body.photo && photo === null) return json({ ok: false, error: 'Use a JPG, PNG, or WebP under 2 MB.' }, 400);
   if (photo && !photoConsent) return json({ ok: false, error: 'Please confirm you own this photo.' }, 400);
 
@@ -123,7 +121,8 @@ export async function onRequestPost({ request, env }) {
   const photoKey = photo ? `photo:${id}` : '';
   const record = {
     name, email, instagram, tiktok, video, playlist, website, message,
-    consent: true,
+    consent_contact: true,
+    consent_contact_at: createdAt,
     photoKey,
     photo_consent: { accepted: Boolean(photo) && photoConsent, at: photo && photoConsent ? createdAt : null },
     createdAt,

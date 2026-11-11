@@ -28,4 +28,4 @@ Add a Markdown file to `src/content/blog/` (format in `GROK.md`) and merge the p
 The Subscribe form writes to the Supabase `email_signups` table with `source = 'website'`.
 
 ## Featured Flows mockup
-`/features` is a noindex review page (not in the nav, sitemap, or `llms.txt`). `POST /api/feature-request` stores submissions in a **new** KV binding named `FEATURE_REQUESTS`. Do not reuse or delete the mailing-list namespace `SUBSCRIBERS`. A `send_email` binding named `EMAIL` is optional; without it the function only stores the request.
+`/features` lists curated Flows. `POST /api/feature-request` stores submissions in the KV binding `FEATURE_REQUESTS` (namespace separate from the mailing list `SUBSCRIBERS`). A `send_email` binding named `EMAIL` is optional; without it the function only stores the request.
