@@ -12,7 +12,7 @@ const blog = defineCollection({
     description: z.string().max(170),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    author: z.string().default('Sculpt Cues'),
+    author: z.string().default('The Sculpt Cues Team'),
     tags: z.array(z.string()).default([]),
     image: z.string().optional(),
     imageAlt: z.string().optional(),

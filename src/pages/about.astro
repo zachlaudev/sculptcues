@@ -1,0 +1,21 @@
+---
+import Page from '../layouts/Page.astro';
+import { SITE } from '../site';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About The Sculpt Cues Team',
+  url: 'https://www.sculptcues.com/about/',
+  about: { '@id': 'https://www.sculptcues.com/#organization' },
+};
+---
+<Page title="About us" kicker="The Sculpt Cues Team" description="Who makes Sculpt Cues, the sculpt class planner app for instructors, and what the Sculpt Cues Journal covers.">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <p>Sculpt Cues is made by The Sculpt Cues Team: a small team building a planning tool made specifically for sculpt instructors. A sculpt class lives on two things, a sequence that works the whole body without overloading one area, and a teacher who stays locked onto the music. Sculpt Cues brings both into one app.</p>
+  <h2>What we make</h2>
+  <p>Sculpt Cues is an iPhone app for planning sculpt classes. Build each class as a Flow, segment by segment, from a library of 280+ movements or your own. The intensity chart scores the work across seven body parts and flags overload, and Cue Coach finds the beat of any song you play aloud.</p>
+  <h2>The Sculpt Cues Journal</h2>
+  <p>Our <a href="/blog/">Journal</a> publishes practical guides for working sculpt and mat Pilates instructors: class planning, cueing, music and BPM, balancing a class and teaching craft. Every guide is written and reviewed by The Sculpt Cues Team. We don't publish medical advice; where it matters, we'll tell you to check with a qualified professional.</p>
+  <h2>Get in touch</h2>
+  <p>Questions, corrections or ideas for a guide: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</Page>

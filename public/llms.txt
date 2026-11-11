@@ -1,0 +1,24 @@
+# Sculpt Cues
+
+> Sculpt Cues is an iPhone app for sculpt instructors. Plan a sculpt class as a Flow (segment by segment, one segment per song), check the load across seven body parts with an intensity chart, and cue on the beat of any song with Cue Coach. Made by The Sculpt Cues Team.
+
+Key facts:
+- Platform: iPhone (App Store): https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468
+- Movement library: 280+ sculpt movements sorted by body part, plus custom movements.
+- Flows: build a class segment by segment, organise in folders, rearrange; share a Flow with another teacher as a link or file.
+- Smart analysis: intensity scoring across core, glutes, legs, arms, shoulders, back and chest, with an overwork caution and counter-movement suggestions.
+- Cue Coach: detects the BPM of any song playing aloud and pulses Up/Down cues at half, single or double time. Audio is not recorded.
+- Pricing (USD): $7.99/month, $39.99/year with a 7-day free trial, $79.99 lifetime.
+- Contact: sculptcues@gmail.com
+
+## Guides
+- [Journal](https://www.sculptcues.com/blog/): practical guides for sculpt instructors on class planning, cueing, music and BPM.
+- [Matching sculpt movements to BPM](https://www.sculptcues.com/blog/matching-sculpt-movements-to-bpm/)
+
+## About
+- [About The Sculpt Cues Team](https://www.sculptcues.com/about/)
+- [Support](https://www.sculptcues.com/support/)
+
+## Optional
+- [Privacy](https://www.sculptcues.com/privacy/)
+- [Terms](https://www.sculptcues.com/terms/)
