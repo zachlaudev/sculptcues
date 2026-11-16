@@ -1,17 +1,15 @@
 import type { Scores } from '../lib/impact';
-import { SITE } from '../site';
+import { appStoreCampaignUrl } from '../site';
 
-/** App Store link for a Flow card. ct is the campaign token; no provider token. */
+/** App Store link for a Flow card, with this card's campaign token. */
 export function flowStoreUrl(id: string) {
-  const url = new URL(SITE.appStoreUrl);
-  url.searchParams.set('ct', `features-${id}`);
-  return url.toString();
+  return appStoreCampaignUrl(`site-features-${id}`);
 }
 
 /**
  * Featured Flows mockup.
  * A creator card uses the same shape: author, optional handle, optional avatar
- * (omit avatar and the photo block is hidden), and optional links
+ * (omit avatar and the photo is hidden), and optional links
  * (tiktokVideo, tiktok, instagram, spotify, appleMusic, website).
  * Entries with `demo: true` stay in this file as that shape, and are not rendered.
  * The five community Flows use the estimated chart numbers from the 11 Nov 2026 write-up.

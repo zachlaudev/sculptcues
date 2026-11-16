@@ -1,12 +1,20 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { breadcrumbList, pageUrl } from '../../lib/schema';
 import { getPosts } from '../../lib/posts';
 
 const posts = (await getPosts());
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 const [lead, ...rest] = posts;
 ---
-<Base title="Journal" description="Sculpt class ideas, cueing tips and music for sculpt teachers.">
+<Base
+  title="Journal"
+  description="Sculpt class ideas, cueing tips and music for sculpt teachers."
+  schema={[breadcrumbList([
+    { name: 'Home', url: pageUrl('/') },
+    { name: 'Journal', url: pageUrl('/blog/') },
+  ])]}
+>
   <section class="wrap head">
     <p class="kicker">Journal</p>
     <h1>For the teacher's notebook.</h1>
@@ -17,7 +25,7 @@ const [lead, ...rest] = posts;
     {posts.length === 0 && <p class="muted">No posts yet.</p>}
     {lead && (
       <a class="lead card glass" href={`/blog/${lead.id}/`}>
-        {lead.data.image && <img src={lead.data.image} alt={lead.data.imageAlt ?? ''} loading="lazy" />}
+        {lead.data.image && <img src={lead.data.image} alt={lead.data.imageAlt || lead.data.title} loading="lazy" />}
         <div>
           <p class="kicker">{fmt(lead.data.pubDate)}{lead.data.tags[0] && ` · ${lead.data.tags[0]}`}</p>
           <h2>{lead.data.title}</h2>

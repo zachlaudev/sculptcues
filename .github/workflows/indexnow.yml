@@ -1,0 +1,31 @@
+name: IndexNow
+
+# Pings IndexNow after a push to main so Bing and other participants recrawl
+# changed URLs. No secret: the key file in public/ is meant to be public.
+# Cloudflare Pages publishes main on its own. This job waits so the new HTML
+# is more likely to be live, then submits. If the ping races the deploy,
+# re-run this workflow from the Actions tab (it submits the live sitemap).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Wait for Cloudflare Pages to publish
+        run: sleep 180
+      - name: Submit changed URLs
+        if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
+        run: node scripts/indexnow.mjs --since "${{ github.event.before }}"
+      - name: Submit the sitemap
+        if: github.event_name != 'push' || github.event.before == '0000000000000000000000000000000000000000'
+        run: node scripts/indexnow.mjs --sitemap

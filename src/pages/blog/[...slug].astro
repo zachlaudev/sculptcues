@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import AppStoreButton from '../../components/AppStoreButton.astro';
 import { render } from 'astro:content';
+import { article, breadcrumbList, faqPage, pageUrl } from '../../lib/schema';
 import { getPosts } from '../../lib/posts';
 
 export async function getStaticPaths() {
@@ -12,42 +13,37 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
 const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'BlogPosting',
-      headline: d.title,
-      description: d.description,
-      datePublished: d.pubDate.toISOString(),
-      dateModified: (d.updatedDate ?? d.pubDate).toISOString(),
-      mainEntityOfPage: canonical,
-      url: canonical,
-      inLanguage: 'en',
-      author: { '@type': 'Organization', name: 'The Sculpt Cues Team', url: 'https://www.sculptcues.com/about/' },
-      publisher: {
-        '@type': 'Organization',
-        '@id': 'https://www.sculptcues.com/#organization',
-        name: 'Sculpt Cues',
-        logo: { '@type': 'ImageObject', url: new URL('/img/icon.webp', Astro.site).href },
-      },
-      image: new URL(d.image ?? '/img/og.jpg', Astro.site).href,
-      keywords: d.tags,
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.sculptcues.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Journal', item: 'https://www.sculptcues.com/blog/' },
-        { '@type': 'ListItem', position: 3, name: d.title, item: canonical },
-      ],
-    },
-  ],
-};
+const canonical = pageUrl(Astro.url.pathname);
+const posts = await getPosts();
+const related = posts
+  .filter((item) => item.id !== post.id)
+  .map((item) => ({
+    item,
+    score: item.data.tags.filter((tag) => d.tags.includes(tag)).length,
+  }))
+  .sort((a, b) => b.score - a.score || b.item.data.pubDate.valueOf() - a.item.data.pubDate.valueOf())
+  .slice(0, 2)
+  .map((entry) => entry.item);
+const image = d.image ?? '/img/og.jpg';
+const schema = [
+  article({
+    title: d.title,
+    description: d.description,
+    url: canonical,
+    datePublished: d.pubDate,
+    dateModified: d.updatedDate ?? d.pubDate,
+    image,
+    keywords: d.tags,
+  }),
+  breadcrumbList([
+    { name: 'Home', url: pageUrl('/') },
+    { name: 'Journal', url: pageUrl('/blog/') },
+    { name: d.title, url: canonical },
+  ]),
+  ...(d.faq?.length ? [faqPage(d.faq)] : []),
+];
 ---
-<Base title={d.title} description={d.description} image={d.image} type="article">
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+<Base title={d.title} description={d.description} image={image} type="article" schema={schema} published={d.pubDate} modified={d.updatedDate ?? d.pubDate}>
   <article class="wrap">
     <header>
       <a class="back" href="/blog/">← Journal</a>
@@ -55,15 +51,25 @@ const jsonLd = {
       <h1>{d.title}</h1>
       <p class="lede">{d.description}</p>
     </header>
-    {d.image && <img class="cover" src={d.image} alt={d.imageAlt ?? ''} />}
+    {d.image && <img class="cover" src={d.image} alt={d.imageAlt || d.title} />}
     <div class="prose"><Content /></div>
+    {related.length > 0 && (
+      <nav class="related" aria-label="Related posts">
+        <h2>More from the Journal</h2>
+        <ul>
+          {related.map((item) => (
+            <li><a href={`/blog/${item.id}/`}>{item.data.title}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
     <aside class="card glass cta">
       <div>
         <p class="kicker">Sculpt Cues</p>
         <h3>Plan sculpt classes.</h3>
         <p class="muted">A movement library, Flows you can share, and Cue Coach when you want the beat.</p>
       </div>
-      <AppStoreButton />
+      <AppStoreButton campaign={`site-blog-${post.id}`} />
     </aside>
   </article>
 </Base>
@@ -75,6 +81,11 @@ const jsonLd = {
   .back:hover { color: var(--cream); }
   h1 { font-size: clamp(36px, 5.4vw, 60px); margin: 12px 0 18px; }
   .cover { border-radius: 22px; width: 100%; max-height: 520px; object-fit: cover; margin-bottom: 40px; }
-  .cta { margin-top: 64px; max-width: 680px; border-radius: 22px; padding: 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .related { margin-top: 56px; max-width: 680px; }
+  .related h2 { font-size: 30px; margin-bottom: 14px; }
+  .related ul { list-style: none; display: grid; gap: 10px; }
+  .related a { color: var(--cream); text-decoration: none; }
+  .related a:hover { color: var(--peach); }
+  .cta { margin-top: 28px; max-width: 680px; border-radius: 22px; padding: 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
   .cta h3 { margin: 6px 0 6px; }
 </style>

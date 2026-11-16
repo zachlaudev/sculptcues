@@ -5,8 +5,7 @@
 // include https://www.sculptcues.com/reset/.
 import Page from '../layouts/Page.astro';
 ---
-<Page title="Choose a new password" kicker="Sculpt Cues account">
-  <meta slot="head" name="robots" content="noindex" />
+<Page title="Choose a new password" kicker="Sculpt Cues account" description="Choose a new password for your Sculpt Cues account." noindex>
   <form id="reset" class="form" novalidate hidden>
     <input class="glass" type="password" name="password" placeholder="New password (8+ characters)" autocomplete="new-password" required minlength="8" aria-label="New password" />
     <input class="glass" type="password" name="confirm" placeholder="Confirm new password" autocomplete="new-password" required aria-label="Confirm new password" />

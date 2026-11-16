@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import LavaMark from '../components/LavaMark.astro';
+import { breadcrumbList, pageUrl } from '../lib/schema';
 
 const cards = [
   'Movement Library Updates',
@@ -13,7 +14,14 @@ const cards = [
   'Monthly Flow Challenges',
 ];
 ---
-<Base title="Subscribe" description="Join the Sculpt Cues mailing list for updates, teacher features and more.">
+<Base
+  title="Subscribe"
+  description="Join the Sculpt Cues mailing list for updates, teacher features and more."
+  schema={[breadcrumbList([
+    { name: 'Home', url: pageUrl('/') },
+    { name: 'Subscribe', url: pageUrl('/subscribe/') },
+  ])]}
+>
   <section class="sub">
     <div class="wrap">
       <LavaMark />
