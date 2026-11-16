@@ -1,5 +1,5 @@
 ---
-import { SITE } from '../site';
+import { appStoreCampaignUrl } from '../site';
 import { FEATURES_ENABLED } from '../lib/featuresFlag.js';
 const path = Astro.url.pathname;
 const links = [
@@ -20,7 +20,7 @@ const links = [
         <li><a href={l.href} class:list={{ on: l.on }}>{l.label}</a></li>
       ))}
     </ul>
-    <a class="get btn btn-primary" href={SITE.appStoreUrl} data-app-store>Get App</a>
+    <a class="get btn btn-primary" href={appStoreCampaignUrl('site-header')} data-app-store>Get App</a>
   </nav>
 </header>
 

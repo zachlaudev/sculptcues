@@ -2,6 +2,7 @@
 title: "Matching sculpt movements to BPM"
 description: "A simple guide to choosing half time, single time or double time for each movement, based on the song's tempo."
 pubDate: 2026-11-07
+updatedDate: 2026-11-16
 author: "The Sculpt Cues Team"
 tags: ["Cueing", "Music"]
 ---
@@ -25,3 +26,7 @@ Most sculpt playlists sit between 110 and 135 BPM. The trick is not finding slow
 ## Let the app count for you
 
 In Cue Coach, tap Half, Single or Double and the orb pulses at that speed while it listens to the music. You can watch the room instead of counting.
+
+These counts are the ones a [45-minute sculpt class](/blog/how-to-plan-a-sculpt-class/) is planned around.
+
+<a href="https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-blog-matching-sculpt-movements-to-b&mt=8" data-app-store>Sculpt Cues is on the App Store</a>. Cue Coach pulses at the count you pick while the song plays.

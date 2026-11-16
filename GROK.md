@@ -4,17 +4,18 @@ This is the brief for every Journal post, whoever (or whatever) drafts it. Posts
 
 ## Who we are
 Sculpt Cues is an iPhone app for sculpt teachers (sculpt = music-driven, low-impact strength classes using bodyweight, light dumbbells, loop bands, balls or a beam). Only describe features listed here:
-- 280+ movements sorted by body part (core, arms, legs, glutes, back, chest), plus custom movements.
-- Flows: a class made of segments (one segment ≈ one song), with folders, rearranging and suggested next movements.
+- 280+ sculpt, barre and Pilates movements sorted by body part (core, arms, legs, glutes, back, chest), plus custom movements.
+- Flows: a class made of segments (one segment ≈ one song), with folders, rearranging and suggested next movements. Movements sit inside Segments, and Segments build a Flow. Never write "block" or "blocks".
 - Intensity chart: scoring across 7 body parts (core, glutes, legs, arms, shoulders, back, chest) with an overwork caution and counter-movement suggestions.
 - Cue Coach: listens to any song playing aloud, detects BPM live and pulses Up/Down cues at Half, Single or Double time (also In–Out, Left–Right). Nothing is recorded; audio stays on the phone.
+- Apple Watch is live (watchOS 10 or later, beside the iPhone app on iOS 17 or later). From a Flow it shows the current segment, the movements in it, a timer, notes and what comes next. Say segment, never block.
 - Flow sharing by link or file.
 - Pricing: $7.99/month, $39.99/year (7-day free trial), $79.99 lifetime.
 - Homepage figures (8,000+ instructors, 63,000+ Flows, 1,200+ studios) are verified and may be quoted.
 Never invent features (no QR import, Android, web app, video library, etc. unless added above).
 
 ## Readers
-Working sculpt and mat Pilates teachers, studio owners and instructors in training, mainly in the US, Australia, the UK and Singapore.
+Working sculpt, barre and mat Pilates teachers, studio owners and instructors in training, mainly in the US, Australia, the UK and Singapore. The app is a class planner for those instructors, not a workout app for students.
 
 ## Voice
 - Premium team voice: "we" / "The Sculpt Cues Team". Never founder framing ("I built…", "as a solo dev…").

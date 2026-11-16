@@ -2,6 +2,8 @@
 # Search engines and AI answer engines are welcome: we want Sculpt Cues guides
 # to appear (with a link) in Google, Bing, ChatGPT search, Perplexity, Claude and Gemini answers.
 # AI training crawlers are also allowed (deliberate choice; change to Disallow: / to opt out).
+# Short summary for answer engines: https://www.sculptcues.com/llms.txt
+# Longer summary: https://www.sculptcues.com/llms-full.txt
 
 User-agent: Googlebot
 Allow: /

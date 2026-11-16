@@ -2,8 +2,16 @@
 title: "How to plan a sculpt class: a 45-minute template, segment by segment"
 description: "How to plan a sculpt class that flows: a 45-minute sculpt class template with timings, BPM ranges, movement ideas and a free printable class plan."
 pubDate: 2026-11-11
+updatedDate: 2026-11-16
 author: "The Sculpt Cues Team"
 tags: ["Class planning", "Music"]
+faq:
+  - q: "How many songs are in a 45-minute sculpt class?"
+    a: "Usually 11 to 13, depending on track length."
+  - q: "What BPM is best for a sculpt class?"
+    a: "Most working sections sit roughly between 115 and 130 BPM, with slower tracks for the warm-up, core and cool-down."
+  - q: "How long does it take to plan a sculpt class?"
+    a: "Once you have a template, a new class usually takes well under an hour, and far less when you remix an old plan."
 draft: false
 ---
 
@@ -16,7 +24,7 @@ Below is the 45-minute sculpt class format we see work again and again, broken d
 A sculpt class mixes low-impact strength work with music: bodyweight, light dumbbells, loop bands, a ball or a beam, moved to the beat. A good sculpt class plan has three jobs:
 
 - **Work the whole body** without hammering one area for too long.
-- **Follow the music**, so every block has a clear tempo and count.
+- **Follow the music**, so every section has a clear tempo and count.
 - **Build and release energy**, with a warm-up, a peak and a proper cool-down.
 
 If your plan does those three things, the details (which squat, which press) are yours to play with.
@@ -42,25 +50,25 @@ Treat the tempo column as a guide, not a rule. A slower song still works for a f
 
 ### Warm-up (one or two songs)
 
-Start standing, start simple. Big, easy movements that rehearse what's coming: a squat to reach previews your lower-body block, arm circles prepare the shoulders. Keep the count steady and cue posture early, because what you set up here carries through the whole class.
+Start standing, start simple. Big, easy movements that rehearse what's coming: a squat to reach previews your lower-body work, arm circles prepare the shoulders. Keep the count steady and cue posture early, because what you set up here carries through the whole class.
 
-### Lower body block
+### Lower body
 
 Open the working part of class with the biggest muscles. Build each song in layers: full-range reps in single time, then half-time reps with a hold, then pulses to finish. Layering gives every level an option without changing the move.
 
-### Upper body block
+### Upper body
 
 Switch to the upper body while the legs recover. Pair a push with a pull (a press with a row) so the front and back of the body share the work. This is where light dumbbells earn their place.
 
-### Second lower body and glute block
+### Second lower body and glutes
 
 Come back to the legs from a new angle: lateral lunges, curtsy lunges, bridges, banded work. Changing the plane keeps it fresh and spreads the load.
 
-### Second upper body block
+### Second upper body
 
-Hit the muscles the first block didn't: chest, triceps, the sides of the shoulders. Keep the weights light; by now fatigue does the work.
+Hit the muscles the first upper-body section didn't: chest, triceps, the sides of the shoulders. Keep the weights light; by now fatigue does the work.
 
-### Core block
+### Core
 
 Move to the mat. Core is a natural low point in tempo, which gives the room a breather while the work stays honest. Mix front-of-body work (dead bugs, crunches) with rotation and back-body work so it isn't 7 minutes of crunches.
 
@@ -89,12 +97,12 @@ A few playlist rules that keep a sculpt class format running smoothly:
 
 ## How to balance a sculpt class so nothing gets overworked
 
-The most common planning mistake is accidental overload: squats in the warm-up, squats in block one, lunges in block two, squats again in the finisher. Each looks fine alone; together the legs are doing most of the class.
+The most common planning mistake is accidental overload: squats in the warm-up, squats in the first section, lunges in the second, squats again in the finisher. Each looks fine alone; together the legs are doing most of the class.
 
 Before you teach, read your plan top to bottom and ask:
 
 1. Does each major area (legs, glutes, arms, shoulders, back, chest, core) get a turn?
-2. Is any area worked in more than two blocks back to back?
+2. Is any area worked in more than two sections back to back?
 3. Does every push have a pull somewhere nearby?
 
 <figure>
@@ -106,9 +114,9 @@ If you plan in Sculpt Cues, this check happens as you build: every movement is s
 
 ## Adapting the sculpt class template for 30 or 60 minutes
 
-**30-minute sculpt class:** keep the warm-up, one lower block, one upper block, core, a short finisher and the cool-down. Around 8 songs.
+**30-minute sculpt class:** keep the warm-up, one lower-body section, one upper-body section, core, a short finisher and the cool-down. Around 8 songs.
 
-**60-minute sculpt class:** add a third strength block (a full-body combination works well) and a longer cool-down. Around 15 to 17 songs.
+**60-minute sculpt class:** add a third strength section (a full-body combination works well) and a longer cool-down. Around 15 to 17 songs.
 
 The shape stays the same: warm up, build, peak, release.
 
@@ -120,8 +128,8 @@ The shape stays the same: warm up, build, peak, release.
 
 **How many songs are in a 45-minute sculpt class?** Usually 11 to 13, depending on track length.
 
-**What BPM is best for a sculpt class?** Most working blocks sit roughly between 115 and 130 BPM, with slower tracks for the warm-up, core and cool-down.
+**What BPM is best for a sculpt class?** Most working sections sit roughly between 115 and 130 BPM, with slower tracks for the warm-up, core and cool-down.
 
 **How long does it take to plan a sculpt class?** Once you have a template, a new class usually takes well under an hour, and far less when you remix an old plan.
 
-If you'd rather build your plan segment by segment on your phone, with the balance check built in, [Sculpt Cues is on the App Store](https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468).
+If you'd rather build your plan segment by segment on your phone, with the balance check built in, <a href="https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-blog-how-to-plan-a-sculpt-class&mt=8" data-app-store>Sculpt Cues is on the App Store</a>.

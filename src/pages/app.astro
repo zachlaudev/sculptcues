@@ -1,21 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import CueCoach from '../components/CueCoach.astro';
-import { SITE } from '../site';
+import { APP_STORE_ID, APP_STORE_PT, SITE, appStoreCampaignUrl } from '../site';
 
-const store = 'https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-app&mt=8';
+const store = appStoreCampaignUrl('site-app');
 const description = 'Plan better sculpt classes.';
 const rewrite = `(function () {
   var raw = new URLSearchParams(location.search).get('utm_campaign') || '';
   var ct = raw.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 40) || 'site-app';
-  var href = 'https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=' + ct + '&mt=8';
+  var href = 'https://apps.apple.com/app/apple-store/id${APP_STORE_ID}?pt=${APP_STORE_PT}&ct=' + ct + '&mt=8';
   document.querySelectorAll('[data-store-campaign]').forEach(function (link) {
     link.setAttribute('href', href);
   });
 })();`;
 ---
-<Base landing title="For all sculpt instructors" description={description}>
-  <meta slot="head" name="robots" content="noindex" />
+<Base landing noindex title="For all sculpt instructors" description={description}>
 
   <section class="hero wrap">
     <img class="logo" src="/img/icon.webp" alt="Sculpt Cues" width="76" height="76" />

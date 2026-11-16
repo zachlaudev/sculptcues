@@ -1,0 +1,8 @@
+---
+// Cloudflare Web Analytics. The token is the site tag from the zone.
+// Confirm in the dashboard that this same value is the beacon token.
+const beacon = `<!-- Cloudflare Web Analytics -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"12cec57a0fb1453f87ec4b5a9750eb07"}'></script>
+<!-- End Cloudflare Web Analytics -->`;
+---
+<Fragment set:html={beacon} />

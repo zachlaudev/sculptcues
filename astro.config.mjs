@@ -37,8 +37,9 @@ export default defineConfig({
           if (FEATURES_ENABLED) return;
           const root = fileURLToPath(dir);
           fs.rmSync(path.join(root, 'features'), { recursive: true, force: true });
-          const llmsPath = path.join(root, 'llms.txt');
-          if (fs.existsSync(llmsPath)) {
+          for (const name of ['llms.txt', 'llms-full.txt']) {
+            const llmsPath = path.join(root, name);
+            if (!fs.existsSync(llmsPath)) continue;
             const lines = fs.readFileSync(llmsPath, 'utf8').split('\n').filter((line) => !line.includes('/features/'));
             fs.writeFileSync(llmsPath, lines.join('\n'));
           }

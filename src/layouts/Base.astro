@@ -3,21 +3,44 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MetaPixel from '../components/MetaPixel.astro';
+import WebAnalytics from '../components/WebAnalytics.astro';
 import { SITE } from '../site';
+import { graph, pageUrl, serializeJsonLd, softwareApplication } from '../lib/schema';
 
 interface Props {
   title?: string;
+  /** Replaces the usual "title · Sculpt Cues" pattern. Used by the home page. */
+  documentTitle?: string;
   description?: string;
   image?: string;
   type?: 'website' | 'article';
   noindex?: boolean;
   /** Logo and a short legal footer. Used by the ads landing page. */
   landing?: boolean;
+  /** SoftwareApplication / MobileApplication. Home and Featured Flows. */
+  includeApp?: boolean;
+  /** Extra JSON-LD nodes. Organization and WebSite are added on every page. */
+  schema?: object[];
+  published?: Date;
+  modified?: Date;
 }
-const { title, description = SITE.description, image = '/img/og.jpg', type = 'website', noindex = false, landing = false } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const {
+  title,
+  documentTitle,
+  description = SITE.description,
+  image = '/img/og.jpg',
+  type = 'website',
+  noindex = false,
+  landing = false,
+  includeApp = false,
+  schema = [],
+  published,
+  modified,
+} = Astro.props;
+const fullTitle = documentTitle ?? (title ? `${title} · ${SITE.name}` : `${SITE.name} – ${SITE.tagline}`);
+const canonical = pageUrl(Astro.url.pathname);
 const ogImage = new URL(image, Astro.site);
+const jsonLd = graph([...(includeApp ? [softwareApplication()] : []), ...schema]);
 ---
 <!doctype html>
 <html lang="en">
@@ -28,6 +51,7 @@ const ogImage = new URL(image, Astro.site);
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="canonical" href={canonical} />
+    <script type="application/ld+json" set:html={serializeJsonLd(jsonLd)} />
     <meta name="theme-color" content="#140a0a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
@@ -45,7 +69,15 @@ const ogImage = new URL(image, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={fullTitle} />
+    {type === 'article' && published && <meta property="article:published_time" content={published.toISOString()} />}
+    {type === 'article' && modified && <meta property="article:modified_time" content={modified.toISOString()} />}
+    {type === 'article' && <meta property="article:author" content="Sculpt Cues" />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={fullTitle} />
     <slot name="head" />
   </head>
   <body>
@@ -76,6 +108,7 @@ const ogImage = new URL(image, Astro.site);
         <p>© {new Date().getFullYear()} Sculpt Cues. iPhone and App Store are trademarks of Apple Inc.</p>
       </footer>
     ) : <Footer />}
+    <WebAnalytics />
     <script>
       const io = new IntersectionObserver((entries) => {
         for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }

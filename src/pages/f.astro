@@ -6,8 +6,7 @@
 import Page from '../layouts/Page.astro';
 import AppStoreButton from '../components/AppStoreButton.astro';
 ---
-<Page title="A Flow for you" kicker="Shared Flow" description="A sculpt class shared with Sculpt Cues.">
-  <meta slot="head" name="robots" content="noindex" />
+<Page title="A Flow for you" kicker="Shared Flow" description="A sculpt class shared with Sculpt Cues." noindex>
   <div id="flow" class="glass card" hidden>
     <p class="by muted"></p>
     <h2 class="name"></h2>
@@ -16,7 +15,7 @@ import AppStoreButton from '../components/AppStoreButton.astro';
   </div>
   <p id="intro" class="lede">Someone shared a sculpt class with you. Get Sculpt Cues, then tap the link again to open it in the app.</p>
   <div class="actions">
-    <AppStoreButton size="lg" />
+    <AppStoreButton size="lg" campaign="site-shared-flow" />
     <a id="open" class="btn btn-ghost glass" href="#" hidden>I have the app: open it</a>
   </div>
   <p class="muted small">Opened this inside Instagram or another app? Use “Open in browser” first, or tap “I have the app”.</p>
