@@ -37,7 +37,7 @@ Each post has one primary keyword and 3–6 secondary keywords (from `seo_plan.m
 2. Opening: answer the search question in the first 2–3 sentences.
 3. 1,000–1,800 words for guides; 600–1,000 for quick tips.
 4. At least one practical asset: a table, template, checklist or printable.
-5. 2–4 internal links to other Journal posts or the homepage; at most 2 external links, to reputable sources.
+5. 2–4 internal links to other Journal posts or the homepage. Posts may cite 2–4 verified, credited external sources (TikTok or Instagram instructor videos, playlists, tools, reputable guidance). Zachary requested this on 18 Nov 2026.
 6. A short "quick answers" section (2–4 questions in bold, one-paragraph answers) for AI answer engines. Plain Markdown; FAQ schema is not required.
 7. Mention Sculpt Cues naturally at most twice; end with one sentence linking to the App Store: https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468
 8. No medical claims or injury diagnosis; say "check with a qualified professional" where relevant. No invented statistics, studies, quotes or testimonials. Region-specific facts (certifications, music licensing) must cite an official source.
