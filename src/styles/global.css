@@ -152,7 +152,7 @@ section { padding: clamp(72px, 10vw, 128px) 0; }
 .sc-gen-list .sc-song a { color: var(--cream); text-decoration: none; }
 .sc-gen-list .sc-song a:hover { color: var(--peach); }
 .sc-gen-list .sc-artist { display: block; font-size: 13px; color: var(--muted); }
-.sc-gen-list .sc-role { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--peach); margin-left: 6px; }
+.sc-gen-list .sc-role { display: inline-block; white-space: nowrap; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--peach); margin-left: 6px; }
 .sc-gen-list .sc-dur { font-variant-numeric: tabular-nums; color: var(--muted); }
 .sc-gen-total { display: flex; justify-content: space-between; padding-top: 12px; font-weight: 600; }
 .sc-gen-total span:last-child { font-variant-numeric: tabular-nums; }
