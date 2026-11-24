@@ -44,7 +44,7 @@ export default defineConfig({
             fs.writeFileSync(llmsPath, lines.join('\n'));
           }
           const redirectsPath = path.join(root, '_redirects');
-          const rules = ['/features / 302', '/features/ / 302', '/features/index.html / 302', ''].join('\n');
+          const rules = ['/features / 301', '/features/ / 301', '/features/index.html / 301', ''].join('\n');
           const existing = fs.existsSync(redirectsPath) ? fs.readFileSync(redirectsPath, 'utf8') : '';
           if (!existing.includes('/features ')) fs.appendFileSync(redirectsPath, `${existing.endsWith('\n') || existing === '' ? '' : '\n'}${rules}`);
         },

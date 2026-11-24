@@ -1,0 +1,36 @@
+---
+import Guide from '../layouts/Guide.astro';
+import { starterFlows } from '../data/starterFlows';
+
+const description = 'Five starter Flows ship with Sculpt Cues: Bodyweight Tone, Arms and Core, Legs and Glutes, Beam Flow and Dumbbell Flow.';
+const schema = [{
+  '@type': 'ItemList',
+  name: 'Starter Flows in Sculpt Cues',
+  itemListElement: starterFlows.map((flow, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: flow.name,
+    description: `${flow.segments} segments · ${flow.movements} movements`,
+  })),
+}];
+---
+<Guide
+  title="Sample Flows: Starter Classes in Sculpt Cues"
+  description={description}
+  kicker="Sample Flows"
+  heading="Five starter Flows that ship with the app"
+  crumb="Sample Flows"
+  schema={schema}
+>
+  <div class="stack">
+    <p>These five come with Sculpt Cues, already built as Flows. Movements sit in Segments, and the Segments build the class. The counts below are the ones in the app. Open any of them on iPhone, duplicate one and change it, or start a Flow of your own from the 280+ movement library.</p>
+    <ol class="flow-list">
+      {starterFlows.map((flow) => (
+        <li class="card glass">
+          <h2>{flow.name}</h2>
+          <p>{flow.segments} segments · {flow.movements} movements</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Guide>

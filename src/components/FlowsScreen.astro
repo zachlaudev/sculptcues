@@ -1,12 +1,10 @@
 ---
-// Recreated from FlowsView and the five starter classes in SampleFlows.swift.
-const flows = [
-  { name: 'Bodyweight Tone', meta: '11 segments · 38 movements' },
-  { name: 'Arms and Core', meta: '11 segments · 38 movements' },
-  { name: 'Legs and Glutes', meta: '11 segments · 37 movements' },
-  { name: 'Beam Flow', meta: '10 segments · 33 movements' },
-  { name: 'Dumbbell Flow', meta: '10 segments · 38 movements' },
-];
+import { starterFlows } from '../data/starterFlows';
+
+const flows = starterFlows.map((flow) => ({
+  name: flow.name,
+  meta: `${flow.segments} segments · ${flow.movements} movements`,
+}));
 ---
 <div class="flows" data-screen="flows">
   <div class="head">

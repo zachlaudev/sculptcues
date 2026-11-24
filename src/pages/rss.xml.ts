@@ -5,7 +5,7 @@ import type { APIContext } from 'astro';
 export async function GET(context: APIContext) {
   const posts = (await getPosts());
   return rss({
-    title: 'Sculpt Cues Journal',
+    title: 'Sculpt Cues blog',
     description: 'Class ideas, cueing tips and music for sculpt teachers.',
     site: context.site!,
     items: posts.map((p) => ({

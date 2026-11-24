@@ -37,7 +37,7 @@ const schema = [
   }),
   breadcrumbList([
     { name: 'Home', url: pageUrl('/') },
-    { name: 'Journal', url: pageUrl('/blog/') },
+    { name: 'Blog', url: pageUrl('/blog/') },
     { name: d.title, url: canonical },
   ]),
   ...(d.faq?.length ? [faqPage(d.faq)] : []),
@@ -46,7 +46,7 @@ const schema = [
 <Base title={d.title} description={d.description} image={image} type="article" schema={schema} published={d.pubDate} modified={d.updatedDate ?? d.pubDate}>
   <article class="wrap">
     <header>
-      <a class="back" href="/blog/">← Journal</a>
+      <a class="back" href="/blog/">← Blog</a>
       <p class="kicker">{fmt(d.pubDate)}{d.tags.length > 0 && ` · ${d.tags.join(' · ')}`}</p>
       <h1>{d.title}</h1>
       <p class="lede">{d.description}</p>
@@ -55,7 +55,7 @@ const schema = [
     <div class="prose"><Content /></div>
     {related.length > 0 && (
       <nav class="related" aria-label="Related posts">
-        <h2>More from the Journal</h2>
+        <h2>More from the Blog</h2>
         <ul>
           {related.map((item) => (
             <li><a href={`/blog/${item.id}/`}>{item.data.title}</a></li>
