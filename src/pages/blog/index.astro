@@ -8,15 +8,15 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 const [lead, ...rest] = posts;
 ---
 <Base
-  title="Journal"
+  title="Blog"
   description="Sculpt class ideas, cueing tips and music for sculpt teachers."
   schema={[breadcrumbList([
     { name: 'Home', url: pageUrl('/') },
-    { name: 'Journal', url: pageUrl('/blog/') },
+    { name: 'Blog', url: pageUrl('/blog/') },
   ])]}
 >
   <section class="wrap head">
-    <p class="kicker">Journal</p>
+    <p class="kicker">Blog</p>
     <h1>For the teacher's notebook.</h1>
     <p class="lede">Class ideas, cueing tips and music for sculpt teachers.</p>
   </section>

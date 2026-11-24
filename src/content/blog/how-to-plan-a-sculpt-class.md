@@ -1,8 +1,8 @@
 ---
-title: "How to plan a sculpt class: a 45-minute template, segment by segment"
+title: "How to Plan a Sculpt Class: 45-Minute Template & BPM Guide"
 description: "How to plan a sculpt class that flows: a 45-minute sculpt class template with timings, BPM ranges, movement ideas and a free printable class plan."
 pubDate: 2026-11-11
-updatedDate: 2026-11-16
+updatedDate: 2026-11-24
 author: "The Sculpt Cues Team"
 tags: ["Class planning", "Music"]
 faq:
@@ -132,4 +132,4 @@ The shape stays the same: warm up, build, peak, release.
 
 **How long does it take to plan a sculpt class?** Once you have a template, a new class usually takes well under an hour, and far less when you remix an old plan.
 
-If you'd rather build your plan segment by segment on your phone, with the balance check built in, <a href="https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-blog-how-to-plan-a-sculpt-class&mt=8" data-app-store>Sculpt Cues is on the App Store</a>.
+See how the class planner works on the [Sculpt Cues homepage](/), or build the plan on your phone with <a href="https://apps.apple.com/app/apple-store/id6831637468?pt=128746925&ct=site-blog-how-to-plan-a-sculpt-class&mt=8" data-app-store>Sculpt Cues on the App Store</a>.

@@ -1,6 +1,6 @@
-# Writing for the Sculpt Cues Journal
+# Writing for the Sculpt Cues Blog
 
-This is the brief for every Journal post, whoever (or whatever) drafts it. Posts are published by merging a pull request into `main`; Cloudflare Pages deploys on merge. There is no scheduled auto-publishing.
+This is the brief for every Blog post, whoever (or whatever) drafts it. Posts are published by merging a pull request into `main`; Cloudflare Pages deploys on merge. There is no scheduled auto-publishing.
 
 ## Who we are
 Sculpt Cues is an iPhone app for sculpt teachers (sculpt = music-driven, low-impact strength classes using bodyweight, light dumbbells, loop bands, balls or a beam). Only describe features listed here:
@@ -11,8 +11,9 @@ Sculpt Cues is an iPhone app for sculpt teachers (sculpt = music-driven, low-imp
 - Apple Watch is live (watchOS 10 or later, beside the iPhone app on iOS 17 or later). From a Flow it shows the current segment, the movements in it, a timer, notes and what comes next. Say segment, never block.
 - Flow sharing by link or file.
 - Pricing: $7.99/month, $39.99/year (7-day free trial), $79.99 lifetime.
-- Homepage figures (8,000+ instructors, 63,000+ Flows, 1,200+ studios) are verified and may be quoted.
-Never invent features (no QR import, Android, web app, video library, etc. unless added above).
+- Homepage figures that may be quoted: 280+ built-in movements, 175 countries supported, and $0 to start. iPhone and Apple Watch are available. Android and iPad are coming soon; do not describe them as available.
+- The public name for these guides is Blog. Nav, footer and titles say Blog, not Journal or Blogs.
+Never invent features (no QR import, a shipping Android or iPad app, web app, video library, etc. unless added above). Do not quote instructor counts, Flow counts or studio counts.
 
 ## Readers
 Working sculpt, barre and mat Pilates teachers, studio owners and instructors in training, mainly in the US, Australia, the UK and Singapore. The app is a class planner for those instructors, not a workout app for students.
@@ -37,7 +38,7 @@ Each post has one primary keyword and 3–6 secondary keywords (from `seo_plan.m
 2. Opening: answer the search question in the first 2–3 sentences.
 3. 1,000–1,800 words for guides; 600–1,000 for quick tips.
 4. At least one practical asset: a table, template, checklist or printable.
-5. 2–4 internal links to other Journal posts or the homepage; at most 2 external links, to reputable sources.
+5. 2–4 internal links to other Blog posts or the homepage; at most 2 external links, to reputable sources.
 6. A short "quick answers" section (2–4 questions in bold, one-paragraph answers) for AI answer engines. Plain Markdown; FAQ schema is not required.
 7. Mention Sculpt Cues naturally at most twice; end with one sentence linking to the App Store: https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468
 8. No medical claims or injury diagnosis; say "check with a qualified professional" where relevant. No invented statistics, studies, quotes or testimonials. Region-specific facts (certifications, music licensing) must cite an official source.
