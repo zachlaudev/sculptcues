@@ -71,7 +71,7 @@ Once the Movements sit in order, assign a tempo band and write your eight-counts
 
 <aside class="card glass" style="border-radius: 22px; padding: 24px; margin: 28px 0;">
   <p class="kicker" style="margin-bottom: 8px;">Sculpt Cues</p>
-  <p style="margin: 0 0 12px;">Looking for a dedicated <a href="/">sculpt class planner app</a>? Build Flows Segment by Segment from 280+ sculpt, barre and Pilates Movements, check muscle load on the seven-part intensity chart, and teach from iPhone or Apple Watch with Cue Coach live BPM detection — $0 to start.</p>
+  <p style="margin: 0 0 12px;">Looking for a dedicated <a href="/">sculpt class planner app</a>? Build Flows Segment by Segment from 280+ sculpt, barre and Pilates Movements, check muscle load on the seven-part intensity chart, and teach from iPhone or Apple Watch with Cue Coach live BPM detection — free to download, with a 7-day trial on the annual plan.</p>
   <p style="margin: 0;"><a href="https://apps.apple.com/us/app/sculpt-cues-plan-your-class/id6831637468">Download Sculpt Cues on the App Store</a></p>
 </aside>
 
