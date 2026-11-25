@@ -1,9 +1,32 @@
 ---
 import Guide from '../layouts/Guide.astro';
+
+const segments = [
+  { time: '0:00–5:00', name: 'Breath and roll-down', place: 'Seated', movements: 'Half Roll Back, Spine Twist' },
+  { time: '5:00–11:00', name: 'Abdominal series', place: 'On your back', movements: 'The Hundred, Single Leg Stretch, Double Leg Stretch' },
+  { time: '11:00–17:00', name: 'Obliques', place: 'On your back', movements: 'Chest Lift with Rotation, Bicycle Crunch, Crunch' },
+  { time: '17:00–23:00', name: 'Bridging', place: 'On your back', movements: 'Glute Bridge, One Leg Circle' },
+  { time: '23:00–29:00', name: 'Side-lying', place: 'Side-lying', movements: 'Clamshell, Side-Lying Leg Lift (right, then left)' },
+  { time: '29:00–35:00', name: 'Back body', place: 'On your front', movements: 'Swimming, Swan Dive, Hands by Shoulders' },
+  { time: '35:00–41:00', name: 'All fours', place: 'All fours, then kneeling', movements: 'Donkey Kick, Fire Hydrant, Bear Hold, Kneeling Side Plank (right, then left)' },
+  { time: '41:00–45:00', name: 'Close', place: 'Seated, then on your back', movements: 'Saw, Figure Four Stretch' },
+];
+
+const copyText = [
+  'Mat Pilates class plan template — 45 minutes',
+  'Movements sit in Segments. Segments build the Flow.',
+  '',
+  ...segments.flatMap((segment) => [
+    `${segment.time}  ${segment.name} (${segment.place})`,
+    segment.movements,
+    '',
+  ]),
+  'Before you teach, open the Intensity Chart and check the muscle balance across core, glutes, legs, arms, shoulders, back and chest.',
+].join('\n');
 ---
 <Guide
   title="Mat Pilates Sequence Builder for Instructors"
-  description="Build mat Pilates sequences as a Flow, segment by segment, and check the load with an intensity chart. For instructors planning group classes."
+  description="A 45-minute mat Pilates class plan template: Segments, minutes and example Movements, plus the Intensity Chart to check muscle balance."
   kicker="Mat Pilates"
   heading="A mat Pilates sequence builder for instructors"
   crumb="Mat Pilates"
@@ -15,11 +38,83 @@ import Guide from '../layouts/Guide.astro';
     </article>
     <article class="card glass">
       <h2>See the load before you teach.</h2>
-      <p>Every movement is scored across seven body parts. The intensity chart adds those scores for the whole Flow and warns you when one area may be doing too much, with a counter-movement to even it out. The same check is there for mat work, sculpt and barre.</p>
+      <p>Every movement is scored across seven body parts. The Intensity Chart adds those scores for the whole Flow and warns you when one area may be doing too much, with a counter-movement to even it out. The same check is there for mat work, sculpt and barre.</p>
+    </article>
+    <article class="card glass plan">
+      <h2>Mat Pilates Class Plan Template</h2>
+      <p>Copy this mat Pilates class plan template and teach it as a Flow. It is 45 minutes, broken into Segments. The names are Movements from the library, the sort of mat work that sits alongside the sculpt and barre list. Swap any line for a Movement you already teach. One Segment is about one song, so the minutes are a guide for the room, not a stopwatch you have to hit.</p>
+      <div class="plan-tools">
+        <button type="button" class="btn btn-ghost glass" id="copy-mat-plan">Copy class plan</button>
+        <p id="copy-mat-plan-status" role="status" aria-live="polite"></p>
+      </div>
+      <div class="plan-table-wrap">
+        <table>
+          <caption class="sr-only">45-minute mat Pilates class plan template, by Segment</caption>
+          <thead>
+            <tr>
+              <th scope="col">Minutes</th>
+              <th scope="col">Segment</th>
+              <th scope="col">Example Movements</th>
+            </tr>
+          </thead>
+          <tbody>
+            {segments.map((segment) => (
+              <tr>
+                <td>{segment.time}</td>
+                <td>{segment.name}<span>{segment.place}</span></td>
+                <td>{segment.movements}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>Before you teach, open the Intensity Chart and check the muscle balance. It adds each Movement’s scores across core, glutes, legs, arms, shoulders, back and chest, and it flags a part that may be doing too much. This plan stays on the mat on purpose: grouping the floor work keeps people from popping up and down between songs.</p>
+      <pre id="mat-plan-text" hidden>{copyText}</pre>
     </article>
     <article class="card glass">
       <h2>The same tools, for the teacher.</h2>
-      <p>Pick from the 280+ movement library, including Pilates movements, or add your own. Share the Flow with another instructor. Open it on Apple Watch for the current segment, a timer and your notes. When the music is playing in the room, Cue Coach shows a live BPM pulse so you can cue on the beat.</p>
+      <p>Pick from the 280+ movement library, including Pilates movements, or add your own. Share the Flow as a .sculptflow file another teacher can open in the app. Open it on Apple Watch for the current segment, the movements in it, a timer, notes and what comes next. When the music is playing in the room, Cue Coach shows a live BPM pulse so you can cue on the beat.</p>
     </article>
   </div>
 </Guide>
+
+<script>
+  const button = document.getElementById('copy-mat-plan');
+  const source = document.getElementById('mat-plan-text');
+  const status = document.getElementById('copy-mat-plan-status');
+  button?.addEventListener('click', async () => {
+    const text = source?.textContent?.trim() ?? '';
+    if (!text || !status) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      status.textContent = 'Copied.';
+      return;
+    } catch { /* fall through to a selection copy */ }
+    const area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.left = '-9999px';
+    document.body.appendChild(area);
+    area.select();
+    const ok = document.execCommand('copy');
+    area.remove();
+    status.textContent = ok ? 'Copied.' : 'Select the plan in the table and copy it from there.';
+  });
+</script>
+
+<style>
+  .plan p + p { margin-top: 12px; }
+  .plan-tools { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 16px 0 8px; }
+  .plan-tools .btn { padding: 10px 16px; font-size: 14px; }
+  #copy-mat-plan-status { min-height: 1.2em; font-size: 14px; color: var(--peach); }
+  .plan-table-wrap { overflow-x: auto; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); }
+  th { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+  td span { display: block; margin-top: 2px; color: var(--faint); font-size: 13px; }
+  caption.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+</style>

@@ -2,7 +2,7 @@
 title: "How to Plan a Sculpt Class: 45-Minute Template & BPM Guide"
 description: "How to plan a sculpt class that flows: a 45-minute sculpt class template with timings, BPM ranges, movement ideas and a free printable class plan."
 pubDate: 2026-11-11
-updatedDate: 2026-11-24
+updatedDate: 2026-11-25
 author: "The Sculpt Cues Team"
 tags: ["Class planning", "Music"]
 faq:
@@ -46,7 +46,35 @@ Think in segments rather than minutes. One segment is roughly one song, usually 
 
 Treat the tempo column as a guide, not a rule. A slower song still works for a fast move if you count it in half time or double time (more on that in [matching sculpt movements to BPM](/blog/matching-sculpt-movements-to-bpm/)).
 
+## 45-Minute Sculpt Class Sequence
+
+The table above is the shape. This is one way to fill it, Segment by Segment, with Movements you can put straight into a Flow. Swap any name for one you already teach. The minutes match the template, and each Segment is still about one song.
+
+| Time | Segment | Movements, in order |
+|---|---|---|
+| 0:00–5:00 | Warm-up | Hip Circles, Straight Arm Round the World, Low Lunge |
+| 5:00–12:00 | Lower body 1 | Squat, Reverse Lunge, Plié Squat |
+| 12:00–18:00 | Upper body 1 | Arnold Press, Bent Over Row, Bicep Curl |
+| 18:00–25:00 | Glutes and legs 2 | Curtsy Lunge, Glute Bridge, Side-Lying Leg Lift |
+| 25:00–31:00 | Upper body 2 | Lying Dumbbell Chest Press, Tricep Kickback, Lateral Raise |
+| 31:00–38:00 | Core | Dead Bug, The Hundred, Chest Lift with Rotation |
+| 38:00–42:00 | Finisher | Chest Press Hover, Triceps Hover, Bear Hold |
+| 42:00–45:00 | Cool-down | Saw, Spine Twist, Figure Four Stretch |
+
+Read it in teaching order. That order is the class.
+
+1. **Warm-up.** Stay standing. Hip Circles and Straight Arm Round the World wake the hips and shoulders up, then a Low Lunge rehearses the lunge you will load later.
+2. **Lower body 1.** Squat, then Reverse Lunge, then Plié Squat. Big ranges first, pulses only at the end of the song if the room still has form.
+3. **Upper body 1.** Arnold Press, then Bent Over Row, then Bicep Curl. The press has a pull in the same Segment.
+4. **Glutes and legs 2.** Curtsy Lunge changes the plane, Glute Bridge takes it to the mat, Side-Lying Leg Lift finishes on the side. Do the side-lying work right, then left, before you roll on.
+5. **Upper body 2.** Lying Dumbbell Chest Press, Tricep Kickback, Lateral Raise. Lighter than it looks. By now fatigue is doing some of the work.
+6. **Core.** Dead Bug, The Hundred, Chest Lift with Rotation. Front of the body, then a little rotation. This is not a crunch marathon.
+7. **Finisher.** Chest Press Hover, Triceps Hover, Bear Hold. Nothing new, and you are already on the floor. Short range, higher energy.
+8. **Cool-down.** Saw and Spine Twist seated, Figure Four Stretch on your back. One clear closing line, then stop.
+
 ## Segment by segment: how to structure a sculpt class
+
+The headings below are how to teach each part of that shape, whichever Movements you put in the sequence above.
 
 ### Warm-up (one or two songs)
 
@@ -110,7 +138,25 @@ Before you teach, read your plan top to bottom and ask:
   <figcaption>In Sculpt Cues, the intensity chart scores your sculpt class plan across seven body parts and flags any area doing too much.</figcaption>
 </figure>
 
-If you plan in Sculpt Cues, this check happens as you build: every movement is scored across seven body parts, and the app shows a caution with a counter movement when one area is carrying the class.
+If you plan in Sculpt Cues, the same check is the Intensity Chart, and the rules are specific enough to use while you are still building.
+
+## Check the sequence on the Intensity Chart
+
+Each Movement is scored from 0 to 5 on seven body parts: core, glutes, legs, arms, shoulders, back and chest. The Intensity Chart adds those scores across every Movement in the Flow. A Movement you use twice is counted twice. If you have not scored a Movement yet, the app estimates from its body area and says so on the Movement page. The bars are running totals, not a percentage and not one score for the whole class.
+
+A part is flagged only when all three of these are true:
+
+1. The Flow has at least 2 Movements.
+2. That part’s total is at least 8 points.
+3. That part is at least 40% of the sum of all the body-part totals.
+
+The warning reads “Caution: possible glutes overwork”, with the part name in lowercase. Until all three are true, a high bar on its own is not a caution.
+
+When a part is flagged, the chart lists Counter Movements: up to three options that work the counterpart and rest the overloaded part. Core pairs with back, back with core, chest with back, shoulders with back, arms with legs, legs with arms, and glutes with core.
+
+The Positions card is the other half of the check. It lists the path of starting positions (Stand, Seated, On back, On front, Kneel, All fours, Plank, Side-lying) and counts how often the class changes between standing and not standing. That number is the up/down from the floor. If it is greater than 3, the card turns caution-coloured and adds: “Caution: lots of getting up and down. Try grouping standing work together.”
+
+On the sequence above, that means teaching the standing Segments together, then staying down for the bridge, the side-lying work, the chest press and the core, instead of standing the room up between every song.
 
 ## Adapting the sculpt class template for 30 or 60 minutes
 

@@ -9,9 +9,9 @@ Sculpt Cues is an iPhone app for sculpt teachers (sculpt = music-driven, low-imp
 - Intensity chart: scoring across 7 body parts (core, glutes, legs, arms, shoulders, back, chest) with an overwork caution and counter-movement suggestions.
 - Cue Coach: listens to any song playing aloud, detects BPM live and pulses Up/Down cues at Half, Single or Double time (also In–Out, Left–Right). Nothing is recorded; audio stays on the phone.
 - Apple Watch is live (watchOS 10 or later, beside the iPhone app on iOS 17 or later). From a Flow it shows the current segment, the movements in it, a timer, notes and what comes next. Say segment, never block.
-- Flow sharing by link or file.
+- Flow sharing: a .sculptflow file other teachers open in the app. Do not promise a public share link.
 - Pricing: $7.99/month, $39.99/year (7-day free trial), $79.99 lifetime.
-- Homepage figures that may be quoted: 280+ built-in movements, 175 countries supported, and $0 to start. iPhone and Apple Watch are available. Android and iPad are coming soon; do not describe them as available.
+- Homepage figures that may be quoted: 280+ built-in movements and 175 countries supported. “$0 to start” means the free download and the 7-day trial on the annual plan, not a lasting free tier. iPhone and Apple Watch are available. Android and iPad are coming soon; do not describe them as available.
 - The public name for these guides is Blog. Nav, footer and titles say Blog, not Journal or Blogs.
 Never invent features (no QR import, a shipping Android or iPad app, web app, video library, etc. unless added above). Do not quote instructor counts, Flow counts or studio counts.
 
