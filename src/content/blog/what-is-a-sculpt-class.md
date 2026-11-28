@@ -2,6 +2,7 @@
 title: "What is a sculpt class? Formats, equipment and what to expect in your first class"
 description: "What a sculpt class is, how mat, barre, yoga, hot and reformer formats compare, what equipment to bring, and what to expect in your first class, including Apple Watch."
 pubDate: 2026-11-23
+updatedDate: 2026-11-28
 author: "The Sculpt Cues Team"
 tags: ["Teaching craft", "Class planning"]
 faq:
@@ -64,6 +65,8 @@ Not always. Some are; many are not.
 [CorePower's Yoga Sculpt](https://www.corepoweryoga.com/yoga-fitness-classes/yoga-sculpt/studio) is practised in a heated room, and their [first-class advice](https://www.corepoweryoga.com/blog/yoga-practice/yoga-sculpt-what-is-it-and-am-i-ready) is to take it slow while you adapt to the heat, and to bring extra water and a towel. A mat sculpt class in a gym studio, or a barre sculpt class, may be taught at ordinary room temperature.
 
 If heat matters to you, look for the words "hot", "heated" or a listed room temperature in the description. If you are writing that description as an instructor, say whether the room is heated. Students should not have to guess.
+
+If you want the comparison in more depth, read [Hot sculpt vs hot Pilates](/blog/hot-sculpt-vs-hot-pilates/).
 
 ## What to expect in your first sculpt class
 
