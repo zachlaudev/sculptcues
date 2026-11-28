@@ -2,6 +2,7 @@
 title: "Sculpt vs Pilates: the real differences"
 description: "Sculpt vs Pilates explained: how mat Pilates, reformer, yoga sculpt and hot classes differ, and how instructors can describe each format clearly."
 pubDate: 2026-11-20
+updatedDate: 2026-11-28
 author: "The Sculpt Cues Team"
 tags: ["Teaching craft", "Class planning"]
 faq:
@@ -72,7 +73,7 @@ That listing is a useful snapshot, not a universal syllabus. Some yoga sculpt cl
 
 Heat is a room condition, not a method. A hot sculpt class is usually a sculpt format taught in a heated room. Hot Pilates is Pilates work in heat. The temperature changes how the class feels, but the movements, the pace and the equipment still define the format.
 
-If you teach a heated class, say so in the description, and say what the work actually is. We will come back to hot sculpt and hot Pilates in more depth in a later post. If someone is new to exercising in heat, or is returning after an injury or during pregnancy, they should check with a qualified professional and with the studio's own guidance.
+If you teach a heated class, say so in the description, and say what the work actually is. We have written that up in [Hot sculpt vs hot Pilates](/blog/hot-sculpt-vs-hot-pilates/). If someone is new to exercising in heat, or is returning after an injury or during pregnancy, they should check with a qualified professional and with the studio's own guidance.
 
 ## How instructors can describe the class so people book the right one
 
